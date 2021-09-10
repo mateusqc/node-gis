@@ -199,7 +199,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderLayerColorInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Cor da Camada</div>
+        <div className="field-label">Cor do Preenchimento</div>
         {colorPicker('fillColor')}
       </div>
     );
@@ -208,7 +208,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderLayerOpacity = () => {
     return (
       <div className="field">
-        <div className="field-label">Opacidade da Camada</div>
+        <div className="field-label">Opacidade do Preenchimento</div>
         <InputNumber
           defaultValue={formData.styles.fillOpacity}
           min={0}
