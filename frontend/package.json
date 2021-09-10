@@ -1,0 +1,60 @@
+{
+  "name": "simple-web-gis",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "@babel/plugin-proposal-decorators": "^7.13.15",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.15.5",
+    "axios": "^0.21.1",
+    "customize-cra": "^1.0.0",
+    "dotenv": "^9.0.2",
+    "leaflet": "^1.7.1",
+    "mobx": "^6.3.0",
+    "mobx-react": "^7.1.0",
+    "mobx-react-lite": "^3.2.0",
+    "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
+    "react-dom": "^17.0.2",
+    "react-leaflet": "^3.1.0",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-export-default-from": "^7.12.1",
+    "@babel/plugin-proposal-export-namespace-from": "^7.12.1",
+    "@babel/plugin-syntax-decorators": "^7.12.13",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "babel-loader": "8.1.0",
+    "babel-plugin-root-import": "^6.6.0"
+  },
+  "scripts": {
+    "dev": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

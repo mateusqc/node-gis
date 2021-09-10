@@ -1,0 +1,26 @@
+.ant-layout-header {
+  background-color: white !important;
+  height: 32px !important;
+  padding: 0 !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  margin: 0 !important;
+  line-height: 30px !important;
+}
+
+.ant-layout-sider {
+  background-color: white !important;
+}
+
+.ant-layout-content {
+  height: calc(100vh - 32px);
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(200, 200, 200, 0.7);
+}

@@ -1,0 +1,36 @@
+const columns = {
+  paraiba: [
+    'gid',
+    'area_km2',
+    'pop_estim',
+    'dens_demog',
+    'latitude',
+    'lat_gms',
+    'long_gms',
+    'nome',
+    'mesorreg',
+    'microrreg',
+    'gentílico',
+    'geocod_mun',
+    'area_calcu',
+  ],
+  municipios_2010: [
+    'gid',
+    'id',
+    'nome_mun',
+    'cod_ibge',
+    'regiao',
+    'mesoreg',
+    'nome_uf',
+    'cod_uf',
+    'area_mun_97',
+    'populacao',
+    'pib',
+    'espvida',
+    'idhm',
+  ],
+  mesoreg_pb: ['gid', 'nm_meso', 'cd_geocme'],
+  estados_nordeste: ['gid', 'nm_estado', 'nm_regiao', 'cd_geocuf', 'sigla', 'area_km2', 'perimet_km'],
+};
+
+export default columns;

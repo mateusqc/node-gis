@@ -1,0 +1,11 @@
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.selection-alert {
+  position: absolute;
+  top: 10px;
+  left: calc((100vw / 2) - 161px);
+  z-index: 1000;
+}
