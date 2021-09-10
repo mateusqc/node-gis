@@ -8,8 +8,7 @@ import './style.css';
 const { Option } = Select;
 
 const DbConfigModal = observer(({ visible, onCancel }) => {
-  const { mapStore } = useStores();
-  const [loadingSql, setLoadingSql] = useState(false);
+  const { dbConnectionStore } = useStores();
 
   const [formData, setFormData] = useState({
     type: '',
@@ -38,9 +37,12 @@ const DbConfigModal = observer(({ visible, onCancel }) => {
           <Button
             key="submit"
             type="primary"
-            loading={loadingSql}
+            loading={dbConnectionStore.loading}
             onClick={() => {
-              mapStore.createConnection(formData, onCancel);
+              dbConnectionStore.createConnection(formData, () => {
+                onCancel();
+                dbConnectionStore.loadConnections();
+              });
             }}
           >
             Configurar

@@ -26,7 +26,7 @@ const Layers = observer(() => {
   const getTooltip = (registry, displayColumns) => {
     if (displayColumns.length > 0) {
       return (
-        <Tooltip sticky>
+        <Tooltip sticky direction="top">
           {displayColumns.map(({ column, label }) => (
             <div>
               <b>{label}: </b>

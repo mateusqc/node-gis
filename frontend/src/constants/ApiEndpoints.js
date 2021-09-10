@@ -2,7 +2,7 @@ const paths = {
   baseUrl: 'http://localhost:8000',
   tables: '/tables',
   layer: '/layer',
-  database: '/user/database',
+  database: '/database',
   spatialQuery: '/spatial_query',
   query: '/sql',
 };

@@ -15,6 +15,7 @@ import AddLayerModal from '../addLayerModal';
 import SelectedQueryModal from '../selectedQueryModal';
 import SqlModal from '../sqlModal';
 import DbConfigModal from '../dbConfig';
+import DatabaseTableListModal from '../dbTableList';
 
 const { SubMenu } = Menu;
 
@@ -23,7 +24,7 @@ const TopMenu = observer(() => {
   const [showAddLayersModal, setShowAddLayersModal] = useState(false);
   const [showSelectedQueryModal, setShowSelectedQueryModal] = useState(false);
   const [showSqlModal, setShowSqlModal] = useState(false);
-  const [showDBConfigModal, setShowDBConfigModal] = useState(false);
+  const [showDatabaseListModal, setShowDatabaseListModal] = useState(false);
 
   const toggleAddLayersModal = () => {
     !showAddLayersModal && mapStore.getAvailableLayers();
@@ -38,8 +39,8 @@ const TopMenu = observer(() => {
     setShowSqlModal(!showSqlModal);
   };
 
-  const toggleDBConfigModal = () => {
-    setShowDBConfigModal(!showDBConfigModal);
+  const toggleDatabaseListModal = () => {
+    setShowDatabaseListModal(!showDatabaseListModal);
   };
 
   return (
@@ -60,7 +61,7 @@ const TopMenu = observer(() => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="config" icon={<SettingOutlined />} title="Configurações">
-            <Menu.Item icon={<DatabaseOutlined />} onClick={toggleDBConfigModal} key="db-conexion">
+            <Menu.Item icon={<DatabaseOutlined />} onClick={toggleDatabaseListModal} key="db-conexion">
               Conexão à Banco de Dados
             </Menu.Item>
           </SubMenu>
@@ -81,7 +82,7 @@ const TopMenu = observer(() => {
         onCancel={toggleAddLayersModal}
       />
       <SqlModal visible={showSqlModal} onCancel={toggleSqlModal} />
-      <DbConfigModal visible={showDBConfigModal} onCancel={toggleDBConfigModal} />
+      <DatabaseTableListModal visible={showDatabaseListModal} onCancel={toggleDatabaseListModal} />
     </div>
   );
 });

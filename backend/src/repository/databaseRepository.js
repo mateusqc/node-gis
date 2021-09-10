@@ -1,6 +1,6 @@
-const { execute, queryOne } = require('../database/sqlite');
+const { execute, query, queryOne } = require('../database/sqlite');
 module.exports = {
-  async saveDb(type, client, host, port, database, user, password) {
+  async save(type, client, host, port, database, user, password) {
     const configuration = await this.getDb(type, client);
     if (configuration) {
       await execute('DELETE FROM database WHERE type = ? AND client = ?;', [type, client]);
@@ -15,10 +15,13 @@ module.exports = {
       password,
     ]);
   },
-  getDb(client) {
-    return queryOne('SELECT * FROM database WHERE client = ?', [client]);
+  getAll(client) {
+    return query('SELECT * FROM database WHERE client = ?', [client]);
   },
-  deleteDb(type, client) {
+  get(type, client) {
+    return queryOne('SELECT * FROM database WHERE type = ? AND client = ?', [type, client]);
+  },
+  delete(type, client) {
     return execute('DELETE FROM database WHERE type = ? AND client = ?', [type, client]);
   },
 };

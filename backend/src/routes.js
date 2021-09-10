@@ -3,7 +3,7 @@ const routes = express.Router();
 
 const layerController = require('./controllers/layerController');
 const tableController = require('./controllers/tableController');
-const userController = require('./controllers/userController');
+const databaseController = require('./controllers/databaseController');
 const sqlController = require('./controllers/sqlController');
 
 routes.get('/layer/:layer/:geometryColumn', (req, res) => {
@@ -15,11 +15,20 @@ routes.get('/tables', (req, res) => {
 });
 
 //Rotas para armazenamento de dados do Usuário
-routes.post('/user/database', (req, res) => {
-  return redirect(req, res, userController.saveDb);
+routes.post('/database', (req, res) => {
+  return redirect(req, res, databaseController.save);
 });
-routes.get('/user/database', (req, res) => {
-  return redirect(req, res, userController.getDb);
+
+routes.get('/database/all', (req, res) => {
+  return redirect(req, res, databaseController.getAll);
+});
+
+routes.get('/database', (req, res) => {
+  return redirect(req, res, databaseController.get);
+});
+
+routes.delete('/database', (req, res) => {
+  return redirect(req, res, databaseController.delete);
 });
 
 //Rotas para consultas espaciais básicas

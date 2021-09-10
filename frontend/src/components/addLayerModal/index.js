@@ -36,7 +36,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
       setFormData(layer);
       setInformationColumns(layer.displayColumns);
     }
-  }, [editLayerKey]);
+  }, [editLayerKey, visible]);
 
   const onChangeValue = (value, key) => {
     setFormData({ ...formData, [key]: value });
