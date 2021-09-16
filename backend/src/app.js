@@ -1,14 +1,16 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
 const { ddlUser } = require('./ddlUser');
 const routes = require('./routes');
+const { refreshDatabaseConnections } = require('./database/builder');
 
 const app = express();
 
 (() => {
   ddlUser();
+  refreshDatabaseConnections();
 })();
 
 app.use(cors());
