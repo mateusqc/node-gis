@@ -61,3 +61,11 @@ Conexão ao banco:
 - Maintenance database: postgres
 - Username: postgres
 - Password: postgres
+
+
+## Build da Aplicação
+
+```bash
+$ make build frontend host="IP_DO_SERVIDOR"
+$ make build backend
+```

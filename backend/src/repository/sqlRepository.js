@@ -12,7 +12,7 @@ function mountBaseUnionQuery(allData = {}, finalQuery = false) {
     topQuery += `t${idx}.geom${idx + 1 < tables.length ? ',' : ''} `;
     tablesQuery += ` (SELECT ${hasGids ? 'ST_Union(' : ''}${allData[table].geometryColumn}${
       hasGids ? ')' : ''
-    } as geom FROM ${table} ${hasGids ? 'WHERE gid IN (' + allData[table].data.join(',') + ')' : ''}) t${idx}${
+    } as geom FROM "${table}" ${hasGids ? 'WHERE gid IN (' + allData[table].data.join(',') + ')' : ''}) t${idx}${
       idx + 1 < tables.length ? ',' : ''
     } `;
   });
