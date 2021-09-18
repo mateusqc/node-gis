@@ -6,3 +6,14 @@
 .field {
   margin-bottom: 20px;
 }
+
+.add-value-choropleth {
+  margin-top: 10px;
+}
+
+.add-value-choropleth .ant-collapse-header {
+  display: none;
+}
+.add-value-choropleth .ant-collapse-content-active {
+  border: none !important;
+}

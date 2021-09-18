@@ -121,6 +121,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
     onCancel();
   };
   const validaData = () => {
+    debugger;
     const data = formData.data[0];
     if (!data || data.length == 0) {
       throw new Error('O conjunto de dados é vazio.');
@@ -136,6 +137,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
   };
 
   const handlerAddLayer = async () => {
+    debugger;
     setLoadingAddLayer(true);
     try {
       validaData();

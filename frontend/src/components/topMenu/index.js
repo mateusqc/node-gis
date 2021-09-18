@@ -7,6 +7,7 @@ import {
   RadiusSettingOutlined,
   GlobalOutlined,
   BlockOutlined,
+  SaveOutlined,
 } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 import './style.css';
@@ -50,6 +51,14 @@ const TopMenu = observer(() => {
           <SubMenu key="add" icon={<PlusOutlined />} title="Adicionar">
             <Menu.Item icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="layer">
               Camada Vetorial
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="save" icon={<SaveOutlined />} title="Salvar">
+            <Menu.Item disabled icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="map-state">
+              Estado Atual do Mapa
+            </Menu.Item>
+            <Menu.Item disabled icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="query-into-table">
+              Salvar Camada no Banco de Dados
             </Menu.Item>
           </SubMenu>
           <SubMenu key="spatial-query" icon={<GlobalOutlined />} title="Consulta Espacial">

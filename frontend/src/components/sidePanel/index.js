@@ -18,13 +18,17 @@ const SidePanel = observer(({ layersRefs }) => {
   const map = useMap();
 
   const changeLayerStatus = (key) => {
+    const keys = Object.keys(layersRefs);
+    const zIndex = keys.indexOf(key) + 1;
     const layerRef = layersRefs[key];
     const result = map.hasLayer(layerRef.current);
+
     if (result) {
       map.removeLayer(layerRef.current);
       mapStore.toggleActiveLayer(key, false);
     } else {
       map.addLayer(layerRef.current);
+      layerRef.current.setZIndex(zIndex);
       mapStore.toggleActiveLayer(key, true);
     }
   };

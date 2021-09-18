@@ -208,6 +208,7 @@ class MapStore {
       data: [],
       geometryColumn: '',
       styles: {},
+      choroplethStyleDefinition: {},
     }
   ) {
     if (this.layersKeys.includes(layer.key)) {
