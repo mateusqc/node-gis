@@ -17,14 +17,14 @@ module.exports = {
     if (configuration) {
       execute('UPDATE database SET host = ?, port = ? WHERE type = \'postgresql\' AND client = \'dev\';', [
         process.env.DB_IP_ADRESS,
-        process.env.PROFILE === 'PROD' ? 5432 : 15432
+        process.env.PROFILE === 'prod' ? 5432 : 15432
       ]);
     } else {
       execute('INSERT INTO database(type, client, host, port, database, user, password) VALUES (?,?,?,?,?,?,?);', [
         'postgresql',
         'dev',
         process.env.DB_IP_ADRESS,
-        process.env.PROFILE === 'PROD' ? 5432 : 15432,
+        process.env.PROFILE === 'prod' ? 5432 : 15432,
         'postgres',
         'postgres',
         'postgres',
