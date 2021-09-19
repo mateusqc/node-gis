@@ -1,4 +1,4 @@
-const { execute } = require('./database/sqlite');
+const { execute, queryOne } = require('./database/sqlite');
 module.exports = {
   async ddlUser() {
     execute(
@@ -13,18 +13,22 @@ module.exports = {
             CONSTRAINT database_pk PRIMARY KEY(type, client));'
     );
 
-    execute(
-      'DELETE FROM database;'
-    );
-    execute('INSERT INTO database(type, client, host, port, database, user, password) VALUES (?,?,?,?,?,?,?);', [
-      'postgresql',
-      'dev',
-      process.env.DB_IP_ADRESS,
-      15432,
-      'postgres',
-      'postgres',
-      'postgres',
-    ]);
+    const configuration = await queryOne('SELECT * FROM database WHERE type = \'postgresql\' AND client = \'dev\'');
+    if (configuration) {
+      execute('UPDATE database SET host = ? WHERE type = \'postgresql\' AND client = \'dev\';', [
+        process.env.DB_IP_ADRESS,
+      ]);
+    } else {
+      execute('INSERT INTO database(type, client, host, port, database, user, password) VALUES (?,?,?,?,?,?,?);', [
+        'postgresql',
+        'dev',
+        process.env.DB_IP_ADRESS,
+        15432,
+        'postgres',
+        'postgres',
+        'postgres',
+      ]);
+    }
     execute(
       'CREATE TABLE IF NOT EXISTS saved_layers (\
                 table_name TEXT,\
