@@ -78,4 +78,16 @@ module.exports = {
       console.error(err);
     }
   },
+  async saveQueryIntoTable(request, response) {
+    try {
+      const { tableName, sql } = request.body;
+      validationSql(sql);
+      validationSql(tableName);
+      await repository.saveQueryToTable(tableName, sql);
+      response.status(200).json({});
+    } catch (err) {
+      response.status(500).json({ message: err.message });
+      console.error(err);
+    }
+  },
 };

@@ -1,4 +1,4 @@
-import { OrderedListOutlined, TableOutlined, EditOutlined, DeleteTwoTone } from '@ant-design/icons';
+import { OrderedListOutlined, TableOutlined, EditOutlined, DeleteTwoTone, SaveOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Collapse, Divider, Tooltip } from 'antd';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
@@ -52,9 +52,19 @@ const SidePanel = observer(({ layersRefs }) => {
                       {layer.name}
                     </Checkbox>
                     <div style={{ float: 'right' }}>
+                      {layer.type === 'query_result' && (
+                        <Tooltip placement="topRight" title="Gravar Consulta no Banco de Dados">
+                          <Button
+                            size="small"
+                            onClick={() => mapStore.saveQueryIntoTable(layer.key)}
+                            icon={<SaveOutlined />}
+                          />
+                        </Tooltip>
+                      )}
                       <Tooltip placement="topRight" title="Listagem de Registros">
                         <Button
                           size="small"
+                          disabled={layer.type === 'query_result'}
                           onClick={() => setSelectedLayerData(layer.key)}
                           icon={<OrderedListOutlined />}
                         />

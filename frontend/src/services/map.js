@@ -14,6 +14,9 @@ class MapService {
   getQuery(queryObject) {
     return axios.post(`${ApiEndpoints.baseUrl}${ApiEndpoints.query}`, queryObject);
   }
+  saveQueryIntoTable(queryObject) {
+    return axios.post(`${ApiEndpoints.baseUrl}${ApiEndpoints.queryToTable}`, queryObject);
+  }
 }
 
 export default MapService;

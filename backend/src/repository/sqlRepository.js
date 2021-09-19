@@ -35,17 +35,20 @@ function mountBySpatialFunction(dataA, dataB, func) {
 
 module.exports = {
   async executeSql(sql) {
-    return await database.query(sql);
+    const result = await database.query(sql);
+    return { data: result, query: sql };
   },
 
   async getUnion(data = {}) {
     const query = mountBaseUnionQuery(data, true);
-    return await database.query(query);
+    const result = await database.query(query);
+    return { data: result, query };
   },
 
   async getFromGeoFunction(dataA = {}, dataB = {}, func) {
     const query = mountBySpatialFunction(dataA, dataB, func);
-    return await database.query(query);
+    const data = await database.query(query);
+    return { data, query };
   },
 
   async getFromBooleanFunction(dataA = {}, dataB = {}, func, invertCondition) {
@@ -57,13 +60,17 @@ module.exports = {
     const query = `${topQuery} (${queryA}) A, (${queryB}) B WHERE ${func}${
       invertCondition ? '(B.geom, A.geom)' : '(A.geom, B.geom)'
     }`;
-    return await database.query(query);
+    console.log(query);
+    const result = await database.query(query);
+    return { data: result, query };
   },
 
   async getArea(data = {}) {
-    return await database.query(
-      `SELECT ST_Area(ST_Union(A.geom), TRUE)/(1000*1000) as area_km2 FROM (${mountBaseUnionQuery(data)}) A`
-    );
+    const query = `SELECT ST_Area(ST_Union(A.geom), TRUE)/(1000*1000) as area_km2 FROM (${mountBaseUnionQuery(
+      data
+    )}) A`;
+    const result = await database.query(query);
+    return { data: result, query };
   },
 
   async getDistance(dataA = {}, dataB = {}) {
@@ -73,7 +80,8 @@ module.exports = {
     const queryB = mountBaseUnionQuery(dataB);
 
     const query = `${topQuery} (${queryA}) A, (${queryB}) B`;
-    return await database.query(query);
+    const data = await database.query(query);
+    return { data, query };
   },
 
   async getLength(data = {}) {
@@ -82,7 +90,8 @@ module.exports = {
     const queryA = mountBaseUnionQuery(data);
 
     const query = `${topQuery} (${queryA}) A`;
-    return await database.query(query);
+    const result = await database.query(query);
+    return { data: result, query };
   },
 
   async getPerimeter(data = {}) {
@@ -91,7 +100,8 @@ module.exports = {
     const queryA = mountBaseUnionQuery(data);
 
     const query = `${topQuery} (${queryA}) A`;
-    return await database.query(query);
+    const result = await database.query(query);
+    return { data: result, query };
   },
 
   async getBuffer(data = {}, radius) {
@@ -100,7 +110,8 @@ module.exports = {
     const queryA = mountBaseUnionQuery(data);
 
     const query = `${topQuery} (${queryA}) A`;
-    return await database.query(query);
+    const result = await database.query(query);
+    return { data: result, query };
   },
 
   async getCentroid(data = {}) {
@@ -109,6 +120,26 @@ module.exports = {
     const queryA = mountBaseUnionQuery(data);
 
     const query = `${topQuery} (${queryA}) A`;
-    return await database.query(query);
+    const result = await database.query(query);
+    return { data: result, query };
+  },
+
+  async saveQueryToTable(tableName, sql) {
+    if (!tableName) {
+      throw 'É necessário definir o nome da tabela de destino!';
+    }
+
+    await database.query(`CREATE TABLE ${tableName} (
+      ID SERIAL PRIMARY KEY,
+      GID SERIAL,
+      GEOM GEOMETRY
+    )`);
+
+    if (sql.includes('ST_AsGeoJSON')) {
+      sql = sql.replace('ST_AsGeoJSON', '');
+    }
+    console.log(sql);
+
+    await database.query(`INSERT INTO ${tableName} (geom) ${sql}`);
   },
 };

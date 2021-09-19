@@ -11,10 +11,15 @@ import leaflet from 'leaflet';
 const Layers = observer(() => {
   const { mapStore } = useStores();
   const [layersRefs, setLayersRefs] = useState({});
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const map = useMap();
 
   useEffect(() => {
     const refs = {};
+    if (isInitialLoad) {
+      setIsInitialLoad(false);
+      mapStore.loadSavedLayers();
+    }
 
     mapStore.layers.forEach((layer) => {
       refs[layer.key] = createRef();
@@ -39,7 +44,6 @@ const Layers = observer(() => {
   };
 
   const handleClickEvent = (e, registry, key) => {
-    debugger;
     if (mapStore.selectFeaturesMode) {
       const layerStyle = mapStore.getLayerStyle(key);
       if (mapStore.isFeatureSelected(key, registry.gid)) {
@@ -64,7 +68,6 @@ const Layers = observer(() => {
     const layers = toJS(mapStore.layers);
     layers.forEach((layer) => {
       const styleFunction = (data) => {
-        debugger;
         if (layer.styles.colorFunction) {
           return {
             ...layer.styles,

@@ -10,6 +10,7 @@ import { Button, Select, Collapse, Input, Modal, Radio, Table, Row, Col } from '
 import { observer } from 'mobx-react';
 import { useEffect, useState } from 'react';
 import './style.css';
+import { getStyleWithColorFunction } from './utils';
 
 const ChoroplethModal = observer(
   ({
@@ -44,8 +45,13 @@ const ChoroplethModal = observer(
         render: (row) => {
           return (
             <span style={{ float: 'right' }}>
-              <Button style={{ marginRight: '5px' }} icon={<EditOutlined />} />
-              <Button danger icon={<DeleteOutlined />} />
+              <Button
+                disabled={showForm}
+                onClick={() => editValue(row)}
+                style={{ marginRight: '5px' }}
+                icon={<EditOutlined />}
+              />
+              <Button disabled={showForm} onClick={() => deleteValue(row)} danger icon={<DeleteOutlined />} />
             </span>
           );
         },
@@ -112,43 +118,47 @@ const ChoroplethModal = observer(
               Cancelar
             </Button>
             <Button icon={<CheckOutlined />} onClick={onAddValue} style={{ color: 'green' }}>
-              Adicionar Valor
+              {editType === 'new' ? 'Adicionar' : 'Salvar'} Valor
             </Button>
           </div>
         </div>
       );
     };
 
-    const onAddValue = () => {
+    const deleteValue = (row) => {
       const newStyle = { ...style };
-      newStyle.values.push(formData);
+      newStyle.values.splice(row.pos, 1);
       newStyle.values = newStyle.values.map((item, idx) => {
         item.pos = idx;
         return item;
       });
+      setStyle(newStyle);
+    };
+
+    const editValue = (row) => {
+      setEditType('edit');
+      setFormData(row);
+      setShowForm(true);
+    };
+
+    const onAddValue = () => {
+      const newStyle = { ...style };
+      if (editType === 'new') {
+        newStyle.values.push(formData);
+        newStyle.values = newStyle.values.map((item, idx) => {
+          item.pos = idx;
+          return item;
+        });
+      } else {
+        newStyle.values[formData.pos] = formData;
+      }
       setStyle(newStyle);
       setShowForm(false);
       resetFormData();
     };
 
     const onOkGenerateFunction = () => {
-      const { equal, defaultColor, values, column } = style;
-      const conditions = values.sort((a, b) => a.pos - b.pos);
-
-      const colorFunction = (properties) => {
-        debugger;
-        const innerConditions = conditions;
-        const mapValue = properties[column];
-        let resultColor;
-        innerConditions.forEach(({ value, color }) => {
-          if ((!equal && mapValue >= value) || (equal && mapValue == value)) {
-            resultColor = color;
-          }
-        });
-        return resultColor ?? defaultColor;
-      };
-
-      onOk({ ...style, colorFunction });
+      onOk(getStyleWithColorFunction(style));
     };
 
     return (

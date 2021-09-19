@@ -65,7 +65,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
     setLoadingSql(true);
     try {
       const result = await mapStore.executeSql({ sql: sql });
-      processData(result.data);
+      processData(result.data.data);
       setShowTableModal(true);
     } catch (err) {
       showNotification('error', err.response ? err.response.data.message : err.message);
@@ -121,7 +121,6 @@ const SqlModal = observer(({ visible, onCancel }) => {
     onCancel();
   };
   const validaData = () => {
-    debugger;
     const data = formData.data[0];
     if (!data || data.length == 0) {
       throw new Error('O conjunto de dados é vazio.');
@@ -137,13 +136,14 @@ const SqlModal = observer(({ visible, onCancel }) => {
   };
 
   const handlerAddLayer = async () => {
-    debugger;
     setLoadingAddLayer(true);
+    debugger;
     try {
       validaData();
       const formFinal = {
         name: formData.name,
         type: formData.type,
+        query: sql,
         data: formData.data.map((d) => {
           const geometry = d[geometryColumn];
           return { ...d, geometry: geometry };
@@ -152,6 +152,14 @@ const SqlModal = observer(({ visible, onCancel }) => {
         displayColumns: [],
         geometryColumn: 'unknown',
         styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+        styleType: 'static',
+        choroplethStyleDefinition: {
+          colorFunction: null,
+          equal: false,
+          column: null,
+          defaultColor: '#3388ff',
+          values: [],
+        },
       };
 
       formFinal.data = formFinal.data.map((d) => {

@@ -54,7 +54,7 @@ const TopMenu = observer(() => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="save" icon={<SaveOutlined />} title="Salvar">
-            <Menu.Item disabled icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="map-state">
+            <Menu.Item icon={<RadiusSettingOutlined />} onClick={mapStore.saveLayers} key="map-state">
               Estado Atual do Mapa
             </Menu.Item>
             <Menu.Item disabled icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="query-into-table">
@@ -77,7 +77,7 @@ const TopMenu = observer(() => {
         </Menu>
       </span>
       <span className="logo-text">
-        <b>swGIS</b>
+        <b>NodeGIS</b>
       </span>
       <SelectedQueryModal
         visible={showSelectedQueryModal}

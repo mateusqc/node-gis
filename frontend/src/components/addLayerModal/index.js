@@ -23,13 +23,6 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
     geometryColumn: '',
     styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
     styleType: 'static',
-    choroplethStyleDefinition: {
-      colorFunction: null,
-      equal: false,
-      column: null,
-      defaultColor: '#3388ff',
-      values: [],
-    },
   });
   // const [informationColumns, setInformationColumns] = useState([]);
   const [tooltipColumns, setTooltipColumns] = useState([]);
@@ -38,14 +31,23 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const [selectedColumn, setSelectedColumn] = useState('');
   const [columnLabel, setColumnLabel] = useState('');
   const [loading, setLoading] = useState(false);
+  const [choroplethStyleDefinition, setChoroplethStyleDefinition] = useState({
+    colorFunction: null,
+    equal: false,
+    column: null,
+    defaultColor: '#3388ff',
+    values: [],
+  });
 
   useEffect(() => {
+    debugger;
     const index = mapStore.layersKeys.indexOf(editLayerKey);
 
     if (index !== -1) {
       const layer = toJS(mapStore.layers[index]);
       setFormData(layer);
       setTooltipColumns(layer.displayColumns);
+      setChoroplethStyleDefinition(layer.choroplethStyleDefinition);
     }
   }, [editLayerKey, visible]);
 
@@ -63,9 +65,17 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
 
   const addLayerToMap = () => {
     if (editLayerKey) {
-      mapStore.editLayer({ ...formData, displayColumns: tooltipColumns });
+      mapStore.editLayer({
+        ...formData,
+        displayColumns: tooltipColumns,
+        choroplethStyleDefinition: choroplethStyleDefinition,
+      });
     } else {
-      mapStore.addLayerToMap({ ...formData, displayColumns: tooltipColumns });
+      mapStore.addLayerToMap({
+        ...formData,
+        displayColumns: tooltipColumns,
+        choroplethStyleDefinition: choroplethStyleDefinition,
+      });
     }
     onOk();
     setFormData({
@@ -75,7 +85,15 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
       displayColumns: [],
       geometryColumn: '',
       data: [],
+      styleType: 'static',
       styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+    });
+    setChoroplethStyleDefinition({
+      colorFunction: null,
+      equal: false,
+      column: null,
+      defaultColor: '#3388ff',
+      values: [],
     });
   };
 
@@ -391,19 +409,20 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
             <Button onClick={() => setVisibleChoroplethModal(true)} style={{ width: '100%', marginBottom: '20px' }}>
               Definir Condição de Preenchimento
             </Button>
-            {
+            {visibleChoroplethModal && (
               <ChoroplethModal
                 onOk={(styleDefinition) => {
-                  onChangeValue(styleDefinition, 'choroplethStyleDefinition');
+                  // onChangeValue(styleDefinition, 'choroplethStyleDefinition');
+                  setChoroplethStyleDefinition(styleDefinition);
                   onChangeValueStyles(styleDefinition.colorFunction, 'colorFunction');
                   setVisibleChoroplethModal(false);
                 }}
                 onCancel={() => setVisibleChoroplethModal(false)}
                 visible={visibleChoroplethModal}
-                styleDefinition={formData.choroplethStyleDefinition}
+                styleDefinition={choroplethStyleDefinition}
                 tableColumns={getSelectedTableColumns()}
               />
-            }
+            )}
           </Row>
         )}
         <Row>
