@@ -143,7 +143,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
       const formFinal = {
         name: formData.name,
         type: formData.type,
-        query: sql,
+        sql,
         data: formData.data.map((d) => {
           const geometry = d[geometryColumn];
           return { ...d, geometry: geometry };
@@ -252,7 +252,11 @@ const SqlModal = observer(({ visible, onCancel }) => {
           </Button>,
         ]}
       >
-      <Alert style={{marginBottom: '10px'}} showIcon  message="Dados geométricos deverão estar envolvidos pela função ST_AsGeoJSON." />
+        <Alert
+          style={{ marginBottom: '10px' }}
+          showIcon
+          message="Dados geométricos deverão estar envolvidos pela função ST_AsGeoJSON."
+        />
         <TextArea
           rows={4}
           onChange={(v) => {

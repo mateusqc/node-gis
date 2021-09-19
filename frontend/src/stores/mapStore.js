@@ -154,7 +154,7 @@ class MapStore {
       type: 'query_result',
       displayColumns: [],
       data: [],
-      query: '',
+      sql: '',
       geometryColumn: '',
       styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
       styleType: 'static',
