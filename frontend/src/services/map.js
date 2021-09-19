@@ -1,17 +1,10 @@
 import axios from 'axios';
 import ApiEndpoints from '../constants/ApiEndpoints';
 import env from "react-dotenv";
-// import corsHeaders from '../constants/RequestConfig';
-
-const corsHeaders = {
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-  }
-}
+import corsHeaders from '../constants/RequestConfig';
 
 class MapService {
-  baseUrl = env.BASE_API_URL;
+  baseUrl = window._env_.BASE_API_URL;
   
   getTables() {
     return axios.get(`${this.baseUrl}${ApiEndpoints.tables}`, corsHeaders);

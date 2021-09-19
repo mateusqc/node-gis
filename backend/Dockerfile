@@ -4,6 +4,7 @@ WORKDIR /app
 
 # ARG PATH
 # ENV API_PATH=${PATH}
+ENV API_PATH=""
 
 COPY ./package*.json /app/
 

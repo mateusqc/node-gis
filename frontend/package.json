@@ -36,8 +36,8 @@
     "babel-plugin-root-import": "^6.6.0"
   },
   "scripts": {
-    "dev": "react-dotenv && react-app-rewired start",
-    "build": "react-dotenv && react-app-rewired build",
+    "dev": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },

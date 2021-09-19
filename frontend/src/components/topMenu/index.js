@@ -54,11 +54,8 @@ const TopMenu = observer(() => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="save" icon={<SaveOutlined />} title="Salvar">
-            <Menu.Item icon={<RadiusSettingOutlined />} onClick={mapStore.saveLayers} key="map-state">
+            <Menu.Item icon={<GlobalOutlined />} onClick={mapStore.saveLayers} key="map-state">
               Estado Atual do Mapa
-            </Menu.Item>
-            <Menu.Item disabled icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="query-into-table">
-              Salvar Camada no Banco de Dados
             </Menu.Item>
           </SubMenu>
           <SubMenu key="spatial-query" icon={<GlobalOutlined />} title="Consulta Espacial">

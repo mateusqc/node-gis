@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useStores } from '../../hooks/useStores';
 import { observer } from 'mobx-react';
 import Modal from 'antd/lib/modal/Modal';
-import { Button, Input, Select, Table } from 'antd';
+import { Alert, Button, Input, Select, Table } from 'antd';
 import './style.css';
 import TextArea from 'antd/lib/input/TextArea';
 import { showNotification } from '../../utils/utils';
@@ -252,6 +252,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
           </Button>,
         ]}
       >
+      <Alert style={{marginBottom: '10px'}} showIcon  message="Dados geométricos deverão estar envolvidos pela função ST_AsGeoJSON." />
         <TextArea
           rows={4}
           onChange={(v) => {
