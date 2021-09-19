@@ -14,5 +14,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(process.env.API_PATH, routes);
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost');
+  next();
+})
 
 app.listen(8000);

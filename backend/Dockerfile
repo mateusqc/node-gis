@@ -2,8 +2,8 @@ FROM node:14.16.0-alpine
 
 WORKDIR /app
 
-ARG PATH
-ENV API_PATH=${PATH}
+# ARG PATH
+# ENV API_PATH=${PATH}
 
 COPY ./package*.json /app/
 
