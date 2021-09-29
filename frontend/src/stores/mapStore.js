@@ -1,6 +1,5 @@
 import { observable, action, computed, makeAutoObservable, runInAction } from 'mobx';
 import { getStyleWithColorFunction } from '../components/addLayerModal/utils';
-import columns from '../constants/Columns';
 import MapService from '../services/map';
 import PersistedLayersService from '../services/persistedLayers';
 import { showNotification } from '../utils/utils';
@@ -12,7 +11,6 @@ class MapStore {
   loading = false;
   availableLayers = [];
   service;
-  layersColumns = columns;
   selectFeaturesMode = null;
   selectedFeatures = { first: {}, second: {} };
   loadingSpatialQuery = false;
@@ -186,6 +184,7 @@ class MapStore {
   }
 
   removeLayer(key) {
+    debugger;
     this.loading = true;
     this.loadingMap = true;
     const newLayers = this.layers.filter((layer) => {
@@ -527,7 +526,6 @@ class MapStore {
   }
 
   async saveQueryIntoTable(key) {
-    debugger;
     this.loading = true;
     const index = this.layersKeys.indexOf(key);
 
@@ -542,6 +540,17 @@ class MapStore {
 
       this.layers[index].type = 'polygon';
       this.layers[index].geometryColumn = 'geom';
+
+      const response = await this.service.getLayer(key, 'geom');
+
+      const data = response.data.map((item) => {
+        if (typeof item.geometry === 'string') {
+          item.geometry = JSON.parse(item.geometry);
+        }
+        return item;
+      });
+
+      this.layers[index].data = data;
 
       showNotification('success', 'Consulta salva em Tabela com sucesso!');
     } catch (err) {

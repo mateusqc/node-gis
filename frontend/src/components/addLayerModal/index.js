@@ -5,7 +5,6 @@ import Modal from 'antd/lib/modal/Modal';
 import { Button, Collapse, Input, Select, Spin, Table, Row, Col, InputNumber, Radio } from 'antd';
 import './style.css';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import columns from '../../constants/Columns';
 import { toJS } from 'mobx';
 import { showNotification } from '../../utils/utils';
 import ChoroplethModal from './cloroplethModal';
@@ -40,7 +39,6 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   });
 
   useEffect(() => {
-    debugger;
     const index = mapStore.layersKeys.indexOf(editLayerKey);
 
     if (index !== -1) {
@@ -52,6 +50,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   }, [editLayerKey, visible]);
 
   const onChangeValue = (value, key) => {
+    debugger;
     setFormData({ ...formData, [key]: value });
   };
 
@@ -328,9 +327,10 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
         <Radio.Group
           value={formData.styleType}
           onChange={(e) => {
+            debugger;
             onChangeValue(e.target.value, 'styleType');
             if (e.target.value === 'static') {
-              onChangeValueStyles('#3388ff', 'fillColor');
+              // onChangeValueStyles('#3388ff', 'fillColor');
             }
           }}
           name="radiogroup"
