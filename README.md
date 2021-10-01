@@ -1,71 +1,81 @@
-# SimpleWebGIS
+# NodeGIS
 
-## Front-end
+Um SIG Web que utiliza tecnologias como NodeJS, ReactJS, Leaflet, Docker, dentre outros. O seu principal foco é o fácil deploy e o desenvolvimento simplificado de aplicações SIG.
 
-- React
-- LeafletJS
-  - React Leaflet
-- AntDesign
-- mobX
-- Axios
+**O único pré-requisito para a utilização do NodeGIS é possuir o Docker instalado.**
 
-## Back-end
+# Executando a Aplicação
 
-- NodeJS
-- Express
-- Conectores de DB
-  - PostgreSQL
+Foram implementados scripts shell para facilitar a utilização da aplicação. Estes scritps estão neste repositório, entretanto também estão detalhados abaixo os comandos individuais para cada ação.
 
-## Subindo o Projeto
+## Ambiente Local
 
-Os comandos abaixo devem ser rodados no back-end e no front-end:
+Para subir a aplicação em ambiente local basta executar o script shell `run-application-local.sh` da seguinte forma:
 
 ```bash
-yarn install
+# Diretamente, necessário dar permissão de execução ao script
+$ ./run-application-local.sh
 
-yarn dev
+# Ou utilizando o bash
+$ bash run-application-local.sh
 ```
 
-## Containers de Desenvolvimento
-
-- PosgreSQL + PostGIS
-- pgAdmin4
-
-Para subir os containers de desenvolvimento, basta executar o seguinte comando:
+Seguem abaixo também os comandos individualizados:
 
 ```bash
-docker-compose up -d
+$ docker run -d -p 15432:5432 --name nodegis-db mateusqc/nodegis-postgresql
+
+$ docker run -d -p 8080:80 -e BASE_API_URL='http://localhost:8081' --name nodegis-fe mateusqc/nodegis-fe:latest
+
+$ docker run -d -p 8081:8000 -e DB_IP_ADRESS=${LOCAL_MACHINE_IP} -e DB_PORT="15432" --name nodegis-be mateusqc/nodegis-be:latest
 ```
 
-### PostgreSQL + PostGIS
+**OBS: Substituir `LOCAL_MACHINE_IP` pelo IP da máquina na rede local.**
 
-- Host: localhost
-- Port: 15432
-- Database: postgres
-- Username: postgres
-- Password: postgres
+## Ambiente de Produção
 
-### pgAdmin4
-
-Link de acesso: http://localhost:16543
-
-Dados de acesso:
-
-- Usuário: user@user.com.br
-- Senha: postgres
-
-Conexão ao banco:
-
-- Host: postgres-compose
-- Port: 5432
-- Maintenance database: postgres
-- Username: postgres
-- Password: postgres
-
-
-## Build da Aplicação
+Para subir a aplicação em ambiente de produção basta executar o script shell `run-application-prod.sh`. 
 
 ```bash
-$ make build frontend host="IP_DO_SERVIDOR"
-$ make build backend
+# Diretamente, necessário dar permissão de execução ao script
+$ ./run-application-prod.sh.sh
+
+# Ou utilizando o bash
+$ bash run-application-prod.sh
+```
+
+Seguem abaixo também os comandos individualizados:
+
+```bash
+$ docker run -d -p 15432:5432 --name nodegis-db mateusqc/nodegis-postgresql
+
+$ docker run -d -p 8080:80 -e BASE_API_URL="http://${LOCAL_MACHINE_IP}:8081" --name nodegis-fe mateusqc/nodegis-fe:latest
+
+$ docker run -d -p 8081:8000 -e DB_IP_ADRESS=${LOCAL_MACHINE_IP} -e DB_PORT="15432" --name nodegis-be mateusqc/nodegis-be:latest 
+```
+
+**OBS: Substituir `LOCAL_MACHINE_IP` pelo IP público da máquina. Além disso, as portas podem ser alteradas de forma a se adequar à rede utilizada. Por padrão, o frontend irá rodar na porta 8080 e o backend na 8081.**
+
+
+## Ambiente de Desenvolvimento
+
+Para subir a aplicação em ambiente de desenvolvimento, algumas dependências são necessárias:
+* NodeJS
+* Yarn (ou npm)
+* docker-compose
+
+O ambiente de desenvolvimento não utiliza o Ddocker diretamente, apenas de um contêiner de banco de dados configurado com docker-compose. Com isso, basta executar o comando abaixo na pasta raiz do repositório:
+
+```bash
+$ docker-compose up -d
+```
+
+Em seguida, deve-se executar os seguintes comandos (tanto para o frontend quanto para o backend):
+
+```bash
+# Instalando dependências
+$ yarn
+
+# Subindo a aplicação em modo de desenvolvimento
+$ yarn dev
 ```
