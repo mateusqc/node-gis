@@ -5,7 +5,7 @@ const layerController = require('./controllers/layerController');
 const tableController = require('./controllers/tableController');
 const databaseController = require('./controllers/databaseController');
 const savedLayersController = require('./controllers/savedLayersController');
-const sqlController = require('./controllers/sqlController');
+const queryRepository = require('./controllers/queryController');
 
 routes.get('/layer/:layer/:geometryColumn', (req, res) => {
   return redirect(req, res, layerController.index);
@@ -55,15 +55,15 @@ routes.delete('/persisted-layers/all', (req, res) => {
 
 //Rotas para consultas espaciais básicas
 routes.post('/spatial-query', (req, res) => {
-  return redirect(req, res, sqlController.spatialQuery);
+  return redirect(req, res, queryRepository.spatialQuery);
 });
 
 routes.post('/sql', (req, res) => {
-  return redirect(req, res, sqlController.sql);
+  return redirect(req, res, queryRepository.sql);
 });
 
 routes.post('/query-to-table', (req, res) => {
-  return redirect(req, res, sqlController.saveQueryIntoTable);
+  return redirect(req, res, queryRepository.saveQueryIntoTable);
 });
 
 const redirect = (req, res, route) => {

@@ -1,5 +1,4 @@
-const sqlRepository = require('../repository/sqlRepository');
-const repository = require('../repository/sqlRepository');
+const repository = require('../repository/queryRepository');
 
 const validationSql = (sql) => {
   ['DROP', 'DELETE', 'UPDATE', 'INSERT', 'CREATE', 'ALTER'].forEach((opr) => {
