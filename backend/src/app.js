@@ -8,8 +8,8 @@ const { refreshDatabaseConnections } = require('./database/builder');
 
 const app = express();
 
-(() => {
-  ddlUser();
+(async () => {
+  await ddlUser();
   refreshDatabaseConnections();
 })();
 

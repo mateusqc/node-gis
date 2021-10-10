@@ -1,8 +1,8 @@
 const { execute, queryOne } = require('./database/sqlite');
 module.exports = {
   async ddlUser() {
-    execute(
-      'CREATE TABLE IF NOT EXISTS db_sequilize (\
+    await execute(
+      'CREATE TABLE IF NOT EXISTS database (\
             type TEXT,\
             host TEXT,\
             port INTEGER,\
@@ -10,27 +10,33 @@ module.exports = {
             password TEXT,\
             database TEXT,\
             dialect TEXT,\
+            active TEXT,\
             CONSTRAINT database_pk PRIMARY KEY(type, host, port, database));'
     );
 
-    const configuration = await queryOne('SELECT * FROM database WHERE type = \'postgresql\' AND dialect = \'postgresql\'');
+    const configuration = await queryOne("SELECT * FROM database WHERE type = 'postgres' AND dialect = 'postgres'");
     if (configuration) {
-      execute('UPDATE database SET host = ?, port = ? WHERE type = \'postgresql\' AND client = \'dev\';', [
-        process.env.DB_IP_ADRESS,
-        process.env.DB_PORT
-      ]);
-    } else {
-      execute('INSERT INTO database(type, host, port, database, username, password) VALUES (?,?,?,?,?,?,?);', [
-        'postgresql',
+      await execute("UPDATE database SET host = ?, port = ? WHERE type = 'postgres' AND dialect = 'postgres';", [
         process.env.DB_IP_ADRESS,
         process.env.DB_PORT,
-        'postgres',
-        'postgres',
-        'postgres',
       ]);
+    } else {
+      await execute(
+        'INSERT INTO database(type, host, port, database, username, password, dialect, active) VALUES (?,?,?,?,?,?,?,?);',
+        [
+          'postgres',
+          process.env.DB_IP_ADRESS,
+          process.env.DB_PORT,
+          'postgres',
+          'postgres',
+          'postgres',
+          'postgres',
+          'true',
+        ]
+      );
     }
 
-    execute(
+    await execute(
       'CREATE TABLE IF NOT EXISTS saved_layers (\
                 table_name TEXT,\
                 json TEXT,\

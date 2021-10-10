@@ -1,25 +1,43 @@
 const { execute, query, queryOne } = require('../database/sqlite');
 const { Sequelize } = require('sequelize');
 
-let dbs_configuration;
+let dbsConfiguration;
+let activeConnection;
 let dbs = [];
 
 const refreshDatabaseConnections = async () => {
-  dbs_configuration = await query('SELECT * FROM db_sequilize');
+  dbsConfiguration = await query('SELECT * FROM database');
   dbs =
-    dbs_configuration && dbs_configuration.length > 0
-      ? dbs_configuration.map((config) => {
+    dbsConfiguration && dbsConfiguration.length > 0
+      ? dbsConfiguration.map((config, idx) => {
+          let type;
           if (config.type) {
+            type = config.type;
             delete config.type;
           }
-          console.log(config);
-          return new Sequelize(config.database, config.username, config.password, config);
+          if (config.active && config.active === 'true') {
+            activeConnection = idx;
+          }
+          if (type === 'sqlite') {
+            return new Sequelize({
+              dialect: 'sqlite',
+              storage: config.host,
+            });
+          } else {
+            return new Sequelize(config.database, config.username, config.password, config);
+          }
         })
       : [];
+};
 
-  console.log(dbs);
+const getActiveDbConnection = () => {
+  if (activeConnection !== undefined && activeConnection !== null) {
+    return dbs[activeConnection];
+  } else {
+    throw 'Erro ao obter conexão ativa de banco de dados.';
+  }
 };
 
 const getDbConnections = () => dbs;
 
-module.exports = { getDbConnections, refreshDatabaseConnections };
+module.exports = { getDbConnections, refreshDatabaseConnections, getActiveDbConnection };

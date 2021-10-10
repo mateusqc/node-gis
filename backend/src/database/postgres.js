@@ -1,11 +1,13 @@
 const pg = require('pg');
 const { get } = require('../repository/databaseRepository');
 
-const TYPE = 'postgresql';
-const CLIENT = 'dev';
+const TYPE = 'postgres';
+const DIALECT = 'postgres';
+const HOST = process.env.DB_IP_ADRESS;
+const PORT = process.env.DB_PORT;
 
 const getClient = async () => {
-  const db = await get(TYPE, CLIENT);
+  const db = await get(TYPE, DIALECT, HOST, PORT);
   if (db) {
     const client = new pg.Client(db);
     client.connect();

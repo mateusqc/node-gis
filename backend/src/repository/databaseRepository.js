@@ -1,27 +1,37 @@
+const { refreshDatabaseConnections } = require('../database/builder');
 const { execute, query, queryOne } = require('../database/sqlite');
 module.exports = {
-  async save(type, client, host, port, database, user, password) {
+  async save({ type, host, port, database, username, password, dialect, active }) {
     const configuration = await this.get(type, client);
     if (configuration) {
-      await execute('DELETE FROM database WHERE type = ? AND client = ?;', [type, client]);
+      await execute('DELETE FROM database WHERE type = ? AND dialect = ? AND host = ? AND port = ?;', [type, client]);
     }
-    return execute('INSERT INTO database(type, client, host, port, database, user, password) VALUES (?,?,?,?,?,?,?);', [
+    const result = await execute(
+      'INSERT INTO database(type, host, port, database, username, password, dialect, active) VALUES (?,?,?,?,?,?,?,?);',
+      [type, host, port, database, username, password, dialect, active]
+    );
+    refreshDatabaseConnections();
+    return result;
+  },
+  getAll() {
+    return query('SELECT * FROM database');
+  },
+  get(type, dialect, host, port) {
+    return queryOne('SELECT * FROM database WHERE type = ? AND dialect = ? AND host = ? AND port = ?', [
       type,
-      client,
+      dialect,
       host,
       port,
-      database,
-      user,
-      password,
     ]);
   },
-  getAll(client) {
-    return query('SELECT * FROM database WHERE client = ?', [client]);
-  },
-  get(type, client) {
-    return queryOne('SELECT * FROM database WHERE type = ? AND client = ?', [type, client]);
-  },
-  delete(type, client) {
-    return execute('DELETE FROM database WHERE type = ? AND client = ?', [type, client]);
+  async delete(type, dialect, host, port) {
+    const result = await execute('DELETE FROM database WHERE type = ? AND dialect = ? AND host = ? AND port = ?', [
+      type,
+      dialect,
+      host,
+      port,
+    ]);
+    refreshDatabaseConnections();
+    return result;
   },
 };

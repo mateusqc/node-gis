@@ -3,7 +3,7 @@ import { useStores } from '../../hooks/useStores';
 import { observer } from 'mobx-react';
 import { Button, Input, Select, Spin, Modal, Table } from 'antd';
 import './style.css';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { CheckOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import DbConfigModal from '../dbConfig';
 
 const DatabaseTableListModal = observer(({ visible, onCancel }) => {
@@ -42,20 +42,25 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
         key: 'btns',
         render: (row) => {
           return (
-            <Button
-              style={{ float: 'right' }}
-              danger
-              icon={<DeleteOutlined />}
-              disabled
-              onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
-            />
+            <span style={{ float: 'right' }}>
+              <Button
+                style={{ color: row.active ? 'green' : 'red', marginRight: '10px' }}
+                icon={<CheckOutlined />}
+                // onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
+              />
+              <Button
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
+              />
+            </span>
           );
         },
       },
     ];
     return (
       <div>
-        <Button disabled style={{ marginBottom: '10px' }} icon={<PlusOutlined />} type="primary" onClick={toggleDBConfigModal}>
+        <Button style={{ marginBottom: '10px' }} icon={<PlusOutlined />} type="primary" onClick={toggleDBConfigModal}>
           Adicionar Conexão
         </Button>
         <Table columns={columns} dataSource={dbConnectionStore.keyedDatabaseList} loading={dbConnectionStore.loading} />

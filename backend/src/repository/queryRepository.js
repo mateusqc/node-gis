@@ -60,7 +60,6 @@ module.exports = {
     const query = `${topQuery} (${queryA}) A, (${queryB}) B WHERE ${func}${
       invertCondition ? '(B.geom, A.geom)' : '(A.geom, B.geom)'
     }`;
-    console.log(query);
     const result = await database.query(query);
     return { data: result, query };
   },
@@ -138,7 +137,6 @@ module.exports = {
     if (sql.includes('ST_AsGeoJSON')) {
       sql = sql.replace('ST_AsGeoJSON', '');
     }
-    console.log(sql);
 
     await database.query(`INSERT INTO ${tableName} (geom) ${sql}`);
   },
