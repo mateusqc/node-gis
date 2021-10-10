@@ -5,7 +5,7 @@ const descriptions = {
   contains: 'Retorna as geometrias de B que estiverem no interior de A.',
   crosses: 'Retorna as geometrias de B que possuem alguns, mas não todos, pontos internos em comum com A.',
   touches: 'Retorna as geometrias de B que têm pelo menos um ponto em comum com A, mas seus interiores não se cruzam.',
-  within: 'Retorna as geometrias de A que estiverem completamente no interior de B.',
+  within: 'Retorna as geometrias de B que estiverem completamente no interior de A.',
   intersects: 'Retorna as geometrias de B que possuem ao menos um ponto em comum com as geometrias de A.',
   area: 'Retorna a área da geometria.',
   distance: 'Retorna a menor distância entre as geometrias A e B.',

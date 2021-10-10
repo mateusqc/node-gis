@@ -4,12 +4,10 @@ WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH
 
-ARG API_URL
-# ENV BASE_API_URL=http://150.165.75.99/catalogo-api/
-ENV BASE_API_URL=$API_URL
+# ARG API_URL
+# ENV BASE_API_URL=$API_URL
+ENV BASE_API_URL="http://localhost:8000"
 
-ARG FE_PUBLIC_URL
-ENV PUBLIC_URL=$FE_PUBLIC_URL
 
 COPY ./package*.json /app/
 
@@ -25,6 +23,15 @@ EXPOSE 80
 
 COPY --from=client /app/build/ /var/www/html
 
+
 COPY ./nginx/default.conf /etc/nginx/conf.d
 
-CMD [ "nginx", "-g", "daemon off;" ]
+WORKDIR /var/www/html
+COPY ./env.sh .
+COPY .env .
+
+RUN apk add --no-cache bash
+
+RUN chmod +x env.sh
+
+CMD [ "/bin/bash", "-c", "/var/www/html/env.sh && nginx -g \"daemon off;\"" ]

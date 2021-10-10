@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useStores } from '../../hooks/useStores';
 import { observer } from 'mobx-react';
 import Modal from 'antd/lib/modal/Modal';
-import { Button, Collapse, Input, Select, Spin, Table, Row, Col, InputNumber } from 'antd';
+import { Button, Collapse, Input, Select, Spin, Table, Row, Col, InputNumber, Radio } from 'antd';
 import './style.css';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import columns from '../../constants/Columns';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { toJS } from 'mobx';
 import { showNotification } from '../../utils/utils';
+import ChoroplethModal from './cloroplethModal';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -21,12 +21,22 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
     data: [],
     geometryColumn: '',
     styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+    styleType: 'static',
   });
-  const [informationColumns, setInformationColumns] = useState([]);
+  // const [informationColumns, setInformationColumns] = useState([]);
+  const [tooltipColumns, setTooltipColumns] = useState([]);
   const [visibleInfoModal, setVisibleInfoModal] = useState(false);
+  const [visibleChoroplethModal, setVisibleChoroplethModal] = useState(false);
   const [selectedColumn, setSelectedColumn] = useState('');
   const [columnLabel, setColumnLabel] = useState('');
   const [loading, setLoading] = useState(false);
+  const [choroplethStyleDefinition, setChoroplethStyleDefinition] = useState({
+    colorFunction: null,
+    equal: false,
+    column: null,
+    defaultColor: '#3388ff',
+    values: [],
+  });
 
   useEffect(() => {
     const index = mapStore.layersKeys.indexOf(editLayerKey);
@@ -34,11 +44,13 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
     if (index !== -1) {
       const layer = toJS(mapStore.layers[index]);
       setFormData(layer);
-      setInformationColumns(layer.displayColumns);
+      setTooltipColumns(layer.displayColumns);
+      setChoroplethStyleDefinition(layer.choroplethStyleDefinition);
     }
   }, [editLayerKey, visible]);
 
   const onChangeValue = (value, key) => {
+    debugger;
     setFormData({ ...formData, [key]: value });
   };
 
@@ -52,9 +64,17 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
 
   const addLayerToMap = () => {
     if (editLayerKey) {
-      mapStore.editLayer({ ...formData, displayColumns: informationColumns });
+      mapStore.editLayer({
+        ...formData,
+        displayColumns: tooltipColumns,
+        choroplethStyleDefinition: choroplethStyleDefinition,
+      });
     } else {
-      mapStore.addLayerToMap({ ...formData, displayColumns: informationColumns });
+      mapStore.addLayerToMap({
+        ...formData,
+        displayColumns: tooltipColumns,
+        choroplethStyleDefinition: choroplethStyleDefinition,
+      });
     }
     onOk();
     setFormData({
@@ -64,7 +84,15 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
       displayColumns: [],
       geometryColumn: '',
       data: [],
+      styleType: 'static',
       styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+    });
+    setChoroplethStyleDefinition({
+      colorFunction: null,
+      equal: false,
+      column: null,
+      defaultColor: '#3388ff',
+      values: [],
     });
   };
 
@@ -78,13 +106,14 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
             value={formData.key}
             placeholder={'Selecione uma tabela'}
             style={{ width: '100%' }}
+            showSearch
             onChange={(value) => {
               onChangeValueFromObject({
                 key: value,
                 name: value,
                 geometryColumn: undefined,
               });
-              setInformationColumns([]);
+              setTooltipColumns([]);
             }}
           >
             {mapStore.availableLayers.map((layer) => {
@@ -123,7 +152,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderNameInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Nome da Tabela</div>
+        <div className="field-label">Nome da Camada</div>
         <div>
           <Input
             placeholder={'Informe o valor'}
@@ -137,7 +166,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   };
 
   const validateColumnSelect = (columnName) => {
-    return informationColumns.some((col) => col.column === columnName);
+    return tooltipColumns.some((col) => col.column === columnName);
   };
 
   const renderColumnSelect = () => {
@@ -148,25 +177,29 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
           <Select
             placeholder={'Selecione uma coluna'}
             style={{ width: '100%' }}
+            showSearch
             onChange={(value) => {
               setSelectedColumn(value);
               setColumnLabel(value);
             }}
             // value={selectedColumn}
           >
-            {mapStore.availableLayers
-              .find((table) => table.name === formData.key)
-              .columns.map((layer) => {
-                return (
-                  <Option disabled={validateColumnSelect(layer)} value={layer}>
-                    {layer}
-                  </Option>
-                );
-              })}
+            {getSelectedTableColumns().map((layer) => {
+              return (
+                <Option disabled={validateColumnSelect(layer)} value={layer}>
+                  {layer}
+                </Option>
+              );
+            })}
           </Select>
         </div>
       </div>
     );
+  };
+
+  const getSelectedTableColumns = () => {
+    const layer = mapStore.availableLayers.find((table) => table.name === formData.key);
+    return layer ? layer.columns : [];
   };
 
   const renderColumnNameInput = () => {
@@ -255,14 +288,14 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
 
   const removeColumn = (key) => {
     setLoading(true);
-    const index = informationColumns.map((item) => item.key).indexOf(key);
-    const newList = informationColumns;
+    const index = tooltipColumns.map((item) => item.key).indexOf(key);
+    const newList = tooltipColumns;
     newList.splice(index, 1);
-    setInformationColumns(newList);
+    setTooltipColumns(newList);
     setTimeout(setLoading, 200);
   };
 
-  const columnsInformation = [
+  const columnsTooltip = [
     { title: 'Coluna', dataIndex: 'column', key: 'column' },
     { title: 'Nome', dataIndex: 'label', key: 'label' },
     {
@@ -278,13 +311,125 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const addColumnToList = () => {
     setLoading(true);
     const obj = { column: selectedColumn, label: columnLabel, key: selectedColumn };
-    const newList = informationColumns;
+    const newList = tooltipColumns;
     newList.push(obj);
-    setInformationColumns(newList);
+    setTooltipColumns(newList);
     setVisibleInfoModal(false);
     setSelectedColumn('');
     setColumnLabel('');
     setTimeout(setLoading, 500);
+  };
+
+  const styleTypeSelector = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Tipo de Estilização</div>
+        <Radio.Group
+          value={formData.styleType}
+          onChange={(e) => {
+            debugger;
+            onChangeValue(e.target.value, 'styleType');
+            if (e.target.value === 'static') {
+              // onChangeValueStyles('#3388ff', 'fillColor');
+            }
+          }}
+          name="radiogroup"
+          defaultValue={1}
+        >
+          <Radio value={'static'}>Estática</Radio>
+          <Radio value={'choropleth'}>Temática</Radio>
+        </Radio.Group>
+      </div>
+    );
+  };
+
+  const renderTooltipPanelContent = () => {
+    if (formData.type !== 'query_result') {
+      return (
+        <>
+          <Button
+            onClick={() => setVisibleInfoModal(true)}
+            type="primary"
+            icon={<PlusOutlined />}
+            style={{ marginBottom: '10px' }}
+            disabled={!formData.key}
+          >
+            Nova Coluna
+          </Button>
+          <Table
+            size="small"
+            pagination={{ pageSize: 5 }}
+            loading={loading}
+            columns={columnsTooltip}
+            dataSource={tooltipColumns}
+            key={new Date()}
+          />
+          {visibleInfoModal && renderAddColumnToolTipModal()}
+        </>
+      );
+    }
+  };
+
+  const renderAddColumnToolTipModal = () => {
+    return (
+      <Modal
+        visible={visibleInfoModal}
+        onCancel={() => {
+          setVisibleInfoModal(false);
+          setSelectedColumn('');
+          setColumnLabel('');
+        }}
+        onOk={addColumnToList}
+        title="Nova Coluna"
+        closable={false}
+        okText="Adicionar"
+        cancelText="Cancelar"
+        key="modal-columns-add"
+      >
+        {renderColumnSelect()}
+        {renderColumnNameInput()}
+      </Modal>
+    );
+  };
+
+  const renderStylePanelContent = () => {
+    return (
+      <>
+        <Row>{styleTypeSelector()}</Row>
+        <Row>
+          <Col span={12}>{renderStrokeOpacity()}</Col>
+          <Col span={12}>{renderStrokeColorInput()}</Col>
+        </Row>
+        <Row>
+          <Col span={12}>{renderLayerOpacity()}</Col>
+          {formData.styleType === 'static' && <Col span={12}>{renderLayerColorInput()}</Col>}
+        </Row>
+        {formData.styleType === 'choropleth' && (
+          <Row>
+            <Button onClick={() => setVisibleChoroplethModal(true)} style={{ width: '100%', marginBottom: '20px' }}>
+              Definir Condição de Preenchimento
+            </Button>
+            {visibleChoroplethModal && (
+              <ChoroplethModal
+                onOk={(styleDefinition) => {
+                  // onChangeValue(styleDefinition, 'choroplethStyleDefinition');
+                  setChoroplethStyleDefinition(styleDefinition);
+                  onChangeValueStyles(styleDefinition.colorFunction, 'colorFunction');
+                  setVisibleChoroplethModal(false);
+                }}
+                onCancel={() => setVisibleChoroplethModal(false)}
+                visible={visibleChoroplethModal}
+                styleDefinition={choroplethStyleDefinition}
+                tableColumns={getSelectedTableColumns()}
+              />
+            )}
+          </Row>
+        )}
+        <Row>
+          <Col span={12}>{renderStrokeWidth()}</Col>
+        </Row>
+      </>
+    );
   };
 
   return (
@@ -304,63 +449,13 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
         <div>
           {renderTableSelect()}
           {renderNameInput()}
-          {formData.type !== 'query_result' && (
-            <>
-              {!editLayerKey && formData.key && renderGemotryColumnSelect()}
-              <Button
-                onClick={() => setVisibleInfoModal(true)}
-                type="primary"
-                icon={<PlusOutlined />}
-                style={{ marginBottom: '10px' }}
-                disabled={!formData.key}
-              >
-                Nova Coluna
-              </Button>
-              <Table
-                size="small"
-                pagination={{ pageSize: 5 }}
-                loading={loading}
-                columns={columnsInformation}
-                dataSource={informationColumns}
-                key={new Date()}
-              />
-            </>
-          )}
-          {visibleInfoModal && (
-            <Modal
-              visible={visibleInfoModal}
-              onCancel={() => {
-                setVisibleInfoModal(false);
-                setSelectedColumn('');
-                setColumnLabel('');
-              }}
-              onOk={addColumnToList}
-              title="Nova Coluna"
-              closable={false}
-              okText="Adicionar"
-              cancelText="Cancelar"
-              key="modal-columns-add"
-            >
-              {renderColumnSelect()}
-              {renderColumnNameInput()}
-            </Modal>
-          )}
-          <Collapse defaultActiveKey={['information']} ghost key="">
-            {/* <Panel header="Information" key="information">
-              
-            </Panel> */}
-            <Panel header="Estilização da camada" key="style">
-              <Row>
-                <Col span={12}>{renderLayerColorInput()}</Col>
-                <Col span={12}>{renderLayerOpacity()}</Col>
-              </Row>
-              <Row>
-                <Col span={12}>{renderStrokeColorInput()}</Col>
-                <Col span={12}>{renderStrokeOpacity()}</Col>
-              </Row>
-              <Row>
-                <Col span={12}>{renderStrokeWidth()}</Col>
-              </Row>
+          {!editLayerKey && formData.key && renderGemotryColumnSelect()}
+          <Collapse ghost key="" accordion>
+            <Panel header="Tooltip" key="tooltip" disabled collapsible={formData.key ? 'header' : 'disabled'}>
+              {renderTooltipPanelContent()}
+            </Panel>
+            <Panel header="Estilização da camada" key="style" collapsible={formData.key ? 'header' : 'disabled'}>
+              {renderStylePanelContent()}
             </Panel>
           </Collapse>
         </div>

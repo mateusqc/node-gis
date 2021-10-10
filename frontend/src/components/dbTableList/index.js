@@ -46,6 +46,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
               style={{ float: 'right' }}
               danger
               icon={<DeleteOutlined />}
+              disabled
               onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
             />
           );
@@ -54,7 +55,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
     ];
     return (
       <div>
-        <Button style={{ marginBottom: '10px' }} icon={<PlusOutlined />} type="primary" onClick={toggleDBConfigModal}>
+        <Button disabled style={{ marginBottom: '10px' }} icon={<PlusOutlined />} type="primary" onClick={toggleDBConfigModal}>
           Adicionar Conexão
         </Button>
         <Table columns={columns} dataSource={dbConnectionStore.keyedDatabaseList} loading={dbConnectionStore.loading} />

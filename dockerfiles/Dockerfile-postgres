@@ -1,0 +1,16 @@
+FROM postgis/postgis:12-2.5-alpine as dumper
+
+COPY dump.sql /docker-entrypoint-initdb.d/
+
+RUN ["sed", "-i", "s/exec \"$@\"/echo \"skipping...\"/", "/usr/local/bin/docker-entrypoint.sh"]
+
+ENV PG_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV PGDATA=/data
+
+RUN ["/usr/local/bin/docker-entrypoint.sh", "postgres"]
+
+# final build stage
+FROM postgis/postgis:12-2.5-alpine
+
+COPY --from=dumper /data $PGDATA

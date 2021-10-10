@@ -2,7 +2,10 @@ build:
 	make build-frontend build-backend
 
 build-frontend:
-	docker build -t swgis-fe -f ./frontend/Dockerfile ./frontend --build-arg API_URL="http://$(host)/swgis-api" --build-arg FE_PUBLIC_URL="http://$(host):8081"
+	docker build -t nodegis-fe -f ./frontend/Dockerfile ./frontend
 
 build-backend:
-	docker build -t swgis-be -f ./backend/Dockerfile ./backend --build-arg PATH="/swgis-api"
+	docker build -t nodegis-be -f ./backend/Dockerfile ./backend 
+
+build-database:
+	docker image build . -t nodegis-postgresql -f ./dockerfiles/Dockerfile-postgres

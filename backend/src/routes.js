@@ -5,7 +5,8 @@ const layerController = require('./controllers/layerController');
 const tableController = require('./controllers/tableController');
 const databaseController = require('./controllers/databaseController');
 const seqDatabaseController = require('./controllers/seqDatabaseController');
-const sqlController = require('./controllers/sqlController');
+const savedLayersController = require('./controllers/savedLayersController');
+const queryRepository = require('./controllers/queryController');
 
 routes.get('/layer/:layer/:geometryColumn', (req, res) => {
   return redirect(req, res, layerController.index);
@@ -49,13 +50,38 @@ routes.delete('/db', (req, res) => {
   return redirect(req, res, seqDatabaseController.delete);
 });
 
+//Rotas para armazenamento de Camadas do Mapa
+routes.post('/persisted-layers', (req, res) => {
+  return redirect(req, res, savedLayersController.save);
+});
+
+routes.get('/persisted-layers/all', (req, res) => {
+  return redirect(req, res, savedLayersController.getAll);
+});
+
+routes.get('/persisted-layers', (req, res) => {
+  return redirect(req, res, savedLayersController.get);
+});
+
+routes.delete('/persisted-layers', (req, res) => {
+  return redirect(req, res, savedLayersController.delete);
+});
+
+routes.delete('/persisted-layers/all', (req, res) => {
+  return redirect(req, res, savedLayersController.deleteAll);
+});
+
 //Rotas para consultas espaciais básicas
-routes.post('/spatial_query', (req, res) => {
-  return redirect(req, res, sqlController.spatialQuery);
+routes.post('/spatial-query', (req, res) => {
+  return redirect(req, res, queryRepository.spatialQuery);
 });
 
 routes.post('/sql', (req, res) => {
-  return redirect(req, res, sqlController.sql);
+  return redirect(req, res, queryRepository.sql);
+});
+
+routes.post('/query-to-table', (req, res) => {
+  return redirect(req, res, queryRepository.saveQueryIntoTable);
 });
 
 const redirect = (req, res, route) => {

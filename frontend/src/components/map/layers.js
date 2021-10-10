@@ -11,10 +11,15 @@ import leaflet from 'leaflet';
 const Layers = observer(() => {
   const { mapStore } = useStores();
   const [layersRefs, setLayersRefs] = useState({});
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const map = useMap();
 
   useEffect(() => {
     const refs = {};
+    if (isInitialLoad) {
+      setIsInitialLoad(false);
+      mapStore.loadSavedLayers();
+    }
 
     mapStore.layers.forEach((layer) => {
       refs[layer.key] = createRef();
@@ -52,7 +57,7 @@ const Layers = observer(() => {
           fillOpacity: 0.7,
           fillColor: mapStore.selectFeaturesMode === 'first' ? '#FFFF00' : '#b81212',
         });
-        e.target.bringToFront();
+        // e.target.bringToFront();
         mapStore.addFeatureToSelection(key, { gid: registry.gid, oldStyle: layerStyle, element: e.target });
       }
     }
@@ -62,6 +67,16 @@ const Layers = observer(() => {
     const resultLayers = [];
     const layers = toJS(mapStore.layers);
     layers.forEach((layer) => {
+      const styleFunction = (data) => {
+        if (layer.styles.colorFunction) {
+          return {
+            ...layer.styles,
+            fillColor: layer.styles.colorFunction(data),
+          };
+        } else {
+          return layer.styles;
+        }
+      };
       const layerType = mapStore.getLayerGeometryType(layer.key);
       const layerData = layer.data.map((registry) => {
         if (layerType.includes('Point')) {
@@ -73,7 +88,8 @@ const Layers = observer(() => {
             return (
               <CircleMarker
                 eventHandlers={{ click: (e) => handleClickEvent(e, registry, layer.key) }}
-                pathOptions={layer.styles}
+                // pathOptions={layer.styles}
+                pathOptions={styleFunction(registry)}
                 center={latLong}
                 radius={5}
               >
@@ -91,7 +107,8 @@ const Layers = observer(() => {
           return (
             <GeoJSON
               eventHandlers={{ click: (e) => handleClickEvent(e, registry, layer.key) }}
-              pathOptions={layer.styles}
+              pathOptions={styleFunction(registry)}
+              // style={styleFunction}
               data={registry.geometry}
             >
               {getTooltip(registry, layer.displayColumns)}

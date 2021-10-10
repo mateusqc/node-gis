@@ -1,6 +1,7 @@
 import { observable, action, computed, makeAutoObservable, runInAction } from 'mobx';
-import columns from '../constants/Columns';
+import { getStyleWithColorFunction } from '../components/addLayerModal/utils';
 import MapService from '../services/map';
+import PersistedLayersService from '../services/persistedLayers';
 import { showNotification } from '../utils/utils';
 class MapStore {
   layersRefs = {};
@@ -10,10 +11,10 @@ class MapStore {
   loading = false;
   availableLayers = [];
   service;
-  layersColumns = columns;
   selectFeaturesMode = null;
   selectedFeatures = { first: {}, second: {} };
   loadingSpatialQuery = false;
+  layersPersistanceService;
 
   constructor() {
     makeAutoObservable(this, {
@@ -40,9 +41,13 @@ class MapStore {
       featureSelectionGids: computed,
       getLayerGeometryType: action,
       getLayerStyle: action,
+      saveLayers: action,
+      loadSavedLayers: action,
+      saveQueryIntoTable: action,
     });
 
     this.service = new MapService();
+    this.layersPersistanceService = new PersistedLayersService();
 
     this.setLayerRef = this.setLayerRef.bind(this);
     this.toggleActiveLayer = this.toggleActiveLayer.bind(this);
@@ -56,6 +61,8 @@ class MapStore {
     this.editLayer = this.editLayer.bind(this);
     this.removeLayer = this.removeLayer.bind(this);
     this.createConnection = this.createConnection.bind(this);
+    this.saveLayers = this.saveLayers.bind(this);
+    this.loadSavedLayers = this.loadSavedLayers.bind(this);
   }
 
   setLayerRef(key, value) {
@@ -145,8 +152,17 @@ class MapStore {
       type: 'query_result',
       displayColumns: [],
       data: [],
+      sql: '',
       geometryColumn: '',
       styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+      styleType: 'static',
+      choroplethStyleDefinition: {
+        colorFunction: null,
+        equal: false,
+        column: null,
+        defaultColor: '#3388ff',
+        values: [],
+      },
     }
   ) {
     return new Promise((resolve, reject) => {
@@ -168,6 +184,7 @@ class MapStore {
   }
 
   removeLayer(key) {
+    debugger;
     this.loading = true;
     this.loadingMap = true;
     const newLayers = this.layers.filter((layer) => {
@@ -208,6 +225,7 @@ class MapStore {
       data: [],
       geometryColumn: '',
       styles: {},
+      choroplethStyleDefinition: {},
     }
   ) {
     if (this.layersKeys.includes(layer.key)) {
@@ -355,6 +373,7 @@ class MapStore {
       second: {},
       operation,
     };
+    debugger;
     keysA.forEach((key) => {
       requestData.first[key] = { data: [], geometryColumn: this.layersGeomColumns[key] };
       requestData.first[key].data = this.selectedFeatures.first[key].map((item) => item.gid);
@@ -380,7 +399,7 @@ class MapStore {
       .getSpatialQuery(requestData)
       .then((response) => {
         runInAction(() => {
-          const data = response.data.map((item) => {
+          const data = response.data.data.map((item) => {
             if (typeof item.geometry === 'string') {
               item.geometry = JSON.parse(item.geometry);
             }
@@ -392,10 +411,19 @@ class MapStore {
               name: layerName,
               key: layerName,
               type: 'query_result',
+              sql: response.data.query,
               displayColumns: [],
               data,
               geometryColumn: 'unknown',
               styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+              styleType: 'static',
+              choroplethStyleDefinition: {
+                colorFunction: null,
+                equal: false,
+                column: null,
+                defaultColor: '#3388ff',
+                values: [],
+              },
             };
             this.layers.push(layer);
             this.layersActive[layer.key] = true;
@@ -442,6 +470,94 @@ class MapStore {
       }
     }
     return styles;
+  }
+
+  async saveLayers() {
+    this.loading = true;
+
+    try {
+      await this.layersPersistanceService.deleteAll();
+
+      const promises = [];
+      this.layers.map((layer) => {
+        if (layer.type !== 'query_result') {
+          const data = Object.assign({}, layer);
+          delete data.data;
+          promises.push(this.layersPersistanceService.saveLayer({ table: layer.key, data }));
+        }
+      });
+
+      Promise.all(promises);
+      showNotification('success', 'Camadas salvas com sucesso!');
+    } catch (err) {
+      showNotification('error', err.message);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  loadSavedLayers() {
+    this.loading = true;
+
+    this.layersPersistanceService
+      .getLayers()
+      .then((response) => {
+        runInAction(() => {
+          if (response.data && response.data.length > 0) {
+            response.data.forEach((layer) => {
+              const parsedJson = JSON.parse(layer.json);
+              const newStyle = getStyleWithColorFunction(parsedJson.choroplethStyleDefinition);
+              parsedJson.styles.colorFunction = newStyle.colorFunction;
+              this.addLayerToMap(parsedJson);
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showNotification('error', error ? error.toString() : null);
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+        });
+      });
+  }
+
+  async saveQueryIntoTable(key) {
+    this.loading = true;
+    const index = this.layersKeys.indexOf(key);
+
+    if (index === -1) {
+      showNotification('error', 'Ocorreu um erro inesperado!');
+      throw 'Index out of bounds';
+    }
+    const sql = this.layers[index].sql;
+
+    try {
+      await this.service.saveQueryIntoTable({ tableName: key, sql });
+
+      this.layers[index].type = 'polygon';
+      this.layers[index].geometryColumn = 'geom';
+
+      const response = await this.service.getLayer(key, 'geom');
+
+      const data = response.data.map((item) => {
+        if (typeof item.geometry === 'string') {
+          item.geometry = JSON.parse(item.geometry);
+        }
+        return item;
+      });
+
+      this.layers[index].data = data;
+
+      showNotification('success', 'Consulta salva em Tabela com sucesso!');
+    } catch (err) {
+      showNotification('error', err.message);
+    } finally {
+      this.loading = false;
+    }
   }
 }
 
