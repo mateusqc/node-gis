@@ -1,14 +1,12 @@
-const { getDbConnections, getActiveDbConnection } = require('../database/builder');
+const { query } = require('../database/builder');
 const database = require('../database/postgres');
 
 module.exports = {
   async getTablesNames() {
-    const db = getActiveDbConnection();
-    console.log(db);
-    const result = await db.query(
-      "SELECT DISTINCT(c.table_name) as name FROM information_schema.columns c WHERE c.column_name  = 'geom'",
-      { type: db.QueryTypes.SELECT }
+    const result = await query(
+      "SELECT DISTINCT(c.table_name) as name FROM information_schema.columns c WHERE c.column_name  = 'g'"
     );
+    console.log(result);
     return result;
   },
 

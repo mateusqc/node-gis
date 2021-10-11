@@ -9,15 +9,24 @@ services:
       - "15432:5432"
     volumes:
       - ./container-data/postgres-data:/var/lib/postgresql/data 
-      
-  pgadmin-compose:
-    image: dpage/pgadmin4
+
+  maria-db:
+    image: mariadb
     environment:
-      PGADMIN_DEFAULT_EMAIL: "user@user.com.br"
-      PGADMIN_DEFAULT_PASSWORD: "postgres"
+      MARIADB_ROOT_PASSWORD: "mariadb"
     ports:
-      - "16543:80"
+      - "3306:3306"
     volumes:
-      - ./container-data/pgadmin:/root/.pgadmin
-    depends_on:
-      - postgres-compose
+      - ./container-data/mariadb-data:/var/lib/mysql
+      
+  # pgadmin-compose:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "user@user.com.br"
+  #     PGADMIN_DEFAULT_PASSWORD: "postgres"
+  #   ports:
+  #     - "16543:80"
+  #   volumes:
+  #     - ./container-data/pgadmin:/root/.pgadmin
+  #   depends_on:
+  #     - postgres-compose

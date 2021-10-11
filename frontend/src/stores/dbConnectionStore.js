@@ -15,6 +15,7 @@ class DbConnectionStore {
       deleteConnection: action,
       loadConnections: action,
       keyedDatabaseList: computed,
+      setActiveDatabase: action,
     });
 
     this.service = new DbConnectionService();
@@ -22,6 +23,7 @@ class DbConnectionStore {
     this.createConnection = this.createConnection.bind(this);
     this.deleteConnection = this.deleteConnection.bind(this);
     this.loadConnections = this.loadConnections.bind(this);
+    this.setActiveDatabase = this.setActiveDatabase.bind(this);
   }
 
   get keyedDatabaseList() {
@@ -94,6 +96,17 @@ class DbConnectionStore {
           this.loading = false;
         });
       });
+  }
+
+  async setActiveDatabase(object) {
+    this.loading = true;
+    try {
+      await this.service.setActiveDatabase(object);
+      this.loadConnections();
+    } catch (error) {
+      showNotification('error', error ? error.toString() : null);
+      this.loading = false;
+    }
   }
 }
 

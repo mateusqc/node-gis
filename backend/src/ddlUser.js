@@ -6,7 +6,7 @@ module.exports = {
             type TEXT,\
             host TEXT,\
             port INTEGER,\
-            username TEXT,\
+            user TEXT,\
             password TEXT,\
             database TEXT,\
             dialect TEXT,\
@@ -22,14 +22,14 @@ module.exports = {
       ]);
     } else {
       await execute(
-        'INSERT INTO database(type, host, port, database, username, password, dialect, active) VALUES (?,?,?,?,?,?,?,?);',
+        'INSERT INTO database(type, host, port, database, user, password, dialect, active) VALUES (?,?,?,?,?,?,?,?);',
         [
           'postgres',
           process.env.DB_IP_ADRESS,
           process.env.DB_PORT,
           'postgres',
           'postgres',
-          'postgres',
+          'postgres', //Passar por env posteriormente
           'postgres',
           'true',
         ]

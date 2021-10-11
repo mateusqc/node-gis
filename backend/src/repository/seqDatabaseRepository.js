@@ -19,10 +19,6 @@ const buildWhereClause = (params = {}) => {
 
 module.exports = {
   async save(type, host, database, username, password, port, dialect) {
-    // const configuration = await this.getDb(type, client);
-    // if (configuration) {
-    //   await execute('DELETE FROM database WHERE type = ? AND client = ?;', [type, client]);
-    // }
     return execute(
       'INSERT INTO db_sequilize(type, host, database, username, password, port, dialect) VALUES (?,?,?,?,?,?,?);',
       [type, host, database, username, password, port, dialect]

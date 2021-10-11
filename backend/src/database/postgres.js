@@ -8,6 +8,7 @@ const PORT = process.env.DB_PORT;
 
 const getClient = async () => {
   const db = await get(TYPE, DIALECT, HOST, PORT);
+  console.log(db);
   if (db) {
     const client = new pg.Client(db);
     client.connect();

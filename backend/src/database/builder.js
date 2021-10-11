@@ -1,43 +1,96 @@
 const { execute, query, queryOne } = require('../database/sqlite');
-const { Sequelize } = require('sequelize');
+const { Client } = require('pg');
+const mysql = require('mysql2');
+const mariadb = require('mariadb');
+require('dotenv').config();
 
 let dbsConfiguration;
 let activeConnection;
-let dbs = [];
 
 const refreshDatabaseConnections = async () => {
   dbsConfiguration = await query('SELECT * FROM database');
-  dbs =
-    dbsConfiguration && dbsConfiguration.length > 0
-      ? dbsConfiguration.map((config, idx) => {
-          let type;
-          if (config.type) {
-            type = config.type;
-            delete config.type;
-          }
-          if (config.active && config.active === 'true') {
-            activeConnection = idx;
-          }
-          if (type === 'sqlite') {
-            return new Sequelize({
-              dialect: 'sqlite',
-              storage: config.host,
-            });
-          } else {
-            return new Sequelize(config.database, config.username, config.password, config);
-          }
-        })
-      : [];
+  activeConnection = -1;
+  dbsConfiguration &&
+    dbsConfiguration.length > 0 &&
+    dbsConfiguration.forEach((config, idx) => {
+      if (config.active && config.active === 'true') {
+        activeConnection = idx;
+      }
+    });
 };
 
-const getActiveDbConnection = () => {
-  if (activeConnection !== undefined && activeConnection !== null) {
-    return dbs[activeConnection];
+const queryFromDb = async (queryText) => {
+  const { client, dialect } = await buildClient();
+  const result = await client.query(queryText);
+
+  closeClient(client, dialect);
+  return getReturnFromResult(result, client);
+  // return result[propToAccess[dialect]];
+};
+
+const getReturnFromResult = (result, dialect) => {
+  const propToAccess = {
+    postgres: 'rows',
+    mysql: 'results',
+    mariadb: 'rows',
+  };
+
+  if (['postgres', 'mysql'].includes(dialect)) {
+    return result[propToAccess[dialect]];
   } else {
-    throw 'Erro ao obter conexão ativa de banco de dados.';
+    return result;
   }
 };
 
-const getDbConnections = () => dbs;
+const getActiveDbConnection = () => {
+  if (dbsConfiguration !== undefined && dbsConfiguration !== null) {
+    return dbsConfiguration[activeConnection];
+  } else {
+    throw new Error('Erro ao obter conexão ativa de banco de dados.');
+  }
+};
 
-module.exports = { getDbConnections, refreshDatabaseConnections, getActiveDbConnection };
+const buildClient = async () => {
+  const conf = getActiveDbConnection();
+  if (!conf) {
+    throw new Error('Configuração de banco de dados não definida.');
+  }
+  const { dialect } = conf;
+
+  const connParams = {};
+  ['user', 'password', 'host', 'port', 'database'].forEach((key) => {
+    connParams[key] = conf[key];
+  });
+
+  console.log('entrou');
+  console.log(connParams);
+
+  let client;
+  if (dialect === 'postgres') {
+    client = new Client(connParams);
+    client.connect();
+  } else if (dialect === 'mysql') {
+    client = mysql.createConnection(connParams);
+    client.connect();
+  } else if (dialect === 'mariadb') {
+    try {
+      client = await mariadb.createConnection(connParams);
+    } catch {
+      throw new Error('Erro ao conectar com o banco de dados MariaDB.');
+    }
+  } else {
+    throw new Error('Banco de dados não suportado.');
+  }
+  return { client, dialect };
+};
+
+const closeClient = (client, dialect) => {
+  const propToAccess = {
+    postgres: 'end',
+    mysql: 'end',
+    mariadb: 'end',
+  };
+  client[propToAccess[dialect]]();
+};
+
+module.exports = { refreshDatabaseConnections, query: queryFromDb };

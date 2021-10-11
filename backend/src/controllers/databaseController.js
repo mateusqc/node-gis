@@ -7,7 +7,7 @@ module.exports = {
       response.status(200).json();
     } catch (err) {
       response.status(500).json({ message: err.message });
-      console.log(err);
+      console.error(err);
     }
   },
   async getAll(request, response) {
@@ -36,7 +36,17 @@ module.exports = {
       response.status(200).json();
     } catch (err) {
       response.status(500).json({ message: err.message });
-      console.log(err);
+      console.error(err);
+    }
+  },
+  async setActiveDatabase(request, response) {
+    try {
+      const { dialect, host, port, user, database } = request.body;
+      await repository.setActiveDatabase(dialect, host, port, user, database);
+      response.status(200).json();
+    } catch (err) {
+      response.status(500).json({ message: err.message });
+      console.error(err);
     }
   },
 };

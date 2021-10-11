@@ -27,23 +27,25 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
     type: '',
     host: '',
     port: '',
-    username: '',
+    user: '',
     password: '',
     database: '',
     dialect: '',
     active: 'false',
   });
+  const [selectedDatabase, setSelectedDatabase] = useState(undefined);
 
   const onChangeValue = (value, key) => {
     setFormData({ ...formData, [key]: value });
   };
 
   const clearFormData = () => {
+    setSelectedDatabase(undefined);
     setFormData({
       type: '',
       host: '',
       port: '',
-      username: '',
+      user: '',
       password: '',
       database: '',
       dialect: '',
@@ -72,7 +74,7 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
         <Input
           addonBefore="Usuário"
           style={{ marginTop: '5px' }}
-          onChange={(event) => onChangeValue(event.target.value, 'username')}
+          onChange={(event) => onChangeValue(event.target.value, 'user')}
         />
         <Input.Password
           addonBefore="Senha"
@@ -88,10 +90,10 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
       <>
         <Input
           addonBefore="Diretório de Armazenamento"
-          style={{ marginTop: '5px' }}
+          style={{ marginTop: '5px', marginBottom: '5px' }}
           onChange={(event) => onChangeValue(event.target.value, 'host')}
         />
-        <Alert message="O diretório deverá ser acessível a partir do backend!" type="info" showIcon />
+        <Alert message="O diretório deverá ser acessível a partir do backend." type="info" showIcon />
       </>
     );
   };
@@ -112,10 +114,13 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
             type="primary"
             loading={dbConnectionStore.loading}
             onClick={() => {
-              dbConnectionStore.createConnection(formData, () => {
-                innerOnCancel();
-                dbConnectionStore.loadConnections();
-              });
+              dbConnectionStore.createConnection(
+                { ...formData, type: selectedDatabase, dialect: selectedDatabase },
+                () => {
+                  innerOnCancel();
+                  dbConnectionStore.loadConnections();
+                }
+              );
             }}
           >
             Configurar
@@ -126,19 +131,21 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
           placeholder={'Tipo do Banco '}
           style={{ width: '100%' }}
           disabled={isEdit}
+          value={selectedDatabase}
+          defaultValue={selectedDatabase}
           onChange={(value) => {
-            if (value === 'sqlite' || formData.type === 'sqlite') {
+            debugger;
+            if (value === 'sqlite' || selectedDatabase === 'sqlite') {
               clearFormData();
             }
-            onChangeValue(value, 'type');
-            onChangeValue(value, 'dialect');
+            setSelectedDatabase(value);
           }}
         >
           {databaseList.map((type) => {
             return <Option value={type.value}>{type.name}</Option>;
           })}
         </Select>
-        {formData.type === 'sqlite' ? renderModalContentSqlite() : renderModalContent()}
+        {selectedDatabase === 'sqlite' ? renderModalContentSqlite() : renderModalContent()}
       </Modal>
     </div>
   );

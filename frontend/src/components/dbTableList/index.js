@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useStores } from '../../hooks/useStores';
 import { observer } from 'mobx-react';
-import { Button, Input, Select, Spin, Modal, Table } from 'antd';
+import { Button, Input, Select, Spin, Modal, Table, Tooltip } from 'antd';
 import './style.css';
-import { CheckOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import DbConfigModal from '../dbConfig';
 
 const DatabaseTableListModal = observer(({ visible, onCancel }) => {
@@ -27,14 +27,14 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
         key: 'type',
       },
       {
-        title: 'Cliente',
-        dataIndex: 'client',
-        key: 'client',
-      },
-      {
         title: 'Host',
         dataIndex: 'host',
         key: 'host',
+      },
+      {
+        title: 'Porta',
+        dataIndex: 'port',
+        key: 'port',
       },
       {
         title: '',
@@ -43,16 +43,24 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
         render: (row) => {
           return (
             <span style={{ float: 'right' }}>
-              <Button
-                style={{ color: row.active ? 'green' : 'red', marginRight: '10px' }}
-                icon={<CheckOutlined />}
-                // onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
-              />
-              <Button
-                danger
-                icon={<DeleteOutlined />}
-                onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
-              />
+              {row.active === 'true' ? (
+                <Button style={{ color: 'green', marginRight: '10px' }} disabled icon={<CheckOutlined />} />
+              ) : (
+                <Tooltip title="Selecionar como Conexão Ativa">
+                  <Button
+                    style={{ color: 'red', marginRight: '10px' }}
+                    icon={<CloseOutlined />}
+                    onClick={() => dbConnectionStore.setActiveDatabase(row)}
+                  />
+                </Tooltip>
+              )}
+              <Tooltip title="Remover">
+                <Button
+                  danger
+                  icon={<DeleteOutlined />}
+                  onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
+                />
+              </Tooltip>
             </span>
           );
         },

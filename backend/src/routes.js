@@ -33,6 +33,10 @@ routes.delete('/database', (req, res) => {
   return redirect(req, res, databaseController.delete);
 });
 
+routes.post('/database/set-active', (req, res) => {
+  return redirect(req, res, databaseController.setActiveDatabase);
+});
+
 //Rotas para armazenamento de dados do Usuário - 2
 routes.post('/db', (req, res) => {
   return redirect(req, res, seqDatabaseController.save);

@@ -21,6 +21,9 @@ class DbConnectionService {
   deleteDatabase(databaseConfig) {
     return axios.delete(`${this.baseUrl}${ApiEndpoints.database}`, databaseConfig, corsHeaders);
   }
+  setActiveDatabase(databaseConfig) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.database}/set-active`, databaseConfig, corsHeaders);
+  }
 }
 
 export default DbConnectionService;
