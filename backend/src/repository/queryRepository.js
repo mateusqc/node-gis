@@ -2,10 +2,10 @@ const { query, getActiveDbConnection } = require('../database/builder');
 
 function getParsedTableName(table) {
   const { dialect } = getActiveDbConnection();
-  if (dialect === 'postgres') {
+  if (dialect === 'postgres' || dialect === 'cockroach') {
     return `\"${table}\"`;
-  } else if (dialect === 'mariadb') {
-    return `\`${table}\``;
+    // } else if (dialect === 'mariadb') {
+    //   return `\`${table}\``;
   } else {
     throw new Error('Operação não suportada para este Banco de Dados.');
   }

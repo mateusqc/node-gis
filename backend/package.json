@@ -6,11 +6,12 @@
     "dev": "nodemon src/app.js"
   },
   "dependencies": {
+    "async": "^3.2.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mariadb": "^2.5.4",
-    "mysql2": "^2.3.0",
+    "mysql": "2.18.1",
     "pg": "^8.6.0",
     "sqlite3": "^5.0.2",
     "tedious": "^13.1.0"

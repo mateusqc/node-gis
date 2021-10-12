@@ -2,7 +2,7 @@ import { observable, action, computed, makeAutoObservable, runInAction } from 'm
 import { getStyleWithColorFunction } from '../components/addLayerModal/utils';
 import MapService from '../services/map';
 import PersistedLayersService from '../services/persistedLayers';
-import { showNotification } from '../utils/utils';
+import { showErrorNotification, showNotification } from '../utils/utils';
 class MapStore {
   layersRefs = {};
   layersActive = {};
@@ -436,7 +436,7 @@ class MapStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
         });
       })
       .finally(() => {

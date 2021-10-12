@@ -16,3 +16,17 @@ export function showNotification(type, msg) {
       break;
   }
 }
+
+export function showErrorNotification(error) {
+  let errorMessage = 'Ocorreu um erro inesperado.';
+
+  if (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      errorMessage = error.response.data.message;
+    } else {
+      errorMessage = error.toString();
+    }
+  }
+
+  showNotification('error', errorMessage);
+}

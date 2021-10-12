@@ -19,6 +19,16 @@ services:
     volumes:
       - ./container-data/mariadb-data:/var/lib/mysql
       
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: "mysql"
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./container-data/mysql-data:/var/lib/mysql
+
   # pgadmin-compose:
   #   image: dpage/pgadmin4
   #   environment:

@@ -9,7 +9,8 @@ const { Option } = Select;
 
 const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
   const databaseList = [
-    { value: 'postgresql', name: 'PostgreSQL' },
+    { value: 'postgres', name: 'PostgreSQL' },
+    { value: 'cockroach', name: 'CockroachDB' },
     { value: 'mysql', name: 'MySQL' },
     { value: 'mariadb', name: 'MariaDB' },
     { value: 'mssql', name: 'Microsoft SQL Server' },

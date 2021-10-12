@@ -1,6 +1,6 @@
 const { execute, query, queryOne } = require('../database/sqlite');
 const { Client } = require('pg');
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const mariadb = require('mariadb');
 require('dotenv').config();
 
@@ -22,7 +22,6 @@ const refreshDatabaseConnections = async () => {
 const queryFromDb = async (queryText) => {
   const { client, dialect } = await buildClient();
   const result = await client.query(queryText);
-
   closeClient(client, dialect);
   return getReturnFromResult(result, dialect);
   // return result[propToAccess[dialect]];
@@ -31,11 +30,12 @@ const queryFromDb = async (queryText) => {
 const getReturnFromResult = (result, dialect) => {
   const propToAccess = {
     postgres: 'rows',
-    mysql: 'results',
+    mysql: 'rows',
     mariadb: 'rows',
+    cockroach: 'rows',
   };
 
-  if (['postgres', 'mysql'].includes(dialect)) {
+  if (['postgres', 'cockroach'].includes(dialect)) {
     return result[propToAccess[dialect]];
   } else {
     return result;
@@ -69,10 +69,12 @@ const buildClient = async () => {
   if (dialect === 'postgres') {
     client = new Client(connParams);
     client.connect();
-  } else if (dialect === 'mysql') {
-    client = mysql.createConnection(connParams);
+  } else if (dialect === 'cockroach') {
+    client = new Client(
+      `postgres://${connParams.user}@${connParams.host}:${connParams.port}/${connParams.database}?sslmode=disable`
+    );
     client.connect();
-  } else if (dialect === 'mariadb') {
+  } else if (dialect === 'mariadb' || dialect === 'mysql') {
     try {
       client = await mariadb.createConnection(connParams);
     } catch {
@@ -89,6 +91,7 @@ const closeClient = (client, dialect) => {
     postgres: 'end',
     mysql: 'end',
     mariadb: 'end',
+    cockroach: 'end',
   };
   client[propToAccess[dialect]]();
 };

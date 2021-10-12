@@ -14,11 +14,11 @@ module.exports = {
 const buildLayerQuery = (cols = [], geometryColumn, table) => {
   const dbParams = getActiveDbConnection();
   let resultQuery = '';
-  if (dbParams.dialect === 'postgres') {
+  if (dbParams.dialect === 'postgres' || dbParams.dialect === 'cockroach') {
     resultQuery = `SELECT  ${
       cols.length > 0 ? cols + ',' : ''
     } ST_AsGeoJSON(t.${geometryColumn}) AS geometry  FROM \"${table}\" t`;
-  } else if (dbParams.dialect === 'mariadb') {
+  } else if (dbParams.dialect === 'mariadb' || dbParams.dialect === 'mysql') {
     resultQuery = `SELECT  ${
       cols.length > 0 ? cols + ',' : ''
     } ST_AsGeoJSON(t.${geometryColumn}) AS geometry  FROM \`${table}\` t`;
