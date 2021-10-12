@@ -24,7 +24,7 @@ const queryFromDb = async (queryText) => {
   const result = await client.query(queryText);
 
   closeClient(client, dialect);
-  return getReturnFromResult(result, client);
+  return getReturnFromResult(result, dialect);
   // return result[propToAccess[dialect]];
 };
 
@@ -93,4 +93,4 @@ const closeClient = (client, dialect) => {
   client[propToAccess[dialect]]();
 };
 
-module.exports = { refreshDatabaseConnections, query: queryFromDb };
+module.exports = { refreshDatabaseConnections, query: queryFromDb, getActiveDbConnection };

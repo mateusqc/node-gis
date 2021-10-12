@@ -18,7 +18,7 @@ module.exports = {
           {
             name: table,
             columns: columns.map((t) => {
-              return t.column;
+              return t.norm_column;
             }),
             geometryColumns: geometryColumns.map((col) => {
               return col.geom_column;
