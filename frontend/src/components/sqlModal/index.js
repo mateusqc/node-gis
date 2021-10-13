@@ -5,7 +5,7 @@ import Modal from 'antd/lib/modal/Modal';
 import { Alert, Button, Input, Select, Table } from 'antd';
 import './style.css';
 import TextArea from 'antd/lib/input/TextArea';
-import { showNotification } from '../../utils/utils';
+import { showErrorNotification, showNotification } from '../../utils/utils';
 import { Option } from 'antd/lib/mentions';
 
 const SqlModal = observer(({ visible, onCancel }) => {
@@ -68,7 +68,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
       processData(result.data.data);
       setShowTableModal(true);
     } catch (err) {
-      showNotification('error', err.response ? err.response.data.message : err.message);
+      showErrorNotification(err);
     } finally {
       setLoadingSql(false);
     }
@@ -170,7 +170,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
       await mapStore.addLayerToMapWithoutRequest(formFinal);
       resetStates();
     } catch (err) {
-      showNotification('error', err.message);
+      showErrorNotification(err);
     } finally {
       setLoadingAddLayer(false);
     }

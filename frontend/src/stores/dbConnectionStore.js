@@ -46,7 +46,7 @@ class DbConnectionStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
           this.loading = false;
         });
       });
@@ -71,7 +71,7 @@ class DbConnectionStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
           this.loading = false;
         });
       });
@@ -104,7 +104,7 @@ class DbConnectionStore {
       await this.service.setActiveDatabase(object);
       this.loadConnections();
     } catch (error) {
-      showNotification('error', error ? error.toString() : null);
+      showErrorNotification(error);
       this.loading = false;
     }
   }

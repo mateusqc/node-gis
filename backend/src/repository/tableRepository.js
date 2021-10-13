@@ -19,7 +19,7 @@ const getTableNameQuery = () => {
   const dbParams = getActiveDbConnection();
   let resultQuery = '';
   if (dbParams.dialect === 'postgres' || dbParams.dialect === 'cockroach') {
-    resultQuery = `select table_name as name from information_schema.columns where udt_name = 'geometry' and is_updatable = 'YES' and table_schema = '${dbParams.database}'`;
+    resultQuery = `select table_name as name from information_schema.columns where udt_name = 'geometry' and is_updatable = 'YES' and table_catalog = '${dbParams.database}' and table_schema != 'tiger' and table_schema != 'tiger_data' and table_schema != 'topology'`;
   } else if (dbParams.dialect === 'mariadb' || dbParams.dialect === 'mysql') {
     resultQuery =
       'select col.table_name as name ' +
@@ -52,7 +52,7 @@ const getColumnsMetadata = (table, spatialOnly = false) => {
   if (dbParams.dialect === 'postgres' || dbParams.dialect === 'cockroach') {
     resultQuery = `SELECT column_name AS ${
       spatialOnly ? 'geom_' : 'norm_'
-    }column FROM information_schema.columns WHERE table_name = '${table}' and table_schema = '${
+    }column FROM information_schema.columns WHERE table_name = '${table}' and table_catalog = '${
       dbParams.database
     }' AND udt_name ${spatialOnly ? '=' : '!='} 'geometry'`;
   } else if (dbParams.dialect === 'mariadb' || dbParams.dialect === 'mysql') {

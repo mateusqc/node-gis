@@ -111,7 +111,7 @@ class MapStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
         });
       })
       .finally(() => {
@@ -140,7 +140,7 @@ class MapStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
           this.loading = false;
         });
       });
@@ -251,7 +251,7 @@ class MapStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
         });
       })
       .finally(() => {
@@ -490,7 +490,7 @@ class MapStore {
       Promise.all(promises);
       showNotification('success', 'Camadas salvas com sucesso!');
     } catch (err) {
-      showNotification('error', err.message);
+      showErrorNotification(err);
     } finally {
       this.loading = false;
     }
@@ -554,7 +554,7 @@ class MapStore {
 
       showNotification('success', 'Consulta salva em Tabela com sucesso!');
     } catch (err) {
-      showNotification('error', err.message);
+      showErrorNotification(err);
     } finally {
       this.loading = false;
     }

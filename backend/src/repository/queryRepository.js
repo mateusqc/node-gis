@@ -188,7 +188,11 @@ module.exports = {
   },
 
   async getArea(data = {}) {
-    const sql = `SELECT ST_Area(ST_Union(A.geom), TRUE)/(1000*1000) as area_km2 FROM (${mountBaseUnionQuery(data)}) A`;
+    const { dialect } = getActiveDbConnection();
+    const unionSql = await mountBaseUnionQuery(data);
+    const sql = `SELECT ST_Area(A.geom${['mysql', 'mariadb'].includes(dialect) ? '' : ', TRUE'})${
+      ['postgres', 'cockroach'].includes(dialect) ? '/(1000*1000)' : ''
+    } as area_km2 FROM (${unionSql}) A`;
     const result = await query(sql);
     return { data: result, query: sql };
   },
@@ -235,7 +239,7 @@ module.exports = {
   },
 
   async getCentroid(data = {}) {
-    let topQuery = `SELECT ST_AsGeoJSON(ST_Union(ST_Centroid(A.geom))) as geometry FROM `;
+    let topQuery = `SELECT ST_AsGeoJSON(ST_Centroid(A.geom)) as geometry FROM `;
 
     const queryA = await mountBaseUnionQuery(data);
 
