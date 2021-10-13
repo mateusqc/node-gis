@@ -24,13 +24,11 @@ module.exports = {
       port,
     ]);
   },
-  async delete(type, dialect, host, port) {
-    const result = await execute('DELETE FROM database WHERE type = ? AND dialect = ? AND host = ? AND port = ?', [
-      type,
-      dialect,
-      host,
-      port,
-    ]);
+  async delete(type, dialect, host, port, user, database) {
+    const result = await execute(
+      'DELETE FROM database WHERE type = ? AND dialect = ? AND host = ? AND port = ? AND user = ? AND database = ?',
+      [type, dialect, host, port, user, database]
+    );
     refreshDatabaseConnections();
     return result;
   },

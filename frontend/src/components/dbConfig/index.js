@@ -13,8 +13,7 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
     { value: 'cockroach', name: 'CockroachDB' },
     { value: 'mysql', name: 'MySQL' },
     { value: 'mariadb', name: 'MariaDB' },
-    { value: 'mssql', name: 'Microsoft SQL Server' },
-    { value: 'sqlite', name: 'SQLite' },
+    { value: 'sqlite', name: 'SQLite (SpatiaLite)' },
   ];
 
   const innerOnCancel = () => {

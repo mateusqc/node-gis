@@ -4,14 +4,125 @@ function getParsedTableName(table) {
   const { dialect } = getActiveDbConnection();
   if (dialect === 'postgres' || dialect === 'cockroach') {
     return `\"${table}\"`;
-    // } else if (dialect === 'mariadb') {
-    //   return `\`${table}\``;
+  } else if (dialect === 'mariadb' || dialect === 'mysql') {
+    return `\`${table}\``;
   } else {
     throw new Error('Operação não suportada para este Banco de Dados.');
   }
 }
 
-function mountBaseUnionQuery(allData = {}, finalQuery = false) {
+async function mountBaseUnionQuery(allData = {}, finalQuery = false) {
+  const { dialect } = getActiveDbConnection();
+  if (['mariadb', 'mysql'].includes(dialect)) {
+    return mountBaseUnionQueryConcatText(allData, finalQuery, dialect === 'mariadb');
+  } else {
+    return mountBaseUnionQueryAgg(allData, finalQuery);
+  }
+}
+
+/**
+ * Constrói consulta de união de todas as feições passadas considerando que a função ST_Union não possui sobrecarga de agregação.
+ * @param {*} allData
+ * @param {*} finalQuery
+ * @returns string contendo sql resultante
+ */
+async function mountBaseUnionQueryConcatText(allData = {}, finalQuery = false, isMariaDb = false) {
+  let topQuery = 'T.geom';
+  let tablesQuery = '';
+  const tables = Object.keys(allData);
+
+  let hasGids;
+  for (let idx = 0; idx < tables.length; idx++) {
+    const table = tables[idx];
+    const parsedTableName = getParsedTableName(table);
+    hasGids = allData[table].data.length > 0;
+
+    const innerQuery = `SELECT ST_AsText(${allData[table].geometryColumn}) as geom_t FROM ${parsedTableName} ${
+      hasGids ? 'WHERE gid IN (' + allData[table].data.join(',') + ')' : ''
+    }`;
+
+    const textGeometries = (await query(innerQuery)) ?? [];
+
+    let innerUnionQuery = '';
+
+    textGeometries.forEach(({ geom_t }, index) => {
+      if (!innerUnionQuery) {
+        innerUnionQuery = `ST_GeomFromText(\'${geom_t}\')`;
+      } else {
+        innerUnionQuery = `ST_Union(ST_GeomFromText(\'${geom_t}\'),${innerUnionQuery})`;
+      }
+    });
+
+    innerUnionQuery = `SELECT ST_AsText(${innerUnionQuery}) as geom FROM DUAL`;
+
+    let preUnionGeometry = await query(innerUnionQuery);
+
+    if (preUnionGeometry.length > 0) {
+      preUnionGeometry = preUnionGeometry[0].geom;
+    } else {
+      throw new Error('Erro ao construir as consultas bases de União!');
+    }
+
+    if (idx === 0) {
+      tablesQuery = `ST_GeomFromText(\'${preUnionGeometry}\')`;
+    } else {
+      tablesQuery = `ST_Union(ST_GeomFromText(\'${preUnionGeometry}\'),${tablesQuery})`;
+    }
+  }
+
+  tablesQuery = 'FROM ( SELECT ' + tablesQuery + ' as geom FROM DUAL';
+
+  topQuery = `SELECT ${finalQuery ? 'ST_AsGeoJSON(' : ''} ${topQuery}`;
+
+  topQuery += `${finalQuery ? ')' : ''} as ${finalQuery ? 'geometry' : 'geom'} `;
+
+  return topQuery + tablesQuery + ') T';
+}
+
+// /**
+//  * Constrói consulta de união de todas as feições passadas considerando que a função ST_Union não possui sobrecarga de agregação.
+//  * @param {*} allData
+//  * @param {*} finalQuery
+//  * @returns string contendo sql resultante
+//  */
+// function mountBaseUnionQueryConcatText(allData = {}, finalQuery = false, isMariaDb = false) {
+//   let topQuery = 'T.geom';
+//   let tablesQuery = 'FROM (';
+//   const tables = Object.keys(allData);
+
+//   const getGeoTextConcat = (colName) => {
+//     const innerElement = `concat('GEOMETRYCOLLECTION (', GROUP_CONCAT(ST_AsText(${colName})), ')')`;
+//     return (
+//       `ST_Union(ST_GeomFromText(${innerElement}), ` +
+//       `ST_GeomFromText(${isMariaDb ? innerElement : 'GEOMETRYCOLLECTION EMPTY'}))`
+//     );
+//   };
+
+//   let hasGids;
+//   tables.forEach((table, idx) => {
+//     const parsedTableName = getParsedTableName(table);
+//     hasGids = allData[table].data.length > 0;
+
+//     tablesQuery += ` (SELECT ${getGeoTextConcat(allData[table].geometryColumn)} as geom FROM ${parsedTableName} ${
+//       hasGids ? 'WHERE gid IN (' + allData[table].data.join(',') + ')' : ''
+//     }) ${idx + 1 < tables.length ? 'UNION' : ''} `;
+//   });
+
+//   topQuery = `SELECT ${finalQuery ? 'ST_AsGeoJSON(' : ''} ${topQuery}`;
+
+//   topQuery += `${finalQuery ? ')' : ''} as ${finalQuery ? 'geometry' : 'geom'} `;
+
+//   console.log(topQuery + tablesQuery + ') T');
+//   return topQuery + tablesQuery + ') T';
+// }
+
+/**
+ * Constrói consulta de união de todas as feições passadas utilizando uma função ST_Union de agregação.
+ * @param {*} allData
+ * @param {*} finalQuery
+ * @returns string contendo sql resultante
+ */
+function mountBaseUnionQueryAgg(allData = {}, finalQuery = false) {
   let topQuery = '';
   let tablesQuery = 'FROM ';
   const tables = Object.keys(allData);
@@ -36,11 +147,11 @@ function mountBaseUnionQuery(allData = {}, finalQuery = false) {
   return topQuery + tablesQuery;
 }
 
-function mountBySpatialFunction(dataA, dataB, func) {
+async function mountBySpatialFunction(dataA, dataB, func) {
   let topQuery = `SELECT ST_AsGeoJSON(${func}(A.geom, B.geom)) as geometry FROM `;
 
-  const queryA = mountBaseUnionQuery(dataA);
-  const queryB = mountBaseUnionQuery(dataB);
+  const queryA = await mountBaseUnionQuery(dataA);
+  const queryB = await mountBaseUnionQuery(dataB);
 
   return `${topQuery} (${queryA}) A, (${queryB}) B`;
 }
@@ -52,13 +163,13 @@ module.exports = {
   },
 
   async getUnion(data = {}) {
-    const sql = mountBaseUnionQuery(data, true);
+    const sql = await mountBaseUnionQuery(data, true);
     const result = await query(sql);
     return { data: result, query: sql };
   },
 
   async getFromGeoFunction(dataA = {}, dataB = {}, func) {
-    const sql = mountBySpatialFunction(dataA, dataB, func);
+    const sql = await mountBySpatialFunction(dataA, dataB, func);
     const data = await query(sql);
     return { data, query: sql };
   },
@@ -66,8 +177,8 @@ module.exports = {
   async getFromBooleanFunction(dataA = {}, dataB = {}, func, invertCondition) {
     let topQuery = 'SELECT ST_AsGeoJSON(B.geom) as geometry FROM ';
 
-    const queryA = mountBaseUnionQuery(dataA);
-    const queryB = mountBaseUnionQuery(dataB);
+    const queryA = await mountBaseUnionQuery(dataA);
+    const queryB = await mountBaseUnionQuery(dataB);
 
     const sql = `${topQuery} (${queryA}) A, (${queryB}) B WHERE ${func}${
       invertCondition ? '(B.geom, A.geom)' : '(A.geom, B.geom)'
@@ -85,8 +196,8 @@ module.exports = {
   async getDistance(dataA = {}, dataB = {}) {
     let topQuery = 'SELECT ST_Distance(A.geom, B.geom, TRUE)/1000 as dist_km FROM ';
 
-    const queryA = mountBaseUnionQuery(dataA);
-    const queryB = mountBaseUnionQuery(dataB);
+    const queryA = await mountBaseUnionQuery(dataA);
+    const queryB = await mountBaseUnionQuery(dataB);
 
     const sql = `${topQuery} (${queryA}) A, (${queryB}) B`;
     const data = await query(sql);
@@ -96,7 +207,7 @@ module.exports = {
   async getLength(data = {}) {
     let topQuery = 'SELECT ST_Length(A.geom, TRUE)/1000 as len_km FROM ';
 
-    const queryA = mountBaseUnionQuery(data);
+    const queryA = await mountBaseUnionQuery(data);
 
     const sql = `${topQuery} (${queryA}) A`;
     const result = await query(sql);
@@ -106,7 +217,7 @@ module.exports = {
   async getPerimeter(data = {}) {
     let topQuery = 'SELECT ST_Perimeter(A.geom, TRUE)/1000 as perim_km FROM ';
 
-    const queryA = mountBaseUnionQuery(data);
+    const queryA = await mountBaseUnionQuery(data);
 
     const sql = `${topQuery} (${queryA}) A`;
     const result = await query(sql);
@@ -116,7 +227,7 @@ module.exports = {
   async getBuffer(data = {}, radius) {
     let topQuery = `SELECT ST_AsGeoJSON(ST_Buffer(A.geom, ${radius})) as geometry FROM `;
 
-    const queryA = mountBaseUnionQuery(data);
+    const queryA = await mountBaseUnionQuery(data);
 
     const sql = `${topQuery} (${queryA}) A`;
     const result = await query(sql);
@@ -126,7 +237,7 @@ module.exports = {
   async getCentroid(data = {}) {
     let topQuery = `SELECT ST_AsGeoJSON(ST_Union(ST_Centroid(A.geom))) as geometry FROM `;
 
-    const queryA = mountBaseUnionQuery(data);
+    const queryA = await mountBaseUnionQuery(data);
 
     const sql = `${topQuery} (${queryA}) A`;
     const result = await query(sql);
@@ -139,8 +250,7 @@ module.exports = {
     }
 
     await query(`CREATE TABLE ${tableName} (
-      ID SERIAL PRIMARY KEY,
-      GID SERIAL,
+      GID SERIAL PRIMARY KEY,
       GEOM GEOMETRY
     )`);
 

@@ -1,6 +1,6 @@
 import { observable, action, computed, makeAutoObservable, runInAction } from 'mobx';
 import DbConnectionService from '../services/dbConnection';
-import { showNotification } from '../utils/utils';
+import { showErrorNotification, showNotification } from '../utils/utils';
 
 class DbConnectionStore {
   service;
@@ -92,7 +92,7 @@ class DbConnectionStore {
       })
       .catch((error) => {
         runInAction(() => {
-          showNotification('error', error ? error.toString() : null);
+          showErrorNotification(error);
           this.loading = false;
         });
       });

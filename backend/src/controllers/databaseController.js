@@ -31,8 +31,11 @@ module.exports = {
   },
   async delete(request, response) {
     try {
-      const { type, dialect, host, port } = request.body;
-      await repository.delete(type, dialect, host, port);
+      const { type, dialect, host, port, user, database } = request.body;
+      if (!type || !dialect || !host || !port || !user || !database) {
+        throw new Error('Parâmetros de remoção inválidos.');
+      }
+      await repository.delete(type, dialect, host, port, user, database);
       response.status(200).json();
     } catch (err) {
       response.status(500).json({ message: err.message });

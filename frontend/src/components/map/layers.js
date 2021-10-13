@@ -46,8 +46,8 @@ const Layers = observer(() => {
   const handleClickEvent = (e, registry, key) => {
     if (mapStore.selectFeaturesMode) {
       const layerStyle = mapStore.getLayerStyle(key);
-      if (mapStore.isFeatureSelected(key, registry.gid)) {
-        mapStore.removeFeatureFromSelection(key, registry.gid);
+      if (mapStore.isFeatureSelected(key, registry.gid ?? registry.GID)) {
+        mapStore.removeFeatureFromSelection(key, registry.gid ?? registry.GID);
         e.target.setStyle(layerStyle);
       } else {
         e.target.setStyle({
@@ -58,7 +58,8 @@ const Layers = observer(() => {
           fillColor: mapStore.selectFeaturesMode === 'first' ? '#FFFF00' : '#b81212',
         });
         // e.target.bringToFront();
-        mapStore.addFeatureToSelection(key, { gid: registry.gid, oldStyle: layerStyle, element: e.target });
+        const gid = registry.gid ?? registry.GID;
+        mapStore.addFeatureToSelection(key, { gid, oldStyle: layerStyle, element: e.target });
       }
     }
   };

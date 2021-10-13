@@ -19,7 +19,7 @@ class DbConnectionService {
     return axios.post(`${this.baseUrl}${ApiEndpoints.database}`, databaseConfig, corsHeaders);
   }
   deleteDatabase(databaseConfig) {
-    return axios.delete(`${this.baseUrl}${ApiEndpoints.database}`, databaseConfig, corsHeaders);
+    return axios.delete(`${this.baseUrl}${ApiEndpoints.database}`, { data: databaseConfig }, corsHeaders);
   }
   setActiveDatabase(databaseConfig) {
     return axios.post(`${this.baseUrl}${ApiEndpoints.database}/set-active`, databaseConfig, corsHeaders);

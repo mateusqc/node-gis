@@ -1,6 +1,6 @@
-const { execute, query, queryOne } = require('../database/sqlite');
+const { query } = require('../database/sqlite');
+const spatialite = require('spatialite');
 const { Client } = require('pg');
-const mysql = require('mysql');
 const mariadb = require('mariadb');
 require('dotenv').config();
 
@@ -19,12 +19,24 @@ const refreshDatabaseConnections = async () => {
     });
 };
 
-const queryFromDb = async (queryText) => {
+const queryFromDb = async (queryText, ...otherParams) => {
   const { client, dialect } = await buildClient();
-  const result = await client.query(queryText);
-  closeClient(client, dialect);
-  return getReturnFromResult(result, dialect);
-  // return result[propToAccess[dialect]];
+  if (dialect === 'sqlite') {
+    return new Promise((resolve, reject) => {
+      client.all(queryText, ...otherParams, (err, rows) => {
+        client.close();
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  } else {
+    const result = await client.query(queryText, ...otherParams);
+    closeClient(client, dialect);
+    return getReturnFromResult(result, dialect);
+  }
 };
 
 const getReturnFromResult = (result, dialect) => {
@@ -50,7 +62,7 @@ const getActiveDbConnection = () => {
   }
 };
 
-const buildClient = async () => {
+const buildClient = async (callback) => {
   const conf = getActiveDbConnection();
   if (!conf) {
     throw new Error('Configuração de banco de dados não definida.');
@@ -61,9 +73,6 @@ const buildClient = async () => {
   ['user', 'password', 'host', 'port', 'database'].forEach((key) => {
     connParams[key] = conf[key];
   });
-
-  console.log('entrou');
-  console.log(connParams);
 
   let client;
   if (dialect === 'postgres') {
@@ -80,6 +89,10 @@ const buildClient = async () => {
     } catch {
       throw new Error('Erro ao conectar com o banco de dados MariaDB.');
     }
+    // } else if (dialect === 'mssql') {
+    // client = { ...connParams, server: connParams.host, options: { trustServerCertificate: true } };
+  } else if ('sqlite') {
+    client = new spatialite.Database(connParams.host);
   } else {
     throw new Error('Banco de dados não suportado.');
   }
