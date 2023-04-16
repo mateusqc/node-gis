@@ -1,0 +1,3231 @@
+{
+  "name": "simple-web-gis",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2",
+    "@babel/plugin-proposal-decorators": "^7.13.15",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.15.5",
+    "axios": "^0.21.1",
+    "customize-cra": "^1.0.0",
+    "dotenv": "^9.0.2",
+    "leaflet": "^1.7.1",
+    "mobx": "^6.3.0",
+    "mobx-react": "^7.1.0",
+    "mobx-react-lite": "^3.2.0",
+    "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
+    "react-dom": "^17.0.2",
+    "react-dotenv": "^0.1.3",
+    "react-leaflet": "^3.1.0",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-export-default-from": "^7.12.1",
+    "@babel/plugin-proposal-export-namespace-from": "^7.12.1",
+    "@babel/plugin-syntax-decorators": "^7.12.13",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
+    "babel-loader": "8.1.0",
+    "babel-plugin-root-import": "^6.6.0"
+  },
+  "scripts": {
+    "dev": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+{
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 120,
+    "trailingComma": "es5",
+    "prettier.tabWidth": 2,
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 120,
+    "prettier.trailingComma": "es5"
+  }
+  {
+  "short_name": "React App",
+  "name": "Create React App Sample",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
+.sub-section-menu .ant-menu-item {
+  line-height: 25px !important;
+  height: 25px !important;
+}
+
+.menu-section .ant-menu {
+  padding-left: 80px !important;
+}
+
+.logo-text {
+  height: 33px;
+  font-size: 15pt;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-right: solid 2px #eeeeee;
+  background-color: rgba(200, 200, 200, 0.3);
+}
+.field-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+.field-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.add-value-choropleth {
+  margin-top: 10px;
+}
+
+.add-value-choropleth .ant-collapse-header {
+  display: none;
+}
+.add-value-choropleth .ant-collapse-content-active {
+  border: none !important;
+}
+.ant-layout-header {
+  background-color: white !important;
+  height: 32px !important;
+  padding: 0 !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  margin: 0 !important;
+  line-height: 30px !important;
+}
+
+.ant-layout-sider {
+  background-color: white !important;
+}
+
+.ant-layout-content {
+  height: calc(100vh - 32px);
+}
+
+.spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(200, 200, 200, 0.7);
+}
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.selection-alert {
+  position: absolute;
+  top: 10px;
+  left: calc((100vw / 2) - 161px);
+  z-index: 1000;
+}
+.side-panel {
+  position: absolute;
+  top: 10px;
+  /* top: 100px; */
+  right: 10px;
+  width: fit-content;
+  z-index: 1000 !important;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.side-panel .ant-collapse-content-box {
+  padding-top: 5px !important;
+}
+.ant-table {
+  overflow-x: scroll;
+}
+.field-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+const { override, addDecoratorsLegacy } = require('customize-cra');
+module.exports = override(addDecoratorsLegacy());
+import axios from 'axios';
+import ApiEndpoints from '../constants/ApiEndpoints';
+import env from "react-dotenv";
+import corsHeaders from '../constants/RequestConfig';
+
+class MapService {
+  baseUrl = window._env_.BASE_API_URL;
+  
+  getTables() {
+    return axios.get(`${this.baseUrl}${ApiEndpoints.tables}`, corsHeaders);
+  }
+  getLayer(layer, geometryColumn) {
+    return axios.get(`${this.baseUrl}${ApiEndpoints.layer}/${layer}/${geometryColumn}`, corsHeaders);
+  }
+  getSpatialQuery(queryObject) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.spatialQuery}`, queryObject, corsHeaders);
+  }
+  getQuery(queryObject) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.query}`, queryObject, corsHeaders);
+  }
+  saveQueryIntoTable(queryObject) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.queryToTable}`, queryObject, corsHeaders);
+  }
+}
+
+export default MapService;
+import axios from 'axios';
+import ApiEndpoints from '../constants/ApiEndpoints';
+import env from 'react-dotenv';
+import corsHeaders from '../constants/RequestConfig';
+
+class DbConnectionService {
+  baseUrl = window._env_.BASE_API_URL;
+
+  getClientDatabases() {
+    return axios.get(`${this.baseUrl}${ApiEndpoints.database}/all`, corsHeaders);
+  }
+  getDatabase(type, dialect, host, port) {
+    return axios.get(
+      `${this.baseUrl}${ApiEndpoints.database}?type=${type}&dialect=${dialect}&host=${host}&port=${port}`,
+      corsHeaders
+    );
+  }
+  setDatabase(databaseConfig) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.database}`, databaseConfig, corsHeaders);
+  }
+  deleteDatabase(databaseConfig) {
+    return axios.delete(`${this.baseUrl}${ApiEndpoints.database}`, { data: databaseConfig }, corsHeaders);
+  }
+  setActiveDatabase(databaseConfig) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.database}/set-active`, databaseConfig, corsHeaders);
+  }
+}
+
+export default DbConnectionService;
+import axios from 'axios';
+import ApiEndpoints from '../constants/ApiEndpoints';
+import env from "react-dotenv";
+import corsHeaders from '../constants/RequestConfig';
+
+class PersistedLayersService {
+  baseUrl = window._env_.BASE_API_URL;
+
+  getLayers() {
+    return axios.get(`${this.baseUrl}${ApiEndpoints.persistedLayers}/all`, corsHeaders);
+  }
+  getLayer(tableName) {
+    return axios.get(`${this.baseUrl}${ApiEndpoints.persistedLayers}?table=${tableName}`, corsHeaders);
+  }
+  saveLayer(databaseConfig) {
+    return axios.post(`${this.baseUrl}${ApiEndpoints.persistedLayers}`, databaseConfig, corsHeaders);
+  }
+  deleteLayer(databaseConfig) {
+    return axios.delete(`${this.baseUrl}${ApiEndpoints.persistedLayers}`, databaseConfig, corsHeaders);
+  }
+  deleteAll() {
+    return axios.delete(`${this.baseUrl}${ApiEndpoints.persistedLayers}/all`, corsHeaders);
+  }
+}
+
+export default PersistedLayersService;
+import { message } from 'antd';
+
+export function showNotification(type, msg) {
+  switch (type) {
+    case 'success':
+      message.success(msg ?? 'Sucesso!');
+      break;
+    case 'error':
+      message.error(msg ?? 'Ocorreu um erro');
+      break;
+    case 'warning':
+      message.warning(msg ?? 'Atenção!');
+      break;
+    default:
+      message.info(msg ?? '');
+      break;
+  }
+}
+
+export function showErrorNotification(error) {
+  let errorMessage = 'Ocorreu um erro inesperado.';
+
+  if (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      errorMessage = error.response.data.message;
+    } else {
+      errorMessage = error.toString();
+    }
+  }
+
+  showNotification('error', errorMessage);
+}
+import { observable, action, computed, makeAutoObservable, runInAction } from 'mobx';
+import DbConnectionService from '../services/dbConnection';
+import { showErrorNotification, showNotification } from '../utils/utils';
+
+class DbConnectionStore {
+  service;
+  databaseConnectionList = [];
+  loading = false;
+
+  constructor() {
+    makeAutoObservable(this, {
+      databaseConnectionList: observable,
+      loading: observable,
+      createConnection: action,
+      deleteConnection: action,
+      loadConnections: action,
+      keyedDatabaseList: computed,
+      setActiveDatabase: action,
+    });
+
+    this.service = new DbConnectionService();
+
+    this.createConnection = this.createConnection.bind(this);
+    this.deleteConnection = this.deleteConnection.bind(this);
+    this.loadConnections = this.loadConnections.bind(this);
+    this.setActiveDatabase = this.setActiveDatabase.bind(this);
+  }
+
+  get keyedDatabaseList() {
+    return this.databaseConnectionList.map((db, idx) => ({ ...db, key: idx }));
+  }
+
+  loadConnections(callback) {
+    const defaultClient = 'dev';
+    this.loading = true;
+    this.service
+      .getClientDatabases(defaultClient)
+      .then((response) => {
+        runInAction(() => {
+          this.databaseConnectionList = response.data;
+          this.loading = false;
+          if (callback) {
+            callback();
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+          this.loading = false;
+        });
+      });
+  }
+
+  createConnection(object, callback) {
+    this.loading = true;
+    this.service
+      .setDatabase(object)
+      .then((response) => {
+        runInAction(() => {
+          this.loading = false;
+          if (response.status === 200) {
+            showNotification('success', 'Conexão adicionada com sucesso!');
+            if (callback) {
+              callback();
+            }
+          } else {
+            showNotification('error', 'Ocorreu um problema na configuração do banco de dados');
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+          this.loading = false;
+        });
+      });
+  }
+
+  deleteConnection(object, callback) {
+    this.loading = true;
+    this.service
+      .deleteDatabase(object)
+      .then((response) => {
+        runInAction(() => {
+          this.loading = false;
+          showNotification('success', 'Conexão removida com sucesso!');
+          if (callback) {
+            callback();
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+          this.loading = false;
+        });
+      });
+  }
+
+  async setActiveDatabase(object) {
+    this.loading = true;
+    try {
+      await this.service.setActiveDatabase(object);
+      this.loadConnections();
+    } catch (error) {
+      showErrorNotification(error);
+      this.loading = false;
+    }
+  }
+}
+
+export default DbConnectionStore;
+import { observable, action, computed, makeAutoObservable, runInAction } from 'mobx';
+import { getStyleWithColorFunction } from '../components/addLayerModal/utils';
+import MapService from '../services/map';
+import PersistedLayersService from '../services/persistedLayers';
+import { showErrorNotification, showNotification } from '../utils/utils';
+class MapStore {
+  layersRefs = {};
+  layersActive = {};
+  layers = [];
+  loadingMap = false;
+  loading = false;
+  availableLayers = [];
+  service;
+  selectFeaturesMode = null;
+  selectedFeatures = { first: {}, second: {} };
+  loadingSpatialQuery = false;
+  layersPersistanceService;
+
+  constructor() {
+    makeAutoObservable(this, {
+      layersRefs: observable,
+      layersActive: observable,
+      layers: observable,
+      loadingMap: observable,
+      loading: observable,
+      selectFeaturesMode: observable,
+      loadingSpatialQuery: observable,
+      layersKeys: computed,
+      layersGeomColumns: computed,
+      setLayerRef: action,
+      toggleActiveLayer: action,
+      changeLayerStatus: action,
+      getAvailableLayers: action,
+      addLayerToMap: action,
+      toggleFeatureSelection: action,
+      hasSelectionFirst: computed,
+      hasSelectionSecond: computed,
+      hasSelection: action,
+      addFeatureToSelection: action,
+      removeFeatureFromSelection: action,
+      featureSelectionGids: computed,
+      getLayerGeometryType: action,
+      getLayerStyle: action,
+      saveLayers: action,
+      loadSavedLayers: action,
+      saveQueryIntoTable: action,
+    });
+
+    this.service = new MapService();
+    this.layersPersistanceService = new PersistedLayersService();
+
+    this.setLayerRef = this.setLayerRef.bind(this);
+    this.toggleActiveLayer = this.toggleActiveLayer.bind(this);
+    this.changeLayerStatus = this.changeLayerStatus.bind(this);
+    this.getAvailableLayers = this.getAvailableLayers.bind(this);
+    this.addLayerToMap = this.addLayerToMap.bind(this);
+    this.toggleFeatureSelection = this.toggleFeatureSelection.bind(this);
+    this.addFeatureToSelection = this.addFeatureToSelection.bind(this);
+    this.getSelectionSpatialQuery = this.getSelectionSpatialQuery.bind(this);
+    this.executeSql = this.executeSql.bind(this);
+    this.editLayer = this.editLayer.bind(this);
+    this.removeLayer = this.removeLayer.bind(this);
+    this.createConnection = this.createConnection.bind(this);
+    this.saveLayers = this.saveLayers.bind(this);
+    this.loadSavedLayers = this.loadSavedLayers.bind(this);
+  }
+
+  setLayerRef(key, value) {
+    this.layersRefs[key] = value;
+  }
+
+  toggleActiveLayer(key, value) {
+    this.layersActive[key] = value;
+  }
+
+  get layersKeys() {
+    return this.layers.map((item) => item.key);
+  }
+
+  get layersGeomColumns() {
+    const result = {};
+    this.layers.forEach((item) => {
+      result[item.key] = item.geometryColumn;
+    });
+    return result;
+  }
+
+  changeLayerStatus(key) {
+    this.loadingMap = true;
+    const index = this.layersKeys.indexOf(key);
+    this.layers[index].active = !this.layers[index].active;
+    this.loadingMap = false;
+  }
+
+  executeSql(sql) {
+    return this.service.getQuery(sql);
+  }
+  getAvailableLayers() {
+    this.loading = true;
+    this.service
+      .getTables()
+      .then((response) => {
+        runInAction(() => {
+          if (response.data) {
+            this.availableLayers = response.data;
+          } else {
+            showNotification('info', 'Não existem tabelas com colunas de Geometria no banco de dados.');
+            this.availableLayers = [];
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+        });
+      });
+  }
+
+  createConnection(object, callback) {
+    this.loading = true;
+    this.service
+      .setDatabase(object)
+      .then((response) => {
+        runInAction(() => {
+          if (response.status === 200) {
+            showNotification('success', 'Banco de dados configurado sucesso');
+            if (callback) {
+              callback();
+            }
+          } else {
+            showNotification('error', 'Ocorreu um problema na configuração do banco de dados');
+          }
+          this.loading = false;
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+          this.loading = false;
+        });
+      });
+  }
+  addLayerToMapWithoutRequest(
+    layer = {
+      name: '',
+      key: '',
+      type: 'query_result',
+      displayColumns: [],
+      data: [],
+      sql: '',
+      geometryColumn: '',
+      styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+      styleType: 'static',
+      choroplethStyleDefinition: {
+        colorFunction: null,
+        equal: false,
+        column: null,
+        defaultColor: '#3388ff',
+        values: [],
+      },
+    }
+  ) {
+    return new Promise((resolve, reject) => {
+      try {
+        const data = layer.data.map((item) => {
+          if (typeof item.geometry === 'string') {
+            item.geometry = JSON.parse(item.geometry);
+          }
+          return item;
+        });
+        layer.data = data;
+        this.layers.push(layer);
+        this.layersActive[layer.key] = true;
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  removeLayer(key) {
+    debugger;
+    this.loading = true;
+    this.loadingMap = true;
+    const newLayers = this.layers.filter((layer) => {
+      return layer.key !== key;
+    });
+    this.layers = newLayers;
+    delete this.layersActive[key];
+    delete this.layersRefs[key];
+    this.loading = false;
+    this.loadingMap = false;
+  }
+
+  editLayer(
+    layer = {
+      name: '',
+      key: '',
+      type: '',
+      displayColumns: [],
+      data: [],
+      geometryColumn: '',
+      styles: {},
+    }
+  ) {
+    this.loading = true;
+    this.loadingMap = true;
+    const index = this.layersKeys.indexOf(layer.key);
+    this.layers[index] = { ...layer };
+    this.loading = false;
+    this.loadingMap = false;
+  }
+
+  addLayerToMap(
+    layer = {
+      name: '',
+      key: '',
+      type: '',
+      displayColumns: [],
+      data: [],
+      geometryColumn: '',
+      styles: {},
+      choroplethStyleDefinition: {},
+    }
+  ) {
+    if (this.layersKeys.includes(layer.key)) {
+      showNotification('error', 'Camada já adicionada!');
+      return;
+    }
+    this.loading = true;
+    this.loadingMap = true;
+    this.service
+      .getLayer(layer.key, layer.geometryColumn)
+      .then((response) => {
+        runInAction(() => {
+          const data = response.data.map((item) => {
+            if (typeof item.geometry === 'string') {
+              item.geometry = JSON.parse(item.geometry);
+            }
+            return item;
+          });
+          layer.data = data;
+          this.layers.push(layer);
+          this.layersActive[layer.key] = true;
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+          this.loadingMap = false;
+        });
+      });
+  }
+
+  toggleFeatureSelection(type = 'first') {
+    this.selectFeaturesMode = this.selectFeaturesMode ? null : type;
+  }
+
+  clearSelectedFeatures() {
+    this.resetSelectedFeatures('first');
+    this.resetSelectedFeatures('second');
+    this.selectedFeatures = { first: {}, second: {} };
+  }
+
+  resetSelectedFeatures(type = 'first') {
+    Object.keys(this.selectedFeatures[type]).forEach((key) => {
+      this.selectedFeatures[type][key].forEach((item) => {
+        item.element.setStyle(item.oldStyle);
+      });
+    });
+  }
+
+  get hasSelectionFirst() {
+    this.hasSelection('first');
+  }
+
+  get hasSelectionSecond() {
+    this.hasSelection('second');
+  }
+
+  hasSelection(type = 'first') {
+    let result = false;
+    Object.keys(this.selectedFeatures[type]).forEach((key) => {
+      this.selectedFeatures[type][key].forEach(() => {
+        result = result || true;
+      });
+    });
+    return result;
+  }
+
+  addFeatureToSelection(key, { gid, oldStyle, element }) {
+    if (this.selectFeaturesMode) {
+      if (this.selectedFeatures[this.selectFeaturesMode][key]) {
+        this.selectedFeatures[this.selectFeaturesMode][key].push({ gid, oldStyle, element });
+      } else {
+        this.selectedFeatures[this.selectFeaturesMode][key] = [{ gid, oldStyle, element }];
+      }
+    } else {
+      showNotification('error', 'Erro! Tipo de seleção inválido.');
+    }
+  }
+
+  removeFeatureFromSelection(key, gid) {
+    if (this.selectFeaturesMode) {
+      const index = this.featureSelectionGids[this.selectFeaturesMode][key].indexOf(gid);
+      this.selectedFeatures[this.selectFeaturesMode][key].splice(index, 1);
+    } else {
+      showNotification('error', 'Erro! Tipo de seleção inválido.');
+    }
+  }
+
+  forceDisplaySelected() {
+    if (this.selectFeaturesMode) {
+      Object.keys(this.selectedFeatures[this.selectFeaturesMode]).forEach((layer) => {
+        this.selectedFeatures[this.selectFeaturesMode][layer].forEach((selection) => {
+          const selectionStyle = {
+            weight: 5,
+            color: this.selectFeaturesMode === 'first' ? '#FFFF00' : '#b81212',
+            dashArray: '',
+            fillOpacity: 0.7,
+            fillColor: this.selectFeaturesMode === 'first' ? '#FFFF00' : '#b81212',
+          };
+
+          selection.element.setStyle(selectionStyle);
+        });
+      });
+    }
+  }
+
+  isFeatureSelected(key, gid) {
+    let result = false;
+    if (this.selectFeaturesMode && this.featureSelectionGids[this.selectFeaturesMode][key]) {
+      result = this.featureSelectionGids[this.selectFeaturesMode][key].includes(gid);
+    }
+    return result;
+  }
+
+  get featureSelectionGids() {
+    const result = {};
+    Object.keys(this.selectedFeatures).forEach((key) => {
+      result[key] = {};
+      if (this.selectedFeatures[key]) {
+        const layers = Object.keys(this.selectedFeatures[key]);
+        layers.forEach((layer) => {
+          result[key][layer] = this.selectedFeatures[key][layer].map((selection) => selection.gid);
+        });
+      }
+    });
+    return result;
+  }
+
+  getSelectionSpatialQuery({ operation, layerName, auxiliar }, callback, booleanQueryLayer = null) {
+    if (this.layersKeys.includes(layerName) && !['area', 'distance', 'length', 'perimeter'].includes(operation)) {
+      showNotification('error', 'Camada já adicionada!');
+      return;
+    }
+
+    const keysA = Object.keys(this.selectedFeatures.first);
+    const keysB = Object.keys(this.selectedFeatures.second);
+
+    const requestData = {
+      first: {},
+      second: {},
+      operation,
+    };
+    debugger;
+    keysA.forEach((key) => {
+      requestData.first[key] = { data: [], geometryColumn: this.layersGeomColumns[key] };
+      requestData.first[key].data = this.selectedFeatures.first[key].map((item) => item.gid);
+    });
+    keysB.forEach((key) => {
+      requestData.second[key] = { data: [], geometryColumn: this.layersGeomColumns[key] };
+      requestData.second[key].data = this.selectedFeatures.second[key].map((item) => item.gid);
+    });
+
+    if (booleanQueryLayer) {
+      requestData.second = {
+        [booleanQueryLayer]: { data: [], geometryColumn: this.layersGeomColumns[booleanQueryLayer] },
+      };
+    }
+
+    if (operation === 'buffer') {
+      requestData.auxiliar = auxiliar / 111;
+    }
+
+    this.loadingSpatialQuery = true;
+
+    this.service
+      .getSpatialQuery(requestData)
+      .then((response) => {
+        runInAction(() => {
+          const data = response.data.data.map((item) => {
+            if (typeof item.geometry === 'string') {
+              item.geometry = JSON.parse(item.geometry);
+            }
+            return item;
+          });
+
+          if (!['area', 'distance', 'length', 'perimeter'].includes(operation)) {
+            const layer = {
+              name: layerName,
+              key: layerName,
+              type: 'query_result',
+              sql: response.data.query,
+              displayColumns: [],
+              data,
+              geometryColumn: 'unknown',
+              styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+              styleType: 'static',
+              choroplethStyleDefinition: {
+                colorFunction: null,
+                equal: false,
+                column: null,
+                defaultColor: '#3388ff',
+                values: [],
+              },
+            };
+            this.layers.push(layer);
+            this.layersActive[layer.key] = true;
+          }
+          this.clearSelectedFeatures();
+          if (callback) {
+            callback(data);
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showErrorNotification(error);
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loadingSpatialQuery = false;
+        });
+      });
+  }
+
+  getLayerGeometryType(layer = null) {
+    if (layer) {
+      const layerIndex = this.layersKeys.indexOf(layer);
+      if (layerIndex >= 0 && this.layers[layerIndex].data.length > 0) {
+        const layerData = this.layers[layerIndex].data;
+        let type = 'unknown';
+        if (layerData.length > 0 && layerData[0].geometry && layerData[0].geometry.type) {
+          type = layerData[0].geometry.type;
+        }
+        return type ?? 'unknown';
+      }
+    }
+    return 'unknown';
+  }
+
+  getLayerStyle(layer = null) {
+    let styles = { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 };
+    if (layer) {
+      const layerIndex = this.layersKeys.indexOf(layer);
+      if (layerIndex >= 0 && this.layers[layerIndex].styles) {
+        styles = this.layers[layerIndex].styles;
+      }
+    }
+    return styles;
+  }
+
+  async saveLayers() {
+    this.loading = true;
+
+    try {
+      await this.layersPersistanceService.deleteAll();
+
+      const promises = [];
+      this.layers.map((layer) => {
+        if (layer.type !== 'query_result') {
+          const data = Object.assign({}, layer);
+          delete data.data;
+          promises.push(this.layersPersistanceService.saveLayer({ table: layer.key, data }));
+        }
+      });
+
+      Promise.all(promises);
+      showNotification('success', 'Camadas salvas com sucesso!');
+    } catch (err) {
+      showErrorNotification(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  loadSavedLayers() {
+    this.loading = true;
+
+    this.layersPersistanceService
+      .getLayers()
+      .then((response) => {
+        runInAction(() => {
+          if (response.data && response.data.length > 0) {
+            response.data.forEach((layer) => {
+              const parsedJson = JSON.parse(layer.json);
+              const newStyle = getStyleWithColorFunction(parsedJson.choroplethStyleDefinition);
+              parsedJson.styles.colorFunction = newStyle.colorFunction;
+              this.addLayerToMap(parsedJson);
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        runInAction(() => {
+          showNotification('error', error ? error.toString() : null);
+        });
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.loading = false;
+        });
+      });
+  }
+
+  async saveQueryIntoTable(key) {
+    this.loading = true;
+    const index = this.layersKeys.indexOf(key);
+
+    if (index === -1) {
+      showNotification('error', 'Ocorreu um erro inesperado!');
+      throw 'Index out of bounds';
+    }
+    const sql = this.layers[index].sql;
+
+    try {
+      await this.service.saveQueryIntoTable({ tableName: key, sql });
+
+      this.layers[index].type = 'polygon';
+      this.layers[index].geometryColumn = 'geom';
+
+      const response = await this.service.getLayer(key, 'geom');
+
+      const data = response.data.map((item) => {
+        if (typeof item.geometry === 'string') {
+          item.geometry = JSON.parse(item.geometry);
+        }
+        return item;
+      });
+
+      this.layers[index].data = data;
+
+      showNotification('success', 'Consulta salva em Tabela com sucesso!');
+    } catch (err) {
+      showErrorNotification(err);
+    } finally {
+      this.loading = false;
+    }
+  }
+}
+
+export default MapStore;
+import React, { useState } from 'react';
+import { Menu } from 'antd';
+import {
+  SettingOutlined,
+  PlusOutlined,
+  DatabaseOutlined,
+  RadiusSettingOutlined,
+  GlobalOutlined,
+  BlockOutlined,
+  SaveOutlined,
+} from '@ant-design/icons';
+import { observer } from 'mobx-react';
+import './style.css';
+import { useStores } from '../../hooks/useStores';
+import AddLayerModal from '../addLayerModal';
+import SelectedQueryModal from '../selectedQueryModal';
+import SqlModal from '../sqlModal';
+import DbConfigModal from '../dbConfig';
+import DatabaseTableListModal from '../dbTableList';
+
+const { SubMenu } = Menu;
+
+const TopMenu = observer(() => {
+  const { mapStore } = useStores();
+  const [showAddLayersModal, setShowAddLayersModal] = useState(false);
+  const [showSelectedQueryModal, setShowSelectedQueryModal] = useState(false);
+  const [showSqlModal, setShowSqlModal] = useState(false);
+  const [showDatabaseListModal, setShowDatabaseListModal] = useState(false);
+
+  const toggleAddLayersModal = () => {
+    !showAddLayersModal && mapStore.getAvailableLayers();
+    setShowAddLayersModal(!showAddLayersModal);
+  };
+
+  const toggleShowSelectedQueryModal = () => {
+    setShowSelectedQueryModal(!showSelectedQueryModal);
+  };
+
+  const toggleSqlModal = () => {
+    setShowSqlModal(!showSqlModal);
+  };
+
+  const toggleDatabaseListModal = () => {
+    setShowDatabaseListModal(!showDatabaseListModal);
+  };
+
+  return (
+    <div>
+      <span className="menu-section">
+        <Menu selectedKeys={[]} mode="horizontal">
+          <SubMenu key="add" icon={<PlusOutlined />} title="Adicionar">
+            <Menu.Item icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="layer">
+              Camada Vetorial
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="save" icon={<SaveOutlined />} title="Salvar">
+            <Menu.Item icon={<GlobalOutlined />} onClick={mapStore.saveLayers} key="map-state">
+              Estado Atual do Mapa
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="spatial-query" icon={<GlobalOutlined />} title="Consulta Espacial">
+            <Menu.Item icon={<BlockOutlined />} onClick={toggleShowSelectedQueryModal} key="query-selection">
+              A partir de Seleção
+            </Menu.Item>
+            <Menu.Item icon={<DatabaseOutlined />} onClick={toggleSqlModal} key="query-sql">
+              Consulta SQL
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="config" icon={<SettingOutlined />} title="Configurações">
+            <Menu.Item icon={<DatabaseOutlined />} onClick={toggleDatabaseListModal} key="db-conexion">
+              Conexão à Banco de Dados
+            </Menu.Item>
+          </SubMenu>
+        </Menu>
+      </span>
+      <span className="logo-text">
+        <b>NodeGIS</b>
+      </span>
+      <SelectedQueryModal
+        visible={showSelectedQueryModal}
+        onOk={toggleShowSelectedQueryModal}
+        onCancel={toggleShowSelectedQueryModal}
+      />
+      <AddLayerModal
+        editLayerKey={null}
+        visible={showAddLayersModal}
+        onOk={toggleAddLayersModal}
+        onCancel={toggleAddLayersModal}
+      />
+      <SqlModal visible={showSqlModal} onCancel={toggleSqlModal} />
+      <DatabaseTableListModal visible={showDatabaseListModal} onCancel={toggleDatabaseListModal} />
+    </div>
+  );
+});
+
+export default TopMenu;
+import React, { useState } from 'react';
+import { useStores } from '../../hooks/useStores';
+import { observer } from 'mobx-react';
+import Modal from 'antd/lib/modal/Modal';
+import { Button, Col, Collapse, Input, InputNumber, Row, Select, Spin } from 'antd';
+import './style.css';
+import { SelectOutlined } from '@ant-design/icons';
+import descriptions from '../../constants/FunctionsDescriptions';
+import { showNotification } from '../../utils/utils';
+
+const { Option } = Select;
+
+const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
+  const { mapStore } = useStores();
+  const operationsList = [
+    { value: 'union', label: 'União' },
+    { value: 'diff', label: 'Diferença' },
+    { value: 'intersection', label: 'Intersecção' },
+    { value: 'contains', label: 'Contém' },
+    { value: 'crosses', label: 'Cruza' },
+    { value: 'touches', label: 'Toca' },
+    { value: 'within', label: 'Está Dentro' },
+    { value: 'intersects', label: 'Interceptam' },
+    { value: 'area', label: 'Área' },
+    { value: 'distance', label: 'Distância' },
+    { value: 'length', label: 'Comprimento' },
+    { value: 'perimeter', label: 'Perímetro' },
+    { value: 'buffer', label: 'Buffer' },
+    { value: 'centroid', label: 'Centróide' },
+  ];
+  const nonGeomResultOperations = ['area', 'distance', 'length', 'perimeter'];
+  const layerSelectOnB = ['contains', 'crosses', 'touches', 'within', 'intersects'];
+  const [selectedOperation, setSelectedOperation] = useState('union');
+  const [queryLayerName, setQueryLayerName] = useState('camada_query');
+  const [nonGeomResultData, setNonGeomResultData] = useState([]);
+  const [selectedLayer, setSelectedLayer] = useState('');
+  const [auxiliarParam, setAuxiliarParam] = useState(0);
+
+  const renderTableSelect = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Seleção de Operação</div>
+        <div>
+          <Select
+            placeholder={'Selecione uma operação'}
+            style={{ width: '100%' }}
+            onChange={(value) => {
+              clearAllData();
+              setSelectedOperation(value);
+            }}
+            allowClear={false}
+            value={selectedOperation}
+          >
+            {operationsList.map(({ value, label }) => {
+              return <Option value={value}>{label}</Option>;
+            })}
+          </Select>
+        </div>
+      </div>
+    );
+  };
+
+  const renderNameInput = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Nome da Camada</div>
+        <div>
+          <Input
+            placeholder={'Informe o valor'}
+            style={{ width: '100%' }}
+            value={queryLayerName}
+            onChange={(event) => setQueryLayerName(event.target.value)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const renderAuxInput = () => {
+    return (
+      <div className="field">
+        {selectedOperation === 'buffer' && <div className="field-label">Raio do Buffer (km)</div>}
+        <div>
+          <InputNumber
+            placeholder={'Informe o valor'}
+            style={{ width: '100%' }}
+            value={auxiliarParam}
+            min={0}
+            step={0.01}
+            onChange={(value) => setAuxiliarParam(value)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const renderFeatureSelection = () => {
+    return (
+      <div className="field">
+        <Row>{selectedOperation ? descriptions[selectedOperation] : ''}</Row>
+        <Row gutter={16} style={{ marginTop: '20px' }}>
+          <Col span={12} style={{ alignContent: 'center' }}>
+            <Button
+              onClick={() => {
+                mapStore.toggleFeatureSelection('first');
+                mapStore.forceDisplaySelected();
+              }}
+              type={mapStore.hasSelectionFirst ? 'primary' : 'dashed'}
+              style={{ width: '100%' }}
+              icon={<SelectOutlined />}
+            >
+              Selecionar{' '}
+              {!['union', 'area', 'buffer', 'length', 'perimeter', 'centroid'].includes(selectedOperation) ? 'A' : ''}
+            </Button>
+          </Col>
+          <Col span={12}>
+            {!['union', 'area', 'buffer', 'length', 'perimeter', 'centroid'].includes(selectedOperation) ? (
+              !layerSelectOnB.includes(selectedOperation) ? (
+                <Button
+                  onClick={() => {
+                    mapStore.toggleFeatureSelection('second');
+                    mapStore.forceDisplaySelected();
+                  }}
+                  type={mapStore.hasSelectionFirst ? 'primary' : 'dashed'}
+                  style={{ width: '100%' }}
+                  icon={<SelectOutlined />}
+                >
+                  Selecionar B
+                </Button>
+              ) : (
+                <Select
+                  placeholder={'Selecione uma camada'}
+                  style={{ width: '100%' }}
+                  onChange={(value) => {
+                    setSelectedLayer(value);
+                  }}
+                  allowClear={false}
+                  value={selectedLayer}
+                >
+                  {mapStore.layers
+                    .filter(({ type }) => type !== 'query_result')
+                    .map(({ name, key }) => {
+                      return <Option value={key}>{name}</Option>;
+                    })}
+                </Select>
+              )
+            ) : null}
+          </Col>
+        </Row>
+      </div>
+    );
+  };
+
+  const renderNonGeomResult = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Resultado da Consulta</div>
+        {Object.keys(nonGeomResultData[0]).map((key) => {
+          return (
+            <div>
+              <span>{key}: </span>
+              <span>{nonGeomResultData[0][key]}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const clearAllData = () => {
+    mapStore.clearSelectedFeatures();
+    setSelectedOperation('union');
+    setQueryLayerName('camada_query');
+    setNonGeomResultData([]);
+    setSelectedLayer('');
+    setAuxiliarParam(0);
+  };
+
+  const validateOk = () => {
+    if (!mapStore.hasSelection('first')) {
+      showNotification('error', "Selecione o conjunto de feições 'A' para realizar a operação.");
+      return false;
+    }
+
+    if (!mapStore.hasSelection('second') && ['diff', 'intersection', 'distance'].includes(selectedOperation)) {
+      showNotification('error', 'Selecione o conjunto de feições B para realizar a operação.');
+      return false;
+    }
+
+    if (['contains', 'crosses', 'touches', 'within', 'intersects'].includes(selectedOperation) && !selectedLayer) {
+      showNotification('error', 'Selecione a camada base para realizar a operação.');
+      return false;
+    }
+
+    if (selectedOperation === 'buffer' && !auxiliarParam) {
+      showNotification('error', 'Informe o valor do raio do buffer');
+      return false;
+    }
+    return true;
+  };
+
+  return (
+    <Modal
+      title="Consulta Espacial - A partir de seleção"
+      okText="Realizar Consulta"
+      cancelText="Fechar"
+      visible={visible && !mapStore.selectFeaturesMode}
+      onOk={() => {
+        if (validateOk()) {
+          mapStore.getSelectionSpatialQuery(
+            { operation: selectedOperation, layerName: queryLayerName, auxiliar: auxiliarParam },
+            nonGeomResultOperations.includes(selectedOperation) ? setNonGeomResultData : onCancel,
+            layerSelectOnB.includes(selectedOperation) ? selectedLayer : null
+          );
+        }
+      }}
+      onCancel={() => {
+        clearAllData();
+        onCancel();
+      }}
+      confirmLoading={mapStore.loadingSpatialQuery}
+      key="modal-add-layer"
+    >
+      {mapStore.loading ? (
+        <Spin />
+      ) : (
+        <div>
+          {renderTableSelect()}
+          {renderFeatureSelection()}
+          {!nonGeomResultOperations.includes(selectedOperation) && renderNameInput()}
+          {selectedOperation === 'buffer' && renderAuxInput()}
+          {nonGeomResultData.length > 0 && renderNonGeomResult()}
+        </div>
+      )}
+    </Modal>
+  );
+});
+
+export default SelectedQueryModal;
+export const getStyleWithColorFunction = (style) => {
+  const { equal, defaultColor, values, column } = style;
+  const conditions = values.sort((a, b) => a.pos - b.pos);
+
+  const colorFunction = (properties) => {
+    const innerConditions = conditions;
+    const mapValue = properties[column];
+    let resultColor;
+    innerConditions.forEach(({ value, color }) => {
+      if ((!equal && mapValue >= value) || (equal && mapValue == value)) {
+        resultColor = color;
+      }
+    });
+    return resultColor ?? defaultColor;
+  };
+
+  const result = Object.assign({}, style);
+  result.colorFunction = colorFunction;
+
+  return result;
+};
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  TableOutlined,
+} from '@ant-design/icons';
+import { Button, Select, Collapse, Input, Modal, Radio, Table, Row, Col } from 'antd';
+import { observer } from 'mobx-react';
+import { useEffect, useState } from 'react';
+import './style.css';
+import { getStyleWithColorFunction } from './utils';
+
+const ChoroplethModal = observer(
+  ({
+    onOk,
+    onCancel,
+    visible,
+    styleDefinition = {
+      equal: false,
+      column: null,
+      defaultColor: '#3388ff',
+      values: [],
+    },
+    tableColumns,
+  }) => {
+    const [style, setStyle] = useState(styleDefinition);
+    const [showForm, setShowForm] = useState(false);
+    const [formData, setFormData] = useState({ pos: null, value: null, color: '#3388ff' });
+    const [editType, setEditType] = useState('new');
+    const columnsChoropleth = [
+      { title: 'Precedência', dataIndex: 'pos', key: 'value' },
+      { title: 'Valor', dataIndex: '', key: 'value', render: (row) => renderValue(row) },
+      {
+        title: 'Cor',
+        dataIndex: 'color',
+        key: 'color',
+        render: (color) => <TableOutlined style={{ color: color, fontSize: '20px' }} />,
+      },
+      {
+        title: '',
+        dataIndex: '',
+        key: '',
+        render: (row) => {
+          return (
+            <span style={{ float: 'right' }}>
+              <Button
+                disabled={showForm}
+                onClick={() => editValue(row)}
+                style={{ marginRight: '5px' }}
+                icon={<EditOutlined />}
+              />
+              <Button disabled={showForm} onClick={() => deleteValue(row)} danger icon={<DeleteOutlined />} />
+            </span>
+          );
+        },
+      },
+    ];
+
+    useEffect(() => {
+      resetFormData();
+      setStyle(styleDefinition);
+      setShowForm(false);
+    }, [visible]);
+
+    const renderValue = (row) => {
+      const { value } = row;
+      if (style.equal) {
+        return `igual à ${value}`;
+      } else {
+        return `maior ou igual à ${value}`;
+      }
+    };
+
+    const resetFormData = () => {
+      setFormData({ pos: null, value: null, color: '#3388ff' });
+    };
+
+    const onChangeFormData = (key, value) => {
+      setFormData({ ...formData, [key]: value });
+    };
+
+    const renderValueForm = () => {
+      return (
+        <div style={{ paddingBottom: '25px' }}>
+          <div className="field">
+            <div className="field-label">{style.equal ? 'Valor' : 'Valor Inicial'}</div>
+            <div>
+              <Input
+                value={formData.value}
+                onChange={(e) => onChangeFormData('value', e.target.value)}
+                placeholder="Informe o valor"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <div className="field-label">Cor</div>
+            <div>
+              <input
+                type="color"
+                style={{ width: '100px' }}
+                value={formData.color}
+                onChange={(event) => onChangeFormData('color', event.target.value)}
+              />
+            </div>
+          </div>
+
+          <div style={{ float: 'right' }}>
+            <Button
+              onClick={() => {
+                setShowForm(false);
+                resetFormData();
+              }}
+              icon={<CloseOutlined />}
+              style={{ marginRight: '10px', color: 'red' }}
+            >
+              Cancelar
+            </Button>
+            <Button icon={<CheckOutlined />} onClick={onAddValue} style={{ color: 'green' }}>
+              {editType === 'new' ? 'Adicionar' : 'Salvar'} Valor
+            </Button>
+          </div>
+        </div>
+      );
+    };
+
+    const deleteValue = (row) => {
+      const newStyle = { ...style };
+      newStyle.values.splice(row.pos, 1);
+      newStyle.values = newStyle.values.map((item, idx) => {
+        item.pos = idx;
+        return item;
+      });
+      setStyle(newStyle);
+    };
+
+    const editValue = (row) => {
+      setEditType('edit');
+      setFormData(row);
+      setShowForm(true);
+    };
+
+    const onAddValue = () => {
+      const newStyle = { ...style };
+      if (editType === 'new') {
+        newStyle.values.push(formData);
+        newStyle.values = newStyle.values.map((item, idx) => {
+          item.pos = idx;
+          return item;
+        });
+      } else {
+        newStyle.values[formData.pos] = formData;
+      }
+      setStyle(newStyle);
+      setShowForm(false);
+      resetFormData();
+    };
+
+    const onOkGenerateFunction = () => {
+      onOk(getStyleWithColorFunction(style));
+    };
+
+    return (
+      <Modal
+        visible={visible}
+        title={'Definição de Estilo de Mapa Temático'}
+        onCancel={onCancel}
+        onOk={onOkGenerateFunction}
+        closable={false}
+        okText="Salvar"
+        width={'70%'}
+        cancelText="Cancelar"
+      >
+        <Row gutter={8}>
+          <Col span={12}>
+            <div className="field">
+              <div className="field-label">Tipo de Comparação</div>
+              <Radio.Group
+                value={style.equal ? 'equal' : 'steps'}
+                onChange={(e) => {
+                  setStyle({ ...style, equal: e.target.value === 'equal' });
+                }}
+                name="radiogroup"
+                defaultValue={'steps'}
+              >
+                <Radio value={'steps'}>Intervalos</Radio>
+                <Radio value={'equal'}>Igualdade</Radio>
+              </Radio.Group>
+            </div>
+          </Col>
+          <Col span={12}>
+            <div className="field">
+              <div className="field-label">Cor Padrão</div>
+              <input
+                type="color"
+                style={{ width: '100px' }}
+                value={style.defaultColor}
+                onChange={(event) => setStyle({ ...style, defaultColor: event.target.value })}
+              />
+            </div>
+          </Col>
+        </Row>
+        <div className="field">
+          <div className="field-label">Coluna</div>
+          <div>
+            <Select
+              placeholder={'Selecione uma coluna'}
+              style={{ width: '100%' }}
+              showSearch
+              onChange={(value) => {
+                setStyle({ ...style, column: value });
+              }}
+              value={style.column}
+              defaultValue={style.column}
+            >
+              {tableColumns.map((col) => {
+                return <Select.Option value={col}>{col}</Select.Option>;
+              })}
+            </Select>
+          </div>
+        </div>
+        <Table
+          size="small"
+          pagination={{ pageSize: 10 }}
+          columns={columnsChoropleth}
+          dataSource={style.values}
+          key={new Date()}
+        />
+        <div className="add-value-choropleth">
+          {!showForm && (
+            <Button
+              onClick={() => {
+                setShowForm(true);
+                setEditType('new');
+              }}
+              icon={<PlusOutlined />}
+              type="dashed"
+              style={{ width: '100%' }}
+            >
+              Adicionar Valor
+            </Button>
+          )}
+          <Collapse activeKey={showForm ? '1' : null}>
+            <Collapse.Panel header="This is panel header 1" key="1">
+              {showForm && renderValueForm()}
+            </Collapse.Panel>
+          </Collapse>
+        </div>
+      </Modal>
+    );
+  }
+);
+
+export default ChoroplethModal;
+import React, { useEffect, useState } from 'react';
+import { useStores } from '../../hooks/useStores';
+import { observer } from 'mobx-react';
+import Modal from 'antd/lib/modal/Modal';
+import { Button, Collapse, Input, Select, Spin, Table, Row, Col, InputNumber, Radio } from 'antd';
+import './style.css';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { toJS } from 'mobx';
+import { showNotification } from '../../utils/utils';
+import ChoroplethModal from './cloroplethModal';
+
+const { Option } = Select;
+const { Panel } = Collapse;
+
+const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
+  const { mapStore } = useStores();
+  const [formData, setFormData] = useState({
+    name: '',
+    key: null,
+    type: 'polygon',
+    data: [],
+    geometryColumn: '',
+    styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+    styleType: 'static',
+  });
+  // const [informationColumns, setInformationColumns] = useState([]);
+  const [tooltipColumns, setTooltipColumns] = useState([]);
+  const [visibleInfoModal, setVisibleInfoModal] = useState(false);
+  const [visibleChoroplethModal, setVisibleChoroplethModal] = useState(false);
+  const [selectedColumn, setSelectedColumn] = useState('');
+  const [columnLabel, setColumnLabel] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [choroplethStyleDefinition, setChoroplethStyleDefinition] = useState({
+    colorFunction: null,
+    equal: false,
+    column: null,
+    defaultColor: '#3388ff',
+    values: [],
+  });
+
+  useEffect(() => {
+    const index = mapStore.layersKeys.indexOf(editLayerKey);
+
+    if (index !== -1) {
+      const layer = toJS(mapStore.layers[index]);
+      setFormData(layer);
+      setTooltipColumns(layer.displayColumns);
+      setChoroplethStyleDefinition(layer.choroplethStyleDefinition);
+    }
+  }, [editLayerKey, visible]);
+
+  const onChangeValue = (value, key) => {
+    debugger;
+    setFormData({ ...formData, [key]: value });
+  };
+
+  const onChangeValueStyles = (value, key) => {
+    setFormData({ ...formData, styles: { ...formData.styles, [key]: value } });
+  };
+
+  const onChangeValueFromObject = (data) => {
+    setFormData({ ...formData, ...data });
+  };
+
+  const addLayerToMap = () => {
+    if (editLayerKey) {
+      mapStore.editLayer({
+        ...formData,
+        displayColumns: tooltipColumns,
+        choroplethStyleDefinition: choroplethStyleDefinition,
+      });
+    } else {
+      mapStore.addLayerToMap({
+        ...formData,
+        displayColumns: tooltipColumns,
+        choroplethStyleDefinition: choroplethStyleDefinition,
+      });
+    }
+    onOk();
+    setFormData({
+      name: '',
+      key: null,
+      type: 'polygon',
+      displayColumns: [],
+      geometryColumn: '',
+      data: [],
+      styleType: 'static',
+      styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+    });
+    setChoroplethStyleDefinition({
+      colorFunction: null,
+      equal: false,
+      column: null,
+      defaultColor: '#3388ff',
+      values: [],
+    });
+  };
+
+  const renderTableSelect = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Tabela</div>
+        <div>
+          <Select
+            disabled={editLayerKey}
+            value={formData.key}
+            placeholder={'Selecione uma tabela'}
+            style={{ width: '100%' }}
+            showSearch
+            onChange={(value) => {
+              onChangeValueFromObject({
+                key: value,
+                name: value,
+                geometryColumn: undefined,
+              });
+              setTooltipColumns([]);
+            }}
+          >
+            {mapStore.availableLayers.map((layer) => {
+              return <Option value={layer.name}>{layer.name}</Option>;
+            })}
+          </Select>
+        </div>
+      </div>
+    );
+  };
+
+  const renderGemotryColumnSelect = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Coluna Geométrica</div>
+        <div>
+          <Select
+            placeholder={'Selecione uma coluna geométrica'}
+            style={{ width: '100%' }}
+            value={formData.geometryColumn}
+            onChange={(value) => {
+              onChangeValue(value, 'geometryColumn');
+            }}
+          >
+            {mapStore.availableLayers
+              .find((table) => table.name === formData.key)
+              .geometryColumns.map((column) => {
+                return <Option value={column}>{column}</Option>;
+              })}
+          </Select>
+        </div>
+      </div>
+    );
+  };
+
+  const renderNameInput = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Nome da Camada</div>
+        <div>
+          <Input
+            placeholder={'Informe o valor'}
+            style={{ width: '100%' }}
+            value={formData.name}
+            onChange={(event) => onChangeValue(event.target.value, 'name')}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const validateColumnSelect = (columnName) => {
+    return tooltipColumns.some((col) => col.column === columnName);
+  };
+
+  const renderColumnSelect = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Coluna</div>
+        <div>
+          <Select
+            placeholder={'Selecione uma coluna'}
+            style={{ width: '100%' }}
+            showSearch
+            onChange={(value) => {
+              setSelectedColumn(value);
+              setColumnLabel(value);
+            }}
+            // value={selectedColumn}
+          >
+            {getSelectedTableColumns().map((layer) => {
+              return (
+                <Option disabled={validateColumnSelect(layer)} value={layer}>
+                  {layer}
+                </Option>
+              );
+            })}
+          </Select>
+        </div>
+      </div>
+    );
+  };
+
+  const getSelectedTableColumns = () => {
+    const layer = mapStore.availableLayers.find((table) => table.name === formData.key);
+    return layer ? layer.columns : [];
+  };
+
+  const renderColumnNameInput = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Nome da Coluna</div>
+        <div>
+          <Input
+            placeholder={'Informe o valor'}
+            style={{ width: '100%' }}
+            value={columnLabel}
+            onChange={(event) => setColumnLabel(event.target.value)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const colorPicker = (value) => {
+    return (
+      <input
+        type="color"
+        style={{ width: '50%' }}
+        value={formData.styles[value]}
+        onChange={(event) => onChangeValueStyles(event.target.value, [value])}
+      />
+    );
+  };
+
+  const renderLayerColorInput = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Cor do Preenchimento</div>
+        {colorPicker('fillColor')}
+      </div>
+    );
+  };
+
+  const renderLayerOpacity = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Opacidade do Preenchimento</div>
+        <InputNumber
+          defaultValue={formData.styles.fillOpacity}
+          min={0}
+          max={1}
+          step="0.1"
+          onChange={(value) => onChangeValueStyles(value, 'fillOpacity')}
+        />
+      </div>
+    );
+  };
+
+  const renderStrokeColorInput = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Cor das Linhas</div>
+        {colorPicker('color')}
+      </div>
+    );
+  };
+
+  const renderStrokeWidth = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Largura das Linhas em Pixels</div>
+        <InputNumber defaultValue={formData.styles.weight} onChange={(value) => onChangeValueStyles(value, 'weight')} />
+      </div>
+    );
+  };
+
+  const renderStrokeOpacity = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Opacidade das Linhas</div>
+        <InputNumber
+          defaultValue={formData.styles.opacity}
+          min={0}
+          max={1}
+          step="0.1"
+          onChange={(value) => onChangeValueStyles(value, 'opacity')}
+        />
+      </div>
+    );
+  };
+
+  const removeColumn = (key) => {
+    setLoading(true);
+    const index = tooltipColumns.map((item) => item.key).indexOf(key);
+    const newList = tooltipColumns;
+    newList.splice(index, 1);
+    setTooltipColumns(newList);
+    setTimeout(setLoading, 200);
+  };
+
+  const columnsTooltip = [
+    { title: 'Coluna', dataIndex: 'column', key: 'column' },
+    { title: 'Nome', dataIndex: 'label', key: 'label' },
+    {
+      title: '',
+      dataIndex: '',
+      key: '',
+      render: (row) => {
+        return <Button danger icon={<DeleteOutlined />} onClick={() => removeColumn(row.key)} />;
+      },
+    },
+  ];
+
+  const addColumnToList = () => {
+    setLoading(true);
+    const obj = { column: selectedColumn, label: columnLabel, key: selectedColumn };
+    const newList = tooltipColumns;
+    newList.push(obj);
+    setTooltipColumns(newList);
+    setVisibleInfoModal(false);
+    setSelectedColumn('');
+    setColumnLabel('');
+    setTimeout(setLoading, 500);
+  };
+
+  const styleTypeSelector = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Tipo de Estilização</div>
+        <Radio.Group
+          value={formData.styleType}
+          onChange={(e) => {
+            debugger;
+            onChangeValue(e.target.value, 'styleType');
+            if (e.target.value === 'static') {
+              // onChangeValueStyles('#3388ff', 'fillColor');
+            }
+          }}
+          name="radiogroup"
+          defaultValue={1}
+        >
+          <Radio value={'static'}>Estática</Radio>
+          <Radio value={'choropleth'}>Temática</Radio>
+        </Radio.Group>
+      </div>
+    );
+  };
+
+  const renderTooltipPanelContent = () => {
+    if (formData.type !== 'query_result') {
+      return (
+        <>
+          <Button
+            onClick={() => setVisibleInfoModal(true)}
+            type="primary"
+            icon={<PlusOutlined />}
+            style={{ marginBottom: '10px' }}
+            disabled={!formData.key}
+          >
+            Nova Coluna
+          </Button>
+          <Table
+            size="small"
+            pagination={{ pageSize: 5 }}
+            loading={loading}
+            columns={columnsTooltip}
+            dataSource={tooltipColumns}
+            key={new Date()}
+          />
+          {visibleInfoModal && renderAddColumnToolTipModal()}
+        </>
+      );
+    }
+  };
+
+  const renderAddColumnToolTipModal = () => {
+    return (
+      <Modal
+        visible={visibleInfoModal}
+        onCancel={() => {
+          setVisibleInfoModal(false);
+          setSelectedColumn('');
+          setColumnLabel('');
+        }}
+        onOk={addColumnToList}
+        title="Nova Coluna"
+        closable={false}
+        okText="Adicionar"
+        cancelText="Cancelar"
+        key="modal-columns-add"
+      >
+        {renderColumnSelect()}
+        {renderColumnNameInput()}
+      </Modal>
+    );
+  };
+
+  const renderStylePanelContent = () => {
+    return (
+      <>
+        <Row>{styleTypeSelector()}</Row>
+        <Row>
+          <Col span={12}>{renderStrokeOpacity()}</Col>
+          <Col span={12}>{renderStrokeColorInput()}</Col>
+        </Row>
+        <Row>
+          <Col span={12}>{renderLayerOpacity()}</Col>
+          {formData.styleType === 'static' && <Col span={12}>{renderLayerColorInput()}</Col>}
+        </Row>
+        {formData.styleType === 'choropleth' && (
+          <Row>
+            <Button onClick={() => setVisibleChoroplethModal(true)} style={{ width: '100%', marginBottom: '20px' }}>
+              Definir Condição de Preenchimento
+            </Button>
+            {visibleChoroplethModal && (
+              <ChoroplethModal
+                onOk={(styleDefinition) => {
+                  // onChangeValue(styleDefinition, 'choroplethStyleDefinition');
+                  setChoroplethStyleDefinition(styleDefinition);
+                  onChangeValueStyles(styleDefinition.colorFunction, 'colorFunction');
+                  setVisibleChoroplethModal(false);
+                }}
+                onCancel={() => setVisibleChoroplethModal(false)}
+                visible={visibleChoroplethModal}
+                styleDefinition={choroplethStyleDefinition}
+                tableColumns={getSelectedTableColumns()}
+              />
+            )}
+          </Row>
+        )}
+        <Row>
+          <Col span={12}>{renderStrokeWidth()}</Col>
+        </Row>
+      </>
+    );
+  };
+
+  return (
+    <Modal
+      title={editLayerKey ? 'Edit Layer' : 'Add New Vector Layer'}
+      okText={editLayerKey ? 'Save' : 'Add'}
+      cancelText="Cancelar"
+      visible={visible}
+      onOk={addLayerToMap}
+      onCancel={onCancel}
+      key="modal-add-layer"
+      okButtonProps={{ disabled: !formData.key || !formData.geometryColumn }}
+    >
+      {mapStore.loading ? (
+        <Spin />
+      ) : (
+        <div>
+          {renderTableSelect()}
+          {renderNameInput()}
+          {!editLayerKey && formData.key && renderGemotryColumnSelect()}
+          <Collapse ghost key="" accordion>
+            <Panel header="Tooltip" key="tooltip" disabled collapsible={formData.key ? 'header' : 'disabled'}>
+              {renderTooltipPanelContent()}
+            </Panel>
+            <Panel header="Estilização da camada" key="style" collapsible={formData.key ? 'header' : 'disabled'}>
+              {renderStylePanelContent()}
+            </Panel>
+          </Collapse>
+        </div>
+      )}
+    </Modal>
+  );
+});
+
+export default AddLayerModal;
+import Layout, { Content, Header } from 'antd/lib/layout/layout';
+import Sider from 'antd/lib/layout/Sider';
+import { observer } from 'mobx-react';
+import React from 'react';
+import SidePanel from '../sidePanel';
+import TopMenu from '../topMenu';
+import './style.css';
+
+const Template = observer(({ children }) => {
+  return (
+    <>
+      <Layout>
+        <Header>
+          <TopMenu />
+        </Header>
+        <Content>{children}</Content>
+      </Layout>
+    </>
+  );
+});
+
+export default Template;
+import { MapContainer, TileLayer } from 'react-leaflet';
+import React from 'react';
+import './style.css';
+import { observer } from 'mobx-react';
+import Layers from './layers';
+import { Spin } from 'antd';
+
+const center = [-12.966901, -50.366484];
+
+const Map = observer(() => {
+  return (
+    <div id="map" style={{ width: '100%', height: '100%' }}>
+      <MapContainer center={center} zoom={4} preferCanvas={true}>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Layers />
+      </MapContainer>
+    </div>
+  );
+});
+
+export default Map;
+import React, { createRef, useEffect, useState } from 'react';
+import './style.css';
+import { useStores } from '../../hooks/useStores';
+import { LayerGroup, GeoJSON, useMap, LayersControl, Popup, CircleMarker, Tooltip } from 'react-leaflet';
+import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
+import SidePanel from '../sidePanel';
+import { Alert, Button, Radio } from 'antd';
+import leaflet from 'leaflet';
+
+const Layers = observer(() => {
+  const { mapStore } = useStores();
+  const [layersRefs, setLayersRefs] = useState({});
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const map = useMap();
+
+  useEffect(() => {
+    const refs = {};
+    if (isInitialLoad) {
+      setIsInitialLoad(false);
+      mapStore.loadSavedLayers();
+    }
+
+    mapStore.layers.forEach((layer) => {
+      refs[layer.key] = createRef();
+    });
+
+    setLayersRefs(refs);
+  }, [mapStore.layersKeys.length]);
+
+  const getTooltip = (registry, displayColumns) => {
+    if (displayColumns.length > 0) {
+      return (
+        <Tooltip sticky direction="top">
+          {displayColumns.map(({ column, label }) => (
+            <div>
+              <b>{label}: </b>
+              {registry[column]}
+            </div>
+          ))}
+        </Tooltip>
+      );
+    }
+  };
+
+  const handleClickEvent = (e, registry, key) => {
+    if (mapStore.selectFeaturesMode) {
+      const layerStyle = mapStore.getLayerStyle(key);
+      if (mapStore.isFeatureSelected(key, registry.gid ?? registry.GID)) {
+        mapStore.removeFeatureFromSelection(key, registry.gid ?? registry.GID);
+        e.target.setStyle(layerStyle);
+      } else {
+        e.target.setStyle({
+          weight: 5,
+          color: mapStore.selectFeaturesMode === 'first' ? '#FFFF00' : '#b81212',
+          dashArray: '',
+          fillOpacity: 0.7,
+          fillColor: mapStore.selectFeaturesMode === 'first' ? '#FFFF00' : '#b81212',
+        });
+        // e.target.bringToFront();
+        const gid = registry.gid ?? registry.GID;
+        mapStore.addFeatureToSelection(key, { gid, oldStyle: layerStyle, element: e.target });
+      }
+    }
+  };
+
+  const renderLayers = () => {
+    const resultLayers = [];
+    const layers = toJS(mapStore.layers);
+    layers.forEach((layer) => {
+      const styleFunction = (data) => {
+        if (layer.styles.colorFunction) {
+          return {
+            ...layer.styles,
+            fillColor: layer.styles.colorFunction(data),
+          };
+        } else {
+          return layer.styles;
+        }
+      };
+      const layerType = mapStore.getLayerGeometryType(layer.key);
+      const layerData = layer.data.map((registry) => {
+        if (layerType.includes('Point')) {
+          const latLongList = layerType.includes('Multi')
+            ? leaflet.GeoJSON.coordsToLatLngs(registry.geometry.coordinates)
+            : [leaflet.GeoJSON.coordsToLatLng(registry.geometry.coordinates)];
+
+          const markers = latLongList.map((latLong) => {
+            return (
+              <CircleMarker
+                eventHandlers={{ click: (e) => handleClickEvent(e, registry, layer.key) }}
+                // pathOptions={layer.styles}
+                pathOptions={styleFunction(registry)}
+                center={latLong}
+                radius={5}
+              >
+                {getTooltip(registry, layer.displayColumns)}
+              </CircleMarker>
+            );
+          });
+
+          if (layerType.includes('Multi')) {
+            return <LayerGroup>{markers}</LayerGroup>;
+          } else {
+            return markers[0];
+          }
+        } else {
+          return (
+            <GeoJSON
+              eventHandlers={{ click: (e) => handleClickEvent(e, registry, layer.key) }}
+              pathOptions={styleFunction(registry)}
+              // style={styleFunction}
+              data={registry.geometry}
+            >
+              {getTooltip(registry, layer.displayColumns)}
+            </GeoJSON>
+          );
+        }
+      });
+
+      const layerComponent = <LayerGroup ref={layersRefs[layer.key]}>{layerData}</LayerGroup>;
+
+      resultLayers.push(layerComponent);
+    });
+    return resultLayers;
+  };
+
+  const renderSelectionAlert = () => {
+    return (
+      <div className="selection-alert">
+        <Alert
+          message="Modo de seleção de feições."
+          type="info"
+          showIcon
+          action={<Button onClick={() => mapStore.toggleFeatureSelection()}>Concluir</Button>}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {renderLayers()}
+      <SidePanel layersRefs={layersRefs} />
+      {mapStore.selectFeaturesMode && renderSelectionAlert()}
+    </div>
+  );
+});
+
+export default Layers;
+import { OrderedListOutlined, TableOutlined, EditOutlined, DeleteTwoTone, SaveOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Collapse, Spin, Tooltip } from 'antd';
+import { observer } from 'mobx-react';
+import React, { useState } from 'react';
+import { useMap } from 'react-leaflet';
+import { useStores } from '../../hooks/useStores';
+import AddLayerModal from '../addLayerModal';
+import LayerDataTable from '../layerDataTable';
+import './style.css';
+
+const { Panel } = Collapse;
+
+const SidePanel = observer(({ layersRefs }) => {
+  const { mapStore } = useStores();
+  const [selectedLayerData, setSelectedLayerData] = useState(null);
+  const [selectedLayerEditStyle, setSelectedLayerEditStyle] = useState(null);
+
+  const map = useMap();
+
+  const changeLayerStatus = (key) => {
+    const keys = Object.keys(layersRefs);
+    const zIndex = keys.indexOf(key) + 1;
+    const layerRef = layersRefs[key];
+    const result = map.hasLayer(layerRef.current);
+
+    if (result) {
+      map.removeLayer(layerRef.current);
+      mapStore.toggleActiveLayer(key, false);
+    } else {
+      map.addLayer(layerRef.current);
+      layerRef.current.setZIndex(zIndex);
+      mapStore.toggleActiveLayer(key, true);
+    }
+  };
+
+  const removeLayer = (key) => {
+    const layerRef = layersRefs[key];
+    const result = map.hasLayer(layerRef.current);
+    if (result) {
+      map.removeLayer(layerRef.current);
+    }
+    mapStore.removeLayer(key);
+  };
+
+  const renderLayersOperators = () => {
+    return (
+      <div style={{ paddingLeft: '5px', color: 'GrayText' }}>
+        {mapStore.layers.length ? (
+          mapStore.layers.map((layer) => {
+            return (
+              <div style={{ lineHeight: '26px' }}>
+                <Checkbox
+                  checked={
+                    // map.hasLayer(layersRefs[layer.key])
+                    mapStore.layersActive[layer.key]
+                  }
+                  onChange={() => changeLayerStatus(layer.key)}
+                >
+                  {layer.name}
+                </Checkbox>
+                <div style={{ float: 'right' }}>
+                  {layer.type === 'query_result' && (
+                    <Tooltip placement="topRight" title="Gravar Consulta no Banco de Dados">
+                      <Button
+                        size="small"
+                        onClick={() => mapStore.saveQueryIntoTable(layer.key)}
+                        icon={<SaveOutlined />}
+                      />
+                    </Tooltip>
+                  )}
+                  <Tooltip placement="topRight" title="Listagem de Registros">
+                    <Button
+                      size="small"
+                      disabled={layer.type === 'query_result'}
+                      onClick={() => setSelectedLayerData(layer.key)}
+                      icon={<OrderedListOutlined />}
+                    />
+                  </Tooltip>
+                  <Tooltip placement="topRight" title="Editar camada">
+                    <Button
+                      size="small"
+                      onClick={() => setSelectedLayerEditStyle(layer.key)}
+                      // style={{ position: 'absolute', right: '16px' }}
+                      icon={<EditOutlined />}
+                    />
+                  </Tooltip>
+                  <Tooltip placement="topRight" title="Remover camada">
+                    <Button
+                      size="small"
+                      onClick={() => removeLayer(layer.key)}
+                      // style={{ position: 'absolute', right: '16px' }}
+                      icon={<DeleteTwoTone twoToneColor="red" />}
+                    />
+                  </Tooltip>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <span>Nenhuma camada adicionada</span>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="side-panel">
+      <Collapse defaultActiveKey={['1']} ghost>
+        <Panel header="Camadas" key="1">
+          {mapStore.loading || mapStore.loadingMap ? (
+            <>
+              <Spin />
+            </>
+          ) : (
+            renderLayersOperators()
+          )}
+        </Panel>
+      </Collapse>
+      {selectedLayerData && (
+        <LayerDataTable
+          visible={selectedLayerData}
+          onClose={() => setSelectedLayerData(null)}
+          layerKey={selectedLayerData}
+        />
+      )}
+      {selectedLayerEditStyle && (
+        <AddLayerModal
+          editLayerKey={selectedLayerEditStyle}
+          visible={selectedLayerEditStyle}
+          onOk={() => setSelectedLayerEditStyle(null)}
+          onCancel={() => setSelectedLayerEditStyle(null)}
+        />
+      )}
+    </div>
+  );
+});
+
+export default SidePanel;
+import React, { useEffect, useState } from 'react';
+import { useStores } from '../../hooks/useStores';
+import { observer } from 'mobx-react';
+import { Button, Input, Select, Spin, Modal, Table, Tooltip } from 'antd';
+import './style.css';
+import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import DbConfigModal from '../dbConfig';
+
+const DatabaseTableListModal = observer(({ visible, onCancel }) => {
+  const { dbConnectionStore } = useStores();
+
+  const [showDBConfigModal, setShowDBConfigModal] = useState(false);
+
+  useEffect(() => {
+    dbConnectionStore.loadConnections();
+  }, []);
+
+  const toggleDBConfigModal = () => {
+    setShowDBConfigModal(!showDBConfigModal);
+  };
+
+  const renderModalContent = () => {
+    const columns = [
+      {
+        title: 'Tipo',
+        dataIndex: 'type',
+        key: 'type',
+      },
+      {
+        title: 'Host',
+        dataIndex: 'host',
+        key: 'host',
+      },
+      {
+        title: 'Porta',
+        dataIndex: 'port',
+        key: 'port',
+      },
+      {
+        title: '',
+        dataIndex: '',
+        key: 'btns',
+        render: (row) => {
+          return (
+            <span style={{ float: 'right' }}>
+              {row.active === 'true' ? (
+                <Button style={{ color: 'green', marginRight: '10px' }} disabled icon={<CheckOutlined />} />
+              ) : (
+                <Tooltip title="Selecionar como Conexão Ativa">
+                  <Button
+                    style={{ color: 'red', marginRight: '10px' }}
+                    icon={<CloseOutlined />}
+                    onClick={() => dbConnectionStore.setActiveDatabase(row)}
+                  />
+                </Tooltip>
+              )}
+              <Tooltip title="Remover">
+                <Button
+                  danger
+                  icon={<DeleteOutlined />}
+                  onClick={() => dbConnectionStore.deleteConnection(row, dbConnectionStore.loadConnections)}
+                />
+              </Tooltip>
+            </span>
+          );
+        },
+      },
+    ];
+    return (
+      <div>
+        <Button style={{ marginBottom: '10px' }} icon={<PlusOutlined />} type="primary" onClick={toggleDBConfigModal}>
+          Adicionar Conexão
+        </Button>
+        <Table columns={columns} dataSource={dbConnectionStore.keyedDatabaseList} loading={dbConnectionStore.loading} />
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <Modal
+        title="Configurações de Banco de Dados"
+        visible={visible}
+        onCancel={onCancel}
+        key="modal-sql"
+        width={700}
+        footer={[
+          <Button key="back" onClick={onCancel}>
+            Fechar
+          </Button>,
+        ]}
+      >
+        {renderModalContent()}
+        <DbConfigModal visible={showDBConfigModal} onCancel={toggleDBConfigModal} />
+      </Modal>
+    </div>
+  );
+});
+
+export default DatabaseTableListModal;
+import { Table } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { useStores } from '../../hooks/useStores';
+import './style.css';
+
+const LayerDataTable = observer(({ layerKey, onClose, visible }) => {
+  const { mapStore } = useStores();
+  const [dataSource, setDataSource] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    const index = mapStore.layersKeys.indexOf(layerKey);
+    const layer = toJS(mapStore.layers[index]);
+    setTitle(layer.name);
+    const dataSourceList = layer.data.map((item, idx) => {
+      item.key = `item-key-${idx}`;
+      return item;
+    });
+    setDataSource(dataSourceList);
+    if (dataSourceList.length > 0) {
+      const keys = Object.keys(dataSourceList[0]);
+      const columnsList = [];
+      keys.forEach((key) => {
+        if (key !== 'key' && key !== 'geom' && key !== 'geometry')
+          columnsList.push({ title: key, dataIndex: key, key: 'key', render: (text) => text ?? '-' });
+      });
+      setColumns(columnsList);
+    }
+  }, []);
+
+  return (
+    <Modal
+      title={`Dados da Camada${title ? ' - ' + title : ''}`}
+      okText="Adicionar"
+      cancelText="Cancelar"
+      visible={visible}
+      onCancel={onClose}
+      footer={null}
+      width={'90%'}
+      key="modal-layer-data"
+    >
+      <Table columns={columns} dataSource={dataSource} />
+    </Modal>
+  );
+});
+
+export default LayerDataTable;
+import React, { useState } from 'react';
+import { useStores } from '../../hooks/useStores';
+import { observer } from 'mobx-react';
+import Modal from 'antd/lib/modal/Modal';
+import { Alert, Button, Input, Select } from 'antd';
+import './style.css';
+
+const { Option } = Select;
+
+const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
+  const databaseList = [
+    { value: 'postgres', name: 'PostgreSQL' },
+    { value: 'cockroach', name: 'CockroachDB' },
+    { value: 'mysql', name: 'MySQL' },
+    { value: 'mariadb', name: 'MariaDB' },
+    { value: 'sqlite', name: 'SQLite (SpatiaLite)' },
+  ];
+
+  const innerOnCancel = () => {
+    clearFormData();
+    onCancel();
+  };
+
+  const { dbConnectionStore } = useStores();
+
+  const [formData, setFormData] = useState({
+    type: '',
+    host: '',
+    port: '',
+    user: '',
+    password: '',
+    database: '',
+    dialect: '',
+    active: 'false',
+  });
+  const [selectedDatabase, setSelectedDatabase] = useState(undefined);
+
+  const onChangeValue = (value, key) => {
+    setFormData({ ...formData, [key]: value });
+  };
+
+  const clearFormData = () => {
+    setSelectedDatabase(undefined);
+    setFormData({
+      type: '',
+      host: '',
+      port: '',
+      user: '',
+      password: '',
+      database: '',
+      dialect: '',
+      active: 'false',
+    });
+  };
+
+  const renderModalContent = () => {
+    return (
+      <>
+        <Input
+          addonBefore="Host"
+          style={{ marginTop: '5px' }}
+          onChange={(event) => onChangeValue(event.target.value, 'host')}
+        />
+        <Input
+          addonBefore="Porta"
+          style={{ marginTop: '5px' }}
+          onChange={(event) => onChangeValue(event.target.value, 'port')}
+        />
+        <Input
+          addonBefore="Nome do Banco"
+          style={{ marginTop: '5px' }}
+          onChange={(event) => onChangeValue(event.target.value, 'database')}
+        />
+        <Input
+          addonBefore="Usuário"
+          style={{ marginTop: '5px' }}
+          onChange={(event) => onChangeValue(event.target.value, 'user')}
+        />
+        <Input.Password
+          addonBefore="Senha"
+          style={{ marginTop: '5px' }}
+          onChange={(event) => onChangeValue(event.target.value, 'password')}
+        />
+      </>
+    );
+  };
+
+  const renderModalContentSqlite = () => {
+    return (
+      <>
+        <Input
+          addonBefore="Diretório de Armazenamento"
+          style={{ marginTop: '5px', marginBottom: '5px' }}
+          onChange={(event) => onChangeValue(event.target.value, 'host')}
+        />
+        <Alert message="O diretório deverá ser acessível a partir do backend." type="info" showIcon />
+      </>
+    );
+  };
+
+  return (
+    <div>
+      <Modal
+        title="Adicionar Configurações de Banco de Dados"
+        visible={visible}
+        onCancel={innerOnCancel}
+        key="modal-sql"
+        footer={[
+          <Button key="back" onClick={innerOnCancel}>
+            Cancelar
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={dbConnectionStore.loading}
+            onClick={() => {
+              dbConnectionStore.createConnection(
+                { ...formData, type: selectedDatabase, dialect: selectedDatabase },
+                () => {
+                  innerOnCancel();
+                  dbConnectionStore.loadConnections();
+                }
+              );
+            }}
+          >
+            Configurar
+          </Button>,
+        ]}
+      >
+        <Select
+          placeholder={'Tipo do Banco '}
+          style={{ width: '100%' }}
+          disabled={isEdit}
+          value={selectedDatabase}
+          defaultValue={selectedDatabase}
+          onChange={(value) => {
+            debugger;
+            if (value === 'sqlite' || selectedDatabase === 'sqlite') {
+              clearFormData();
+            }
+            setSelectedDatabase(value);
+          }}
+        >
+          {databaseList.map((type) => {
+            return <Option value={type.value}>{type.name}</Option>;
+          })}
+        </Select>
+        {selectedDatabase === 'sqlite' ? renderModalContentSqlite() : renderModalContent()}
+      </Modal>
+    </div>
+  );
+});
+
+export default DbConfigModal;
+import React, { useState } from 'react';
+import { useStores } from '../../hooks/useStores';
+import { observer } from 'mobx-react';
+import Modal from 'antd/lib/modal/Modal';
+import { Alert, Button, Input, Select, Table } from 'antd';
+import './style.css';
+import TextArea from 'antd/lib/input/TextArea';
+import { showErrorNotification, showNotification } from '../../utils/utils';
+import { Option } from 'antd/lib/mentions';
+
+const SqlModal = observer(({ visible, onCancel }) => {
+  const { mapStore } = useStores();
+  const [sql, setSql] = useState('');
+  const [loadingSql, setLoadingSql] = useState(false);
+  const [loadingAddLayer, setLoadingAddLayer] = useState(false);
+  const [columns, setColumns] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
+  const [geometryColumn, setGeometryColumn] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    key: '',
+    type: 'query_result',
+    displayColumns: [],
+    data: [],
+  });
+  const [showTableModal, setShowTableModal] = useState(false);
+  const [showConfigLayer, setshowConfigLayer] = useState(false);
+
+  const processData = (data) => {
+    setColumns([]);
+    setDataSource([]);
+    setFormData({
+      name: '',
+      key: '',
+      type: 'polygon',
+      displayColumns: [],
+      data: [],
+    });
+    if (data && data.length > 0) {
+      const dt = data[0];
+      const cols = Object.keys(dt);
+      setColumns(
+        cols.map((c) => {
+          return {
+            title: c,
+            dataIndex: c,
+            key: c,
+            render: (text) => {
+              return !text ? '-' : text.length > 50 ? `${text.substring(0, 50)}...` : text;
+            },
+          };
+        })
+      );
+      setDataSource(
+        data.map((item, idx) => {
+          item.key = `item-key-${idx}`;
+          return item;
+        })
+      );
+      onChangeValue(data, 'data');
+    }
+  };
+
+  const executeSql = async () => {
+    setLoadingSql(true);
+    try {
+      const result = await mapStore.executeSql({ sql: sql });
+      processData(result.data.data);
+      setShowTableModal(true);
+    } catch (err) {
+      showErrorNotification(err);
+    } finally {
+      setLoadingSql(false);
+    }
+  };
+  const onChangeValue = (value, key) => {
+    setFormData({ ...formData, [key]: value });
+  };
+
+  const renderColumnsSelect = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Coluna Geométrica</div>
+        <div>
+          <Select
+            placeholder={'Selecione a coluna da geometria'}
+            style={{ width: '100%' }}
+            onChange={(value) => setGeometryColumn(value)}
+          >
+            {columns
+              ? columns.map((c) => {
+                  return <Option value={c.key}>{c.title}</Option>;
+                })
+              : []}
+          </Select>
+        </div>
+      </div>
+    );
+  };
+
+  const renderNameInput = () => {
+    return (
+      <div className="field">
+        <div className="field-label">Nome da Camada</div>
+        <div>
+          <Input
+            placeholder={'Informe o valor'}
+            style={{ width: '100%' }}
+            value={formData.name}
+            onChange={(event) => onChangeValue(event.target.value, 'name')}
+          />
+        </div>
+      </div>
+    );
+  };
+  const resetStates = () => {
+    onChangeValue('', 'name');
+    setSql('');
+    setshowConfigLayer(!showConfigLayer);
+    setShowTableModal(!showTableModal);
+    onCancel();
+  };
+  const validaData = () => {
+    const data = formData.data[0];
+    if (!data || data.length == 0) {
+      throw new Error('O conjunto de dados é vazio.');
+    }
+    const geom = JSON.parse(data[geometryColumn]);
+    if (!Object.keys(geom).includes('coordinates')) {
+      throw new Error('Coluna geométrica inválida');
+    } else {
+      if (!geometryColumn) {
+        throw new Error('Coluna geométrica não especificada');
+      }
+    }
+  };
+
+  const handlerAddLayer = async () => {
+    setLoadingAddLayer(true);
+    debugger;
+    try {
+      validaData();
+      const formFinal = {
+        name: formData.name,
+        type: formData.type,
+        sql,
+        data: formData.data.map((d) => {
+          const geometry = d[geometryColumn];
+          return { ...d, geometry: geometry };
+        }),
+        key: `layer-${formData.name}`,
+        displayColumns: [],
+        geometryColumn: 'unknown',
+        styles: { fillColor: '#3388ff', fillOpacity: 0.2, color: '#3388ff', weight: 3, opacity: 1 },
+        styleType: 'static',
+        choroplethStyleDefinition: {
+          colorFunction: null,
+          equal: false,
+          column: null,
+          defaultColor: '#3388ff',
+          values: [],
+        },
+      };
+
+      formFinal.data = formFinal.data.map((d) => {
+        delete d[geometryColumn];
+        return { ...d };
+      });
+
+      await mapStore.addLayerToMapWithoutRequest(formFinal);
+      resetStates();
+    } catch (err) {
+      showErrorNotification(err);
+    } finally {
+      setLoadingAddLayer(false);
+    }
+  };
+
+  const toggleconfigLayer = () => {
+    setshowConfigLayer(!showConfigLayer);
+  };
+
+  const renderModalConfig = () => {
+    return (
+      <Modal
+        title="Configurar Camada"
+        visible={showConfigLayer}
+        width={'50%'}
+        key="modal-sql-config"
+        onCancel={toggleconfigLayer}
+        footer={[
+          <Button onClick={toggleconfigLayer}>Cancelar</Button>,
+          <Button type="primary" loading={loadingAddLayer} onClick={handlerAddLayer}>
+            Adicionar
+          </Button>,
+        ]}
+      >
+        <div>
+          {renderColumnsSelect()}
+          {renderNameInput()}
+        </div>
+      </Modal>
+    );
+  };
+
+  const renderModalResultQuery = () => {
+    return (
+      <Modal
+        title="Resultado da Consulta"
+        okText="Adicionar"
+        cancelText="Cancelar"
+        visible={showTableModal}
+        onCancel={() => {
+          setShowTableModal(!showTableModal);
+        }}
+        footer={null}
+        width={'90%'}
+        key="modal-sql-data"
+      >
+        {' '}
+        <div>
+          <Button
+            type="primary"
+            onClick={() => {
+              setshowConfigLayer(!showConfigLayer);
+            }}
+          >
+            Adicionar como Camada
+          </Button>
+          <Table columns={columns} dataSource={dataSource} />
+        </div>
+      </Modal>
+    );
+  };
+
+  return (
+    <div>
+      <Modal
+        title="Realizar consulta SQL"
+        okText="Executar"
+        cancelText="Cancelar"
+        visible={visible}
+        onOk={executeSql}
+        onCancel={onCancel}
+        key="modal-sql"
+        footer={[
+          <Button key="back" onClick={onCancel}>
+            Cancelar
+          </Button>,
+          <Button key="submit" type="primary" loading={loadingSql} onClick={executeSql}>
+            Executar
+          </Button>,
+        ]}
+      >
+        <Alert
+          style={{ marginBottom: '10px' }}
+          showIcon
+          message="Dados geométricos deverão estar envolvidos pela função ST_AsGeoJSON."
+        />
+        <TextArea
+          rows={4}
+          onChange={(v) => {
+            setSql(v.target.value);
+          }}
+        />
+      </Modal>
+      {renderModalResultQuery()}
+      {renderModalConfig()}
+    </div>
+  );
+});
+
+export default SqlModal;
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+const corsHeaders = {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+    }
+  }
+
+export default corsHeaders;const paths = {
+  baseUrl: 'http://localhost:8000',
+  tables: '/tables',
+  layer: '/layer',
+  persistedLayers: '/persisted-layers',
+  database: '/database',
+  spatialQuery: '/spatial-query',
+  query: '/sql',
+  queryToTable: '/query-to-table',
+};
+
+export default paths;
+const descriptions = {
+  union: 'Retorna uma geometria que representa a união do conjunto de pontos das geometrias de entrada.',
+  diff: 'Retorna uma geometria que representa a parte da geometria A que não faz interseção com a geometria B.',
+  intersection: 'Retorna uma geometria que representa a parte compartilhada das geometrias A e B.',
+  contains: 'Retorna as geometrias de B que estiverem no interior de A.',
+  crosses: 'Retorna as geometrias de B que possuem alguns, mas não todos, pontos internos em comum com A.',
+  touches: 'Retorna as geometrias de B que têm pelo menos um ponto em comum com A, mas seus interiores não se cruzam.',
+  within: 'Retorna as geometrias de B que estiverem completamente no interior de A.',
+  intersects: 'Retorna as geometrias de B que possuem ao menos um ponto em comum com as geometrias de A.',
+  area: 'Retorna a área da geometria.',
+  distance: 'Retorna a menor distância entre as geometrias A e B.',
+  length: 'Retorna o comprimento da geometria (caso seja uma linha).',
+  perimeter: 'Retorna o comprimento do limite da geometria.',
+  buffer: 'Retorna uma geometria cobrindo todos os pontos dentro de uma determinada distância de uma geometria.',
+  centroid: 'Retorna o centro geométrico de uma geometria.',
+};
+
+export default descriptions;
+const reportWebVitals = onPerfEntry => {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
+export default reportWebVitals;
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import 'antd/dist/antd.css';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+import { useContext } from 'react';
+import storesContext from '../contexts/storesContext';
+
+export const useStores = () => useContext(storesContext);
+import { createContext } from 'react';
+import DbConnectionStore from '../stores/dbConnectionStore';
+import MapStore from '../stores/mapStore';
+
+const storesContext = createContext({
+  mapStore: new MapStore(),
+  dbConnectionStore: new DbConnectionStore(),
+});
+
+export default storesContext;
+import Map from './components/map';
+import Template from './components/template';
+
+function App() {
+  return (
+    <div className="App">
+      <Template>
+        <Map />
+      </Template>
+    </div>
+  );
+}
+
+export default App;
+window.env = {
+  "LANGUAGE": "pt_BR:pt:en",
+  "USER": "mateus",
+  "npm_config_version_commit_hooks": "true",
+  "npm_config_user_agent": "yarn/1.22.10 npm/? node/v14.16.0 linux x64",
+  "npm_package_dependencies__babel_plugin_proposal_decorators": "^7.13.15",
+  "npm_config_bin_links": "true",
+  "SSH_AGENT_PID": "4792",
+  "XDG_SESSION_TYPE": "x11",
+  "npm_node_execpath": "/usr/bin/node",
+  "npm_package_dependencies_mobx_react_lite": "^3.2.0",
+  "npm_config_init_version": "1.0.0",
+  "SHLVL": "1",
+  "npm_package_devDependencies__babel_plugin_proposal_export_default_from": "^7.12.1",
+  "HOME": "/home/mateus",
+  "OLDPWD": "/home/mateus/workspace/cc/p9/tcc/node-gis",
+  "LESS": "-R",
+  "npm_package_browserslist_production_0": ">0.2%",
+  "npm_package_dependencies__ant_design_icons": "^4.6.2",
+  "DESKTOP_SESSION": "ubuntu",
+  "npm_package_browserslist_production_1": "not dead",
+  "npm_package_devDependencies__babel_plugin_syntax_dynamic_import": "^7.8.3",
+  "ZSH": "/home/mateus/.oh-my-zsh",
+  "LSCOLORS": "Gxfxcxdxbxegedabagacad",
+  "npm_package_browserslist_production_2": "not op_mini all",
+  "npm_package_dependencies_react_leaflet": "^3.1.0",
+  "npm_config_init_license": "MIT",
+  "GTK_MODULES": "gail:atk-bridge",
+  "GNOME_SHELL_SESSION_MODE": "ubuntu",
+  "PAGER": "less",
+  "YARN_WRAP_OUTPUT": "false",
+  "npm_package_dependencies_react_dotenv": "^0.1.3",
+  "npm_config_version_tag_prefix": "v",
+  "MANAGERPID": "4593",
+  "npm_package_devDependencies__babel_plugin_proposal_export_namespace_from": "^7.12.1",
+  "npm_package_dependencies_leaflet": "^1.7.1",
+  "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+  "npm_package_devDependencies__babel_plugin_syntax_decorators": "^7.12.13",
+  "npm_package_dependencies_dotenv": "^9.0.2",
+  "COLORTERM": "truecolor",
+  "GIO_LAUNCHED_DESKTOP_FILE_PID": "13461",
+  "npm_package_description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "npm_package_devDependencies_babel_loader": "8.1.0",
+  "npm_package_dependencies_react_scripts": "4.0.3",
+  "npm_package_dependencies_antd": "^4.15.5",
+  "npm_package_readmeFilename": "README.md",
+  "npm_package_devDependencies__babel_preset_env": "^7.12.1",
+  "npm_package_dependencies__testing_library_react": "^11.1.0",
+  "MANDATORY_PATH": "/usr/share/gconf/ubuntu.mandatory.path",
+  "IM_CONFIG_PHASE": "1",
+  "npm_package_scripts_dev": "react-dotenv && react-app-rewired start",
+  "npm_package_dependencies_customize_cra": "^1.0.0",
+  "LOGNAME": "mateus",
+  "_": "/usr/bin/yarn",
+  "JOURNAL_STREAM": "9:77846",
+  "npm_package_devDependencies__babel_preset_react": "^7.12.5",
+  "npm_package_dependencies_react_app_rewired": "^2.1.8",
+  "npm_package_private": "true",
+  "DEFAULTS_PATH": "/usr/share/gconf/ubuntu.default.path",
+  "XDG_SESSION_CLASS": "user",
+  "npm_config_registry": "https://registry.yarnpkg.com",
+  "USERNAME": "mateus",
+  "TERM": "xterm-256color",
+  "npm_package_devDependencies__babel_core": "^7.12.3",
+  "GNOME_DESKTOP_SESSION_ID": "this-is-deprecated",
+  "npm_package_devDependencies_babel_plugin_root_import": "^6.6.0",
+  "npm_config_ignore_scripts": "",
+  "WINDOWPATH": "2",
+  "npm_package_browserslist_development_0": "last 1 chrome version",
+  "npm_package_dependencies_axios": "^0.21.1",
+  "PATH": "/tmp/yarn--1632075491521-0.1317069751117259:/home/mateus/workspace/cc/p9/tcc/node-gis/frontend/node_modules/.bin:/home/mateus/.config/yarn/link/node_modules/.bin:/home/mateus/.yarn/bin:/usr/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/lib/node_modules/npm/bin/node-gyp-bin:/usr/bin/node_modules/npm/bin/node-gyp-bin:/home/mateus/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/opt/gradle/gradle-6.8.3/bin",
+  "NODE": "/usr/bin/node",
+  "SESSION_MANAGER": "local/mateus-ubuntu:@/tmp/.ICE-unix/4835,unix/mateus-ubuntu:/tmp/.ICE-unix/4835",
+  "INVOCATION_ID": "a7543feae37845a9a7aa19e04854bb27",
+  "npm_package_browserslist_development_1": "last 1 firefox version",
+  "npm_package_name": "simple-web-gis",
+  "XDG_MENU_PREFIX": "gnome-",
+  "XDG_RUNTIME_DIR": "/run/user/1000",
+  "npm_package_browserslist_development_2": "last 1 safari version",
+  "DISPLAY": ":0",
+  "npm_package_scripts_eject": "react-app-rewired eject",
+  "LANG": "pt_BR.UTF-8",
+  "XDG_CURRENT_DESKTOP": "ubuntu:GNOME",
+  "TILIX_ID": "9c1d0568-d3a4-4680-af72-330b47e7020f",
+  "npm_package_dependencies_react_dom": "^17.0.2",
+  "XDG_SESSION_DESKTOP": "ubuntu",
+  "XMODIFIERS": "@im=ibus",
+  "XAUTHORITY": "/run/user/1000/gdm/Xauthority",
+  "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:",
+  "npm_lifecycle_script": "react-dotenv && react-app-rewired start",
+  "npm_package_eslintConfig_extends_0": "react-app",
+  "npm_package_dependencies_mobx_react": "^7.1.0",
+  "SSH_AUTH_SOCK": "/run/user/1000/keyring/ssh",
+  "npm_package_scripts_test": "react-app-rewired test",
+  "npm_config_version_git_message": "v%s",
+  "SHELL": "/usr/bin/zsh",
+  "npm_lifecycle_event": "dev",
+  "npm_package_dependencies_mobx": "^6.3.0",
+  "npm_package_dependencies__testing_library_jest_dom": "^5.11.4",
+  "npm_package_version": "0.1.0",
+  "QT_ACCESSIBILITY": "1",
+  "GDMSESSION": "ubuntu",
+  "npm_config_argv": "{\"remain\":[],\"cooked\":[\"run\",\"dev\"],\"original\":[\"dev\"]}",
+  "npm_package_scripts_build": "react-dotenv && react-app-rewired build",
+  "npm_package_dependencies__testing_library_user_event": "^12.1.10",
+  "npm_config_version_git_tag": "true",
+  "npm_config_version_git_sign": "",
+  "GPG_AGENT_INFO": "/run/user/1000/gnupg/S.gpg-agent:0:1",
+  "npm_config_strict_ssl": "true",
+  "QT_IM_MODULE": "ibus",
+  "PWD": "/home/mateus/workspace/cc/p9/tcc/node-gis/frontend",
+  "npm_execpath": "/usr/lib/node_modules/yarn/bin/yarn.js",
+  "XDG_DATA_DIRS": "/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop",
+  "XDG_CONFIG_DIRS": "/etc/xdg/xdg-ubuntu:/etc/xdg",
+  "npm_config_save_prefix": "^",
+  "npm_config_ignore_optional": "",
+  "VTE_VERSION": "6003",
+  "npm_package_dependencies_web_vitals": "^1.0.1",
+  "INIT_CWD": "/home/mateus/workspace/cc/p9/tcc/node-gis/frontend",
+  "npm_package_dependencies_react": "^17.0.2",
+  "BASE_API_URL": "http://localhost:8000/nodegis-api/"
+};window._env_ = {
+  BASE_API_URL: "http://localhost:8000",
+}
+window._env_ = {
+  BASE_API_URL: "http://localhost:8000",
+}

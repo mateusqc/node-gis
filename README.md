@@ -1,81 +1,93 @@
 # NodeGIS
 
-Um SIG Web que utiliza tecnologias como NodeJS, ReactJS, Leaflet, Docker, dentre outros. O seu principal foco é o fácil deploy e o desenvolvimento simplificado de aplicações SIG.
+A Web GIS that uses technologies such as NodeJS, ReactJS, Leaflet, Docker, among others. Its main focus is on easy deployment and simplified development of GIS applications.
 
-**O único pré-requisito para a utilização do NodeGIS é possuir o Docker instalado.**
+**The only prerequisite for using NodeGIS is to have Docker installed.**
 
-# Executando a Aplicação
+# Running the Application
 
-Foram implementados scripts shell para facilitar a utilização da aplicação. Estes scritps estão neste repositório, entretanto também estão detalhados abaixo os comandos individuais para cada ação.
+Shell scripts have been implemented to facilitate the use of the application. These scripts are in this repository, however, the individual commands for each action are also detailed below.
 
-## Ambiente Local
+## Local Environment
 
-Para subir a aplicação em ambiente local basta executar o script shell `run-application-local.sh` da seguinte forma:
+To run the application in a local environment, simply execute the `run-application-local.sh` shell script as follows:
 
 ```bash
-# Diretamente, necessário dar permissão de execução ao script
+# Directly, it is necessary to give execution permission to the script
 $ ./run-application-local.sh
+```
 
-# Ou utilizando o bash
+```bash
+# Or using bash
 $ bash run-application-local.sh
 ```
 
-Seguem abaixo também os comandos individualizados:
+The individual commands are also listed below:
 
 ```bash
 $ docker run -d -p 15432:5432 --name nodegis-db mateusqc/nodegis-postgresql
+```
 
+```bash
 $ docker run -d -p 8080:80 -e BASE_API_URL='http://localhost:8081' --name nodegis-fe mateusqc/nodegis-fe:latest
+```
 
+```bash
 $ docker run -d -p 8081:8000 -e DB_IP_ADRESS=${LOCAL_MACHINE_IP} -e DB_PORT="15432" --name nodegis-be mateusqc/nodegis-be:latest
 ```
 
-**OBS: Substituir `LOCAL_MACHINE_IP` pelo IP da máquina na rede local.**
+**NOTE: Replace `LOCAL_MACHINE_IP` with the IP of the machine on the local network.**
 
-## Ambiente de Produção
+## Production Environment
 
-Para subir a aplicação em ambiente de produção basta executar o script shell `run-application-prod.sh`. 
+To run the application in a production environment, simply execute the `run-application-prod.sh` shell script.
 
 ```bash
-# Diretamente, necessário dar permissão de execução ao script
+# Directly, it is necessary to give execution permission to the script
 $ ./run-application-prod.sh.sh
+```
 
-# Ou utilizando o bash
+```bash
+# Or using bash
 $ bash run-application-prod.sh
 ```
 
-Seguem abaixo também os comandos individualizados:
+The individual commands are also listed below:
 
 ```bash
 $ docker run -d -p 15432:5432 --name nodegis-db mateusqc/nodegis-postgresql
-
-$ docker run -d -p 8080:80 -e BASE_API_URL="http://${LOCAL_MACHINE_IP}:8081" --name nodegis-fe mateusqc/nodegis-fe:latest
-
-$ docker run -d -p 8081:8000 -e DB_IP_ADRESS=${LOCAL_MACHINE_IP} -e DB_PORT="15432" --name nodegis-be mateusqc/nodegis-be:latest 
 ```
 
-**OBS: Substituir `LOCAL_MACHINE_IP` pelo IP público da máquina. Além disso, as portas podem ser alteradas de forma a se adequar à rede utilizada. Por padrão, o frontend irá rodar na porta 8080 e o backend na 8081.**
+```bash
+$ docker run -d -p 8080:80 -e BASE_API_URL="http://${LOCAL_MACHINE_IP}:8081" --name nodegis-fe mateusqc/nodegis-fe:latest
+```
 
+```bash
+$ docker run -d -p 8081:8000 -e DB_IP_ADRESS=${LOCAL_MACHINE_IP} -e DB_PORT="15432" --name nodegis-be mateusqc/nodegis-be:latest
+```
+
+**NOTE: Replace `LOCAL_MACHINE_IP` with the public IP of the machine. In addition, the ports can be changed to suit the network being used. By default, the frontend will run on port 8080 and the backend on 8081.**
 
 ## Ambiente de Desenvolvimento
 
-Para subir a aplicação em ambiente de desenvolvimento, algumas dependências são necessárias:
-* NodeJS
-* Yarn (ou npm)
-* docker-compose
+To run the application in a development environment, some dependencies are necessary:
 
-O ambiente de desenvolvimento não utiliza o Ddocker diretamente, apenas de um contêiner de banco de dados configurado com docker-compose. Com isso, basta executar o comando abaixo na pasta raiz do repositório:
+- NodeJS
+- Yarn (or npm)
+- docker-compose
+
+The development environment does not use Docker directly, only a database container configured with docker-compose. Therefore, simply run the command below in the repository root folder:
 
 ```bash
 $ docker-compose up -d
 ```
 
-Em seguida, deve-se executar os seguintes comandos (tanto para o frontend quanto para o backend):
+Then, the following commands must be executed (for both frontend and backend):
 
 ```bash
-# Instalando dependências
+# Installing dependencies
 $ yarn
 
-# Subindo a aplicação em modo de desenvolvimento
+# Running the application in development mode
 $ yarn dev
 ```

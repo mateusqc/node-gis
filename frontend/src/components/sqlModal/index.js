@@ -80,10 +80,10 @@ const SqlModal = observer(({ visible, onCancel }) => {
   const renderColumnsSelect = () => {
     return (
       <div className="field">
-        <div className="field-label">Coluna Geométrica</div>
+        <div className="field-label">Geometric Column</div>
         <div>
           <Select
-            placeholder={'Selecione a coluna da geometria'}
+            placeholder={'Select the geometric column'}
             style={{ width: '100%' }}
             onChange={(value) => setGeometryColumn(value)}
           >
@@ -101,10 +101,10 @@ const SqlModal = observer(({ visible, onCancel }) => {
   const renderNameInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Nome da Camada</div>
+        <div className="field-label">Layer Name</div>
         <div>
           <Input
-            placeholder={'Informe o valor'}
+            placeholder={'Input a value...'}
             style={{ width: '100%' }}
             value={formData.name}
             onChange={(event) => onChangeValue(event.target.value, 'name')}
@@ -123,14 +123,14 @@ const SqlModal = observer(({ visible, onCancel }) => {
   const validaData = () => {
     const data = formData.data[0];
     if (!data || data.length == 0) {
-      throw new Error('O conjunto de dados é vazio.');
+      throw new Error('The dataset is empty.');
     }
     const geom = JSON.parse(data[geometryColumn]);
     if (!Object.keys(geom).includes('coordinates')) {
-      throw new Error('Coluna geométrica inválida');
+      throw new Error('Invalid geometric column.');
     } else {
       if (!geometryColumn) {
-        throw new Error('Coluna geométrica não especificada');
+        throw new Error('Unespecified geometric column.');
       }
     }
   };
@@ -183,15 +183,15 @@ const SqlModal = observer(({ visible, onCancel }) => {
   const renderModalConfig = () => {
     return (
       <Modal
-        title="Configurar Camada"
+        title="Configure Layer"
         visible={showConfigLayer}
         width={'50%'}
         key="modal-sql-config"
         onCancel={toggleconfigLayer}
         footer={[
-          <Button onClick={toggleconfigLayer}>Cancelar</Button>,
+          <Button onClick={toggleconfigLayer}>Cancel</Button>,
           <Button type="primary" loading={loadingAddLayer} onClick={handlerAddLayer}>
-            Adicionar
+            Add
           </Button>,
         ]}
       >
@@ -206,9 +206,9 @@ const SqlModal = observer(({ visible, onCancel }) => {
   const renderModalResultQuery = () => {
     return (
       <Modal
-        title="Resultado da Consulta"
-        okText="Adicionar"
-        cancelText="Cancelar"
+        title="Query Result"
+        okText="Add"
+        cancelText="Cancel"
         visible={showTableModal}
         onCancel={() => {
           setShowTableModal(!showTableModal);
@@ -225,7 +225,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
               setshowConfigLayer(!showConfigLayer);
             }}
           >
-            Adicionar como Camada
+            Add as Vector Layer
           </Button>
           <Table columns={columns} dataSource={dataSource} />
         </div>
@@ -236,26 +236,26 @@ const SqlModal = observer(({ visible, onCancel }) => {
   return (
     <div>
       <Modal
-        title="Realizar consulta SQL"
-        okText="Executar"
-        cancelText="Cancelar"
+        title="SQL Query"
+        okText="Execute"
+        cancelText="Cancel"
         visible={visible}
         onOk={executeSql}
         onCancel={onCancel}
         key="modal-sql"
         footer={[
           <Button key="back" onClick={onCancel}>
-            Cancelar
+            Cancel
           </Button>,
           <Button key="submit" type="primary" loading={loadingSql} onClick={executeSql}>
-            Executar
+            Execute
           </Button>,
         ]}
       >
         <Alert
           style={{ marginBottom: '10px' }}
           showIcon
-          message="Dados geométricos deverão estar envolvidos pela função ST_AsGeoJSON."
+          message="Geometric data should be evolved with ST_AsGeoJSON function."
         />
         <TextArea
           rows={4}

@@ -99,7 +99,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderTableSelect = () => {
     return (
       <div className="field">
-        <div className="field-label">Tabela</div>
+        <div className="field-label">Table</div>
         <div>
           <Select
             disabled={editLayerKey}
@@ -128,7 +128,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderGemotryColumnSelect = () => {
     return (
       <div className="field">
-        <div className="field-label">Coluna Geométrica</div>
+        <div className="field-label">Geometric Column</div>
         <div>
           <Select
             placeholder={'Selecione uma coluna geométrica'}
@@ -152,7 +152,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderNameInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Nome da Camada</div>
+        <div className="field-label">Layer Name</div>
         <div>
           <Input
             placeholder={'Informe o valor'}
@@ -172,7 +172,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderColumnSelect = () => {
     return (
       <div className="field">
-        <div className="field-label">Coluna</div>
+        <div className="field-label">Column</div>
         <div>
           <Select
             placeholder={'Selecione uma coluna'}
@@ -205,7 +205,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderColumnNameInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Nome da Coluna</div>
+        <div className="field-label">Column Label</div>
         <div>
           <Input
             placeholder={'Informe o valor'}
@@ -232,7 +232,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderLayerColorInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Cor do Preenchimento</div>
+        <div className="field-label">Fill Color</div>
         {colorPicker('fillColor')}
       </div>
     );
@@ -241,7 +241,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderLayerOpacity = () => {
     return (
       <div className="field">
-        <div className="field-label">Opacidade do Preenchimento</div>
+        <div className="field-label">Fill Opacity</div>
         <InputNumber
           defaultValue={formData.styles.fillOpacity}
           min={0}
@@ -256,7 +256,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderStrokeColorInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Cor das Linhas</div>
+        <div className="field-label">Stroke Color</div>
         {colorPicker('color')}
       </div>
     );
@@ -265,7 +265,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderStrokeWidth = () => {
     return (
       <div className="field">
-        <div className="field-label">Largura das Linhas em Pixels</div>
+        <div className="field-label">Stroke Width (px)</div>
         <InputNumber defaultValue={formData.styles.weight} onChange={(value) => onChangeValueStyles(value, 'weight')} />
       </div>
     );
@@ -274,7 +274,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const renderStrokeOpacity = () => {
     return (
       <div className="field">
-        <div className="field-label">Opacidade das Linhas</div>
+        <div className="field-label">Line Opacity</div>
         <InputNumber
           defaultValue={formData.styles.opacity}
           min={0}
@@ -296,8 +296,8 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   };
 
   const columnsTooltip = [
-    { title: 'Coluna', dataIndex: 'column', key: 'column' },
-    { title: 'Nome', dataIndex: 'label', key: 'label' },
+    { title: 'Column', dataIndex: 'column', key: 'column' },
+    { title: 'Label', dataIndex: 'label', key: 'label' },
     {
       title: '',
       dataIndex: '',
@@ -323,11 +323,10 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
   const styleTypeSelector = () => {
     return (
       <div className="field">
-        <div className="field-label">Tipo de Estilização</div>
+        <div className="field-label">Style Type</div>
         <Radio.Group
           value={formData.styleType}
           onChange={(e) => {
-            debugger;
             onChangeValue(e.target.value, 'styleType');
             if (e.target.value === 'static') {
               // onChangeValueStyles('#3388ff', 'fillColor');
@@ -336,8 +335,8 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
           name="radiogroup"
           defaultValue={1}
         >
-          <Radio value={'static'}>Estática</Radio>
-          <Radio value={'choropleth'}>Temática</Radio>
+          <Radio value={'static'}>Static</Radio>
+          <Radio value={'choropleth'}>Thematic</Radio>
         </Radio.Group>
       </div>
     );
@@ -354,7 +353,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
             style={{ marginBottom: '10px' }}
             disabled={!formData.key}
           >
-            Nova Coluna
+            New Column
           </Button>
           <Table
             size="small"
@@ -380,10 +379,10 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
           setColumnLabel('');
         }}
         onOk={addColumnToList}
-        title="Nova Coluna"
+        title="New Column"
         closable={false}
-        okText="Adicionar"
-        cancelText="Cancelar"
+        okText="Add"
+        cancelText="Cancel"
         key="modal-columns-add"
       >
         {renderColumnSelect()}
@@ -434,9 +433,9 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
 
   return (
     <Modal
-      title={editLayerKey ? 'Editar Camada' : 'Adicionar Nova Camada Vetorial'}
-      okText={editLayerKey ? 'Salvar' : 'Adicionar'}
-      cancelText="Cancelar"
+      title={editLayerKey ? 'Edit Layer' : 'Add New Vector Layer'}
+      okText={editLayerKey ? 'Save' : 'Add'}
+      cancelText="Cancel"
       visible={visible}
       onOk={addLayerToMap}
       onCancel={onCancel}
@@ -454,7 +453,7 @@ const AddLayerModal = observer(({ editLayerKey, visible, onOk, onCancel }) => {
             <Panel header="Tooltip" key="tooltip" disabled collapsible={formData.key ? 'header' : 'disabled'}>
               {renderTooltipPanelContent()}
             </Panel>
-            <Panel header="Estilização da camada" key="style" collapsible={formData.key ? 'header' : 'disabled'}>
+            <Panel header="Layer Style" key="style" collapsible={formData.key ? 'header' : 'disabled'}>
               {renderStylePanelContent()}
             </Panel>
           </Collapse>

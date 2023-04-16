@@ -34,9 +34,9 @@ const LayerDataTable = observer(({ layerKey, onClose, visible }) => {
 
   return (
     <Modal
-      title={`Dados da Camada${title ? ' - ' + title : ''}`}
-      okText="Adicionar"
-      cancelText="Cancelar"
+      title={`Data of Layer ${title ? ' - ' + title : ''}`}
+      okText="Add"
+      cancelText="Cancel"
       visible={visible}
       onCancel={onClose}
       footer={null}
