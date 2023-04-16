@@ -15,7 +15,7 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const operationsList = [
     { value: 'union', label: 'Union' },
     { value: 'diff', label: 'Difference' },
-    { value: 'intersection', label: 'Intersecção' },
+    { value: 'intersection', label: 'Intersection' },
     { value: 'contains', label: 'Contains' },
     { value: 'crosses', label: 'Crosses' },
     { value: 'touches', label: 'Touches' },
