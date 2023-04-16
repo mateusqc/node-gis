@@ -60,7 +60,7 @@ const SidePanel = observer(({ layersRefs }) => {
                 </Checkbox>
                 <div style={{ float: 'right' }}>
                   {layer.type === 'query_result' && (
-                    <Tooltip placement="topRight" title="Gravar Consulta no Banco de Dados">
+                    <Tooltip placement="topRight" title="Record Query into Database">
                       <Button
                         size="small"
                         onClick={() => mapStore.saveQueryIntoTable(layer.key)}
@@ -68,7 +68,7 @@ const SidePanel = observer(({ layersRefs }) => {
                       />
                     </Tooltip>
                   )}
-                  <Tooltip placement="topRight" title="Listagem de Registros">
+                  <Tooltip placement="topRight" title="Data Table">
                     <Button
                       size="small"
                       disabled={layer.type === 'query_result'}
@@ -76,7 +76,7 @@ const SidePanel = observer(({ layersRefs }) => {
                       icon={<OrderedListOutlined />}
                     />
                   </Tooltip>
-                  <Tooltip placement="topRight" title="Editar camada">
+                  <Tooltip placement="topRight" title="Edit Layer">
                     <Button
                       size="small"
                       onClick={() => setSelectedLayerEditStyle(layer.key)}
@@ -84,7 +84,7 @@ const SidePanel = observer(({ layersRefs }) => {
                       icon={<EditOutlined />}
                     />
                   </Tooltip>
-                  <Tooltip placement="topRight" title="Remover camada">
+                  <Tooltip placement="topRight" title="Remove Layer">
                     <Button
                       size="small"
                       onClick={() => removeLayer(layer.key)}
@@ -97,7 +97,7 @@ const SidePanel = observer(({ layersRefs }) => {
             );
           })
         ) : (
-          <span>Nenhuma camada adicionada</span>
+          <span>No layer added to map</span>
         )}
       </div>
     );
@@ -106,7 +106,7 @@ const SidePanel = observer(({ layersRefs }) => {
   return (
     <div className="side-panel">
       <Collapse defaultActiveKey={['1']} ghost>
-        <Panel header="Camadas" key="1">
+        <Panel header="Layers" key="1">
           {mapStore.loading || mapStore.loadingMap ? (
             <>
               <Spin />

@@ -22,7 +22,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
   const renderModalContent = () => {
     const columns = [
       {
-        title: 'Tipo',
+        title: 'Type',
         dataIndex: 'type',
         key: 'type',
       },
@@ -32,7 +32,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
         key: 'host',
       },
       {
-        title: 'Porta',
+        title: 'Port',
         dataIndex: 'port',
         key: 'port',
       },
@@ -46,7 +46,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
               {row.active === 'true' ? (
                 <Button style={{ color: 'green', marginRight: '10px' }} disabled icon={<CheckOutlined />} />
               ) : (
-                <Tooltip title="Selecionar como Conexão Ativa">
+                <Tooltip title="Select as Active Conection">
                   <Button
                     style={{ color: 'red', marginRight: '10px' }}
                     icon={<CloseOutlined />}
@@ -54,7 +54,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
                   />
                 </Tooltip>
               )}
-              <Tooltip title="Remover">
+              <Tooltip title="Remove">
                 <Button
                   danger
                   icon={<DeleteOutlined />}
@@ -69,7 +69,7 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
     return (
       <div>
         <Button style={{ marginBottom: '10px' }} icon={<PlusOutlined />} type="primary" onClick={toggleDBConfigModal}>
-          Adicionar Conexão
+          Add Conection
         </Button>
         <Table columns={columns} dataSource={dbConnectionStore.keyedDatabaseList} loading={dbConnectionStore.loading} />
       </div>
@@ -79,14 +79,14 @@ const DatabaseTableListModal = observer(({ visible, onCancel }) => {
   return (
     <div>
       <Modal
-        title="Configurações de Banco de Dados"
+        title="Database Configurations"
         visible={visible}
         onCancel={onCancel}
         key="modal-sql"
         width={700}
         footer={[
           <Button key="back" onClick={onCancel}>
-            Fechar
+            Close
           </Button>,
         ]}
       >

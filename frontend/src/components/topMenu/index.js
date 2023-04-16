@@ -48,27 +48,27 @@ const TopMenu = observer(() => {
     <div>
       <span className="menu-section">
         <Menu selectedKeys={[]} mode="horizontal">
-          <SubMenu key="add" icon={<PlusOutlined />} title="Adicionar">
+          <SubMenu key="add" icon={<PlusOutlined />} title="Add">
             <Menu.Item icon={<RadiusSettingOutlined />} onClick={toggleAddLayersModal} key="layer">
-              Camada Vetorial
+              Vector Layer
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="save" icon={<SaveOutlined />} title="Salvar">
+          <SubMenu key="save" icon={<SaveOutlined />} title="Salve">
             <Menu.Item icon={<GlobalOutlined />} onClick={mapStore.saveLayers} key="map-state">
-              Estado Atual do Mapa
+              Map Current State
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="spatial-query" icon={<GlobalOutlined />} title="Consulta Espacial">
+          <SubMenu key="spatial-query" icon={<GlobalOutlined />} title="Spatial Query">
             <Menu.Item icon={<BlockOutlined />} onClick={toggleShowSelectedQueryModal} key="query-selection">
-              A partir de Seleção
+              From Selection
             </Menu.Item>
             <Menu.Item icon={<DatabaseOutlined />} onClick={toggleSqlModal} key="query-sql">
-              Consulta SQL
+              SQL Query
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="config" icon={<SettingOutlined />} title="Configurações">
+          <SubMenu key="config" icon={<SettingOutlined />} title="Configuration">
             <Menu.Item icon={<DatabaseOutlined />} onClick={toggleDatabaseListModal} key="db-conexion">
-              Conexão à Banco de Dados
+              Database Conection
             </Menu.Item>
           </SubMenu>
         </Menu>

@@ -62,22 +62,22 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
           onChange={(event) => onChangeValue(event.target.value, 'host')}
         />
         <Input
-          addonBefore="Porta"
+          addonBefore="Port"
           style={{ marginTop: '5px' }}
           onChange={(event) => onChangeValue(event.target.value, 'port')}
         />
         <Input
-          addonBefore="Nome do Banco"
+          addonBefore="Database Name"
           style={{ marginTop: '5px' }}
           onChange={(event) => onChangeValue(event.target.value, 'database')}
         />
         <Input
-          addonBefore="Usuário"
+          addonBefore="User"
           style={{ marginTop: '5px' }}
           onChange={(event) => onChangeValue(event.target.value, 'user')}
         />
         <Input.Password
-          addonBefore="Senha"
+          addonBefore="Password"
           style={{ marginTop: '5px' }}
           onChange={(event) => onChangeValue(event.target.value, 'password')}
         />
@@ -89,11 +89,11 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
     return (
       <>
         <Input
-          addonBefore="Diretório de Armazenamento"
+          addonBefore="Storage Directory"
           style={{ marginTop: '5px', marginBottom: '5px' }}
           onChange={(event) => onChangeValue(event.target.value, 'host')}
         />
-        <Alert message="O diretório deverá ser acessível a partir do backend." type="info" showIcon />
+        <Alert message="The directory must be accessible from the backend." type="info" showIcon />
       </>
     );
   };
@@ -101,13 +101,13 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
   return (
     <div>
       <Modal
-        title="Adicionar Configurações de Banco de Dados"
+        title="Add Database Configuration"
         visible={visible}
         onCancel={innerOnCancel}
         key="modal-sql"
         footer={[
           <Button key="back" onClick={innerOnCancel}>
-            Cancelar
+            Cancel
           </Button>,
           <Button
             key="submit"
@@ -123,12 +123,12 @@ const DbConfigModal = observer(({ visible, onCancel, isEdit }) => {
               );
             }}
           >
-            Configurar
+            Configure
           </Button>,
         ]}
       >
         <Select
-          placeholder={'Tipo do Banco '}
+          placeholder={'Database Type '}
           style={{ width: '100%' }}
           disabled={isEdit}
           value={selectedDatabase}

@@ -13,20 +13,20 @@ const { Option } = Select;
 const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const { mapStore } = useStores();
   const operationsList = [
-    { value: 'union', label: 'União' },
-    { value: 'diff', label: 'Diferença' },
-    { value: 'intersection', label: 'Intersecção' },
-    { value: 'contains', label: 'Contém' },
-    { value: 'crosses', label: 'Cruza' },
-    { value: 'touches', label: 'Toca' },
-    { value: 'within', label: 'Está Dentro' },
-    { value: 'intersects', label: 'Interceptam' },
-    { value: 'area', label: 'Área' },
-    { value: 'distance', label: 'Distância' },
-    { value: 'length', label: 'Comprimento' },
-    { value: 'perimeter', label: 'Perímetro' },
+    { value: 'union', label: 'Union' },
+    { value: 'diff', label: 'Difference' },
+    { value: 'intersection', label: 'Intersection' },
+    { value: 'contains', label: 'Contains' },
+    { value: 'crosses', label: 'Crosses' },
+    { value: 'touches', label: 'Touches' },
+    { value: 'within', label: 'Within' },
+    { value: 'intersects', label: 'Intersects' },
+    { value: 'area', label: 'Area' },
+    { value: 'distance', label: 'Distance' },
+    { value: 'length', label: 'Length' },
+    { value: 'perimeter', label: 'Perimeter' },
     { value: 'buffer', label: 'Buffer' },
-    { value: 'centroid', label: 'Centróide' },
+    { value: 'centroid', label: 'Centroid' },
   ];
   const nonGeomResultOperations = ['area', 'distance', 'length', 'perimeter'];
   const layerSelectOnB = ['contains', 'crosses', 'touches', 'within', 'intersects'];
@@ -39,10 +39,10 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const renderTableSelect = () => {
     return (
       <div className="field">
-        <div className="field-label">Seleção de Operação</div>
+        <div className="field-label">Operation</div>
         <div>
           <Select
-            placeholder={'Selecione uma operação'}
+            placeholder={'Select an operation'}
             style={{ width: '100%' }}
             onChange={(value) => {
               clearAllData();
@@ -63,10 +63,10 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const renderNameInput = () => {
     return (
       <div className="field">
-        <div className="field-label">Nome da Camada</div>
+        <div className="field-label">Layer Name</div>
         <div>
           <Input
-            placeholder={'Informe o valor'}
+            placeholder={'Input a value...'}
             style={{ width: '100%' }}
             value={queryLayerName}
             onChange={(event) => setQueryLayerName(event.target.value)}
@@ -79,10 +79,10 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const renderAuxInput = () => {
     return (
       <div className="field">
-        {selectedOperation === 'buffer' && <div className="field-label">Raio do Buffer (km)</div>}
+        {selectedOperation === 'buffer' && <div className="field-label">Buffer Radius (km)</div>}
         <div>
           <InputNumber
-            placeholder={'Informe o valor'}
+            placeholder={'Input a value...'}
             style={{ width: '100%' }}
             value={auxiliarParam}
             min={0}
@@ -109,7 +109,7 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
               style={{ width: '100%' }}
               icon={<SelectOutlined />}
             >
-              Selecionar{' '}
+              Select{' '}
               {!['union', 'area', 'buffer', 'length', 'perimeter', 'centroid'].includes(selectedOperation) ? 'A' : ''}
             </Button>
           </Col>
@@ -125,7 +125,7 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
                   style={{ width: '100%' }}
                   icon={<SelectOutlined />}
                 >
-                  Selecionar B
+                  Select B
                 </Button>
               ) : (
                 <Select
@@ -154,7 +154,7 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const renderNonGeomResult = () => {
     return (
       <div className="field">
-        <div className="field-label">Resultado da Consulta</div>
+        <div className="field-label">Query Result</div>
         {Object.keys(nonGeomResultData[0]).map((key) => {
           return (
             <div>
@@ -170,7 +170,7 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
   const clearAllData = () => {
     mapStore.clearSelectedFeatures();
     setSelectedOperation('union');
-    setQueryLayerName('camada_query');
+    setQueryLayerName('layer_query');
     setNonGeomResultData([]);
     setSelectedLayer('');
     setAuxiliarParam(0);
@@ -178,22 +178,22 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
 
   const validateOk = () => {
     if (!mapStore.hasSelection('first')) {
-      showNotification('error', "Selecione o conjunto de feições 'A' para realizar a operação.");
+      showNotification('error', "Select the feature set 'A' to perform the query.");
       return false;
     }
 
     if (!mapStore.hasSelection('second') && ['diff', 'intersection', 'distance'].includes(selectedOperation)) {
-      showNotification('error', 'Selecione o conjunto de feições B para realizar a operação.');
+      showNotification('error', "Select the feature set 'B' to perform the query.");
       return false;
     }
 
     if (['contains', 'crosses', 'touches', 'within', 'intersects'].includes(selectedOperation) && !selectedLayer) {
-      showNotification('error', 'Selecione a camada base para realizar a operação.');
+      showNotification('error', 'Select a base layer to perform the query.');
       return false;
     }
 
     if (selectedOperation === 'buffer' && !auxiliarParam) {
-      showNotification('error', 'Informe o valor do raio do buffer');
+      showNotification('error', 'Inform the value of buffer radius.');
       return false;
     }
     return true;
@@ -201,9 +201,9 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
 
   return (
     <Modal
-      title="Consulta Espacial - A partir de seleção"
-      okText="Realizar Consulta"
-      cancelText="Fechar"
+      title="Spatial Query - From Selection"
+      okText="Query"
+      cancelText="Close'"
       visible={visible && !mapStore.selectFeaturesMode}
       onOk={() => {
         if (validateOk()) {
