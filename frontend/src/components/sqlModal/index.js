@@ -255,7 +255,7 @@ const SqlModal = observer(({ visible, onCancel }) => {
         <Alert
           style={{ marginBottom: '10px' }}
           showIcon
-          message="Geometric data should be evolved with ST_AsGeoJSON function."
+          message="Geometric data should be wrapped with ST_AsGeoJSON function."
         />
         <TextArea
           rows={4}

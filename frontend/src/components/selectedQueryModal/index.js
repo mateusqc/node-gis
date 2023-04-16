@@ -203,7 +203,7 @@ const SelectedQueryModal = observer(({ visible, onOk, onCancel }) => {
     <Modal
       title="Spatial Query - From Selection"
       okText="Query"
-      cancelText="Close'"
+      cancelText="Close"
       visible={visible && !mapStore.selectFeaturesMode}
       onOk={() => {
         if (validateOk()) {
