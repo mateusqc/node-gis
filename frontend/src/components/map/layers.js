@@ -129,10 +129,10 @@ const Layers = observer(() => {
     return (
       <div className="selection-alert">
         <Alert
-          message="Modo de seleção de feições."
+          message="Feature selection mode."
           type="info"
           showIcon
-          action={<Button onClick={() => mapStore.toggleFeatureSelection()}>Concluir</Button>}
+          action={<Button onClick={() => mapStore.toggleFeatureSelection()}>Save selection</Button>}
         />
       </div>
     );
