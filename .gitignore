@@ -1,3 +1,4 @@
 container-data/*
 backend/node_modules/*
 backend/src/database/user.db
+data/*
